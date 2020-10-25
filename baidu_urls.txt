@@ -1,0 +1,7 @@
+https://prince-y-p.com/2020/10/25/Mesh-in-Unity3D/
+https://prince-y-p.com/2020/10/25/Basic-Render-pipeline/
+https://prince-y-p.com/2020/10/25/AssetBundle/
+https://prince-y-p.com/2020/10/25/Draw-Call-Batching/
+https://prince-y-p.com/2020/10/25/OS-Shell-on-UNIX-like-systems/
+https://prince-y-p.com/2020/10/03/installation-of-luacheck/
+https://prince-y-p.com/2020/09/14/gamma-correction-in-unity/
