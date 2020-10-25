@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="keyword"  content="Prin, hexo-theme-snail">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
+    <title>
+        
+          理解伽马校正(Gamma Correction)与Unity的Gamma or Linear workflow - undefined
+        
+    </title>
+
+    <link rel="canonical" href="https://prince-y-p.com/2020/09/14/gamma-correction-in-unity/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS --> 
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
+    
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('')
+                /*post*/
+            
+        
+    }
+    
+    #signature{
+        background-image: url('/img/signature/dusign.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#CG" title="CG">CG</a>
+                            
+                        </div>
+                        <h1>理解伽马校正(Gamma Correction)与Unity的Gamma or Linear workflow</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Prin on
+                            2020-09-14
+                        </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">4k</span> and
+                                Reading Time <span class="post-count">15</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
+                    </div>
+                
+
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    
+    <div class="waveWrapper">
+        <div class="wave wave_before" style="background-image: url('/img/wave-light.png')"></div>
+        <div class="wave wave_after" style="background-image: url('/img/wave-light.png')"></div>
+    </div>
+    
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Prin&#39;s World</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/categories/">Categories</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/photography/">Photography</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                    
+                    <li>
+                        <a href="YOUR_CHINESE_BLOG_URL" target="_blank">Chinese Blog</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>By Prin@UWA</p>
+<p>笔者搜集阅读了一些与Gamma校正(Gamma Correction)、sRGB颜色空间等概念相关的资料，在学习相关知识时，由于理解的错误踩了很多坑。本文结合自己的理解，对相关理论以及在Unity中的处理方式进行了整理，希望能帮助刚接触这个知识的同学有一个粗浅的理解。</p>
+<h1 id="伽马校正（Gamma-Correction）"><a href="#伽马校正（Gamma-Correction）" class="headerlink" title="伽马校正（Gamma Correction）"></a>伽马校正（Gamma Correction）</h1><h2 id="存在的原因"><a href="#存在的原因" class="headerlink" title="存在的原因"></a>存在的原因</h2><p>对于Gamma校正存在的原因，在网络上略有争议。汇总各种资料，主要存在以下两种观点：</p>
+<ol>
+<li>历史原因：去的CRT显示器屏幕上显示的颜色对于传递而来的原始值并不是线性的</li>
+<li>人眼对自然亮度感知是非线性的</li>
+</ol>
+<p>笔者认为，以上两种因素是同时存在且不冲突的，都是Gamma校正产生的原因。以下来自<a href="https://www.kinematicsoup.com/news/2016/6/15/gamma-and-linear-space-what-they-are-how-they-differ" target="_blank" rel="noopener">kinematicsoup官网</a>的说法笔者比较认同：</p>
+<blockquote>
+<p>The need for gamma arises for two main reasons: The first is that screens have a non-linear response to intensity. The other is that the human eye can tell the difference between darker shades better than lighter shades. This means that when images are compressed to save space, we want to have greater accuracy for dark intensities at the expense of lighter intensities. Both of these problems are resolved using gamma correction, which is to say the intensity of every pixel in an image is put through a power function. Specifically, gamma is the name given to the power applied to the image.</p>
+</blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Gamma_correction" target="_blank" rel="noopener">Wikipedia-Gamma correction</a>中谈到：</p>
+<blockquote>
+<p>Although gamma encoding was developed originally to compensate for the input–output characteristic of cathode ray tube (CRT) displays, that is not its main purpose or advantage in modern systems.</p>
+</blockquote>
+<p>由此基本可以明确：CRT显示器的历史原因是Gamma Correction的起源，与人眼感知能力等相关的其他因素是Gamma Correction一直延续下来的原因之一。 因此，不能绝对地主张其中一种原因而排斥其他说法。以下是笔者搜集和理解到的对两种原因的解释。</p>
+<h3 id="CRT显示器特性的原因"><a href="#CRT显示器特性的原因" class="headerlink" title="CRT显示器特性的原因"></a>CRT显示器特性的原因</h3><p>此处主要借鉴冯乐乐女神的文章。<br>在早期，CRT几乎是唯一的显示设备。但CRT有个特性，它的输入电压和显示出来的亮度关系不是线性的，而是一个类似幂律（power-law）曲线的关系。也就是说，使用一个电压轰击CRT Monitor屏幕上的一种图层，这个图层就可以发亮，我们就可以看到图像了。但是，人们发现，咦，如果把电压调高两倍，屏幕亮度并没有提高两倍啊！<br>典型的CRT显示器的伽马曲线大致是一个伽马值为2.5的幂律曲线。显示器的这类伽马也称为<strong>display gamma</strong>。</p>
+<p>这个幂律曲线的公式可以简单表述为下式：</p>
+<p>$ \gamma(u) = Au^{\gamma } (u\in \left [  0, 1\right ],\gamma(u) \in \left [  0, 1\right ] )$      <strong>where u is R, G, or B</strong></p>
+<p>一般情况下取A=1，那么，输入一个颜色值(0.5, 0.5, 0.5)，由该公式得到的输出为(0.177, 0.177, 0.177)。也就是说，显示器的Gamma转换会使输入的像素颜色的亮度变低（Darker）。</p>
+<p>由于这个问题的存在，那么图像捕捉设备就需要进行一个<strong>伽马校正(Gamma Correction)</strong>，对显示器的伽玛变换进行<strong>反向补偿</strong>(变亮)。校正使用的伽马叫做<strong>encoding gamma</strong>。<br>所以，一个完整的图像系统需要2个伽马值：</p>
+<ul>
+<li>encoding gamma：它描述了encoding transfer function，即图像设备捕捉到的场景亮度值（scene radiance values）和编码的像素值（encoded pixel values）之间的关系。</li>
+<li>display gamma：它描述了display transfer function，即编码的像素值和显示的亮度（displayed radiance）之间的关系。</li>
+</ul>
+<p>显示系统的处理流程如下图所示：<br><img src="./DiaplaySys.png" alt="Alt text"></p>
+<p><a href="https://zhuanlan.zhihu.com/p/66558476" target="_blank" rel="noopener">PZZZB</a>的图较好地诠释了对应不同Gamma值的幂律曲线之间的关系：<br><img src="./power-law.jpg" alt="Alt text"></p>
+<p>encoding gamma和display gamma的乘积就是真个图像系统的end-to-end gamma。如果这个乘积是1，那么显示出来的亮度就是和捕捉到的真实场景的亮度是成比例的。如果我们没有用一个encoding gamma对shader的输出进行校正，而是直接显示在屏幕上，那么由于display gamma的存在就会使画面失真。<br>虽然现在CRT设备很少见了，但为了保证这种感知一致性（这是它一直沿用至今的很重要的一点），同时也为了对已有图像的兼容性（之前很多图像使用了encoding gamma对图像进行了编码），所以仍在使用这种伽马编码。</p>
+<p>至此可以大致理解对于显示器的Gamma校正的原理。然而，实际问题往往更复杂一些，此处做一个简要提示，感兴趣的同学可以深究。<br>encoding gamma和display gamma的乘积为1的话，可以让显示器精确重现原始场景的视觉条件。但是，原始场景的观察条件和显示的版本之间存在两个差异我们需要乘积不是1的end-to-end gamma，来保证显示的亮度结果在感知上和原始场景是一致的。根据《Real-time Rendering》一书中，推荐的值在电影院这种漆黑的环境中为1.5，在明亮的室内这个值为1.125。</p>
+<blockquote>
+<p>个人电脑使用的一个标准叫sRGB，它使用的encoding gamma大约是0.45（也就是1/2.2）。这个值就是为了配合display gamma为2.5的设备工作的。这样，end-to-end gamma就是0.45 * 2.5 = 1.125了。</p>
+</blockquote>
+<h3 id="人眼感知能力的原因"><a href="#人眼感知能力的原因" class="headerlink" title="人眼感知能力的原因"></a>人眼感知能力的原因</h3><p>人眼对亮度的感知是非线性的。换句话说，<strong>亮度上的线性变化在人眼看来是非均匀的</strong>。从0亮度变到0.01亮度，人眼是可以察觉到的，但从0.99变到1.0，人眼可能就根本差别不出来，觉得它们是一个颜色。人眼对暗部的变化更加敏感，而对亮部变化其实不是很敏感。<br>通过知乎上韩世麟答主分享的<a href="https://www.zhihu.com/question/27467127#answer-10413243" target="_blank" rel="noopener">视频</a>可以对这个问题有一个直观的理解。</p>
+<p><img src="./灰阶关系0.5.jpg" alt="Alt text"></p>
+<p>以下两比较通俗的句话可以帮助读者对这个问题进行理解：</p>
+<ul>
+<li>人心目中（美术中的）看起来中灰的色块，其物理亮度值大约在白色块的20%左右。</li>
+<li>自然界的0.2，在心目中的地位是0.5。</li>
+</ul>
+<p>现实生活中的例子如下图所示：<br><img src="./颜色卡.jpg" alt="Alt text"></p>
+<p>而如果将纯白色块与纯黑色块进行1比1混合，得到的结果在人眼看来是浅灰色。</p>
+<p>符合人的直觉的灰度(或者理解为亮度)均匀变化的情况如下图：<br><img src="./人眼感知.png" alt="Alt text"><br>们看到这张图，会自然而然的认为中间的地方即灰度为0.5的地方。事实上，在线性颜色空间下，也就是实际人看到的中间部分的灰度值约为0.218。</p>
+<p>那么，美术中使用的中间<strong>灰色</strong>应该设置像素值为多少呢？计算机中图片上的值与最终人们看到颜色是如何对应的呢？ 这也是曾一度困扰笔者的一个问题。<br>在Photoshop中作图，利用颜色取样工具，会发现上图的中间灰色对应的像素颜色值就是(127, 127, 127)，换算成0到1区间的表示方式即约为(0.5, 0.5, 0.5)。由此可见，美术要绘制出直觉上介于黑白中间的灰色，把灰度值设置为0.5就可以了。<br>上文中已经阐述过，显示器会对输入的颜色值进行display gamma转换。也就是说，输入给显示器的灰度值0.5，经过显示器的转换之后，会变为0.218，而这个0.218的灰度，又刚好符合人眼对于中等灰度（0.5）的直觉。这是一个有趣的巧合。这也可能是显示器的Gamma转换一直延续的原因。</p>
+<h2 id="Gamma的定义"><a href="#Gamma的定义" class="headerlink" title="Gamma的定义"></a>Gamma的定义</h2><p><a href="https://en.wikipedia.org/wiki/Gamma_correction" target="_blank" rel="noopener">wikipedia - Gamma correction</a>对Gamma校正的相关概念进行了清楚的定义。<br><strong>Gamma correction</strong>, or often simply <strong>gamma</strong>, is a nonlinear operation used to encode and decode luminance or tristimulus values in video or still image systems.<br>Gamma correction is, in the simplest cases, defined by the following power-law expression:<br>${\displaystyle V<em>{\text{out}}=A{V</em>{\text{in}}^{\gamma }}}$</p>
+<p>不同的文献资料对颜色空间相关转换的称呼不统一，这也是这块知识不容易理解清楚的原因之一。为此，笔者对同一过程的不同表述方式进行了整理，以便读者进行理解。</p>
+<p>$\gamma &lt;1$时(即一些资料所说的1/2.2)，该值称为<strong>encoding gamma</strong>，该幂律函数进行的非线性转换称为<strong>gamma compression</strong>，或<strong>gamma encoding</strong>。该转换会把颜色的亮度变大，因此，这个过程也叫做<strong>补偿</strong>，狭义上的<strong>伽马校正</strong>。</p>
+<p>$\gamma &gt; 1$时(典型的范围在2.0到2.4之间)，该值称为<strong>decoding gamma</strong>，该幂律函数进行的非线性转换称为<strong>gamma expansion</strong>，或<strong>gamma decoding</strong>。该转换会把导致颜色的亮度变低(Darker)，显示器的<strong>伽马转换</strong>就是这样一个过程。</p>
+<h1 id="颜色空间-sRGB-amp-Linear-RGB"><a href="#颜色空间-sRGB-amp-Linear-RGB" class="headerlink" title="颜色空间(sRGB &amp; Linear RGB)"></a>颜色空间(sRGB &amp; Linear RGB)</h1><blockquote>
+<p>Unity中的Color Space可以设置为Linear和Gamma，但这一说法会有争议。有人会说不存在Gamma Color Space的定义，Wikipedia上对Color Space的介绍中也确实没有提到Gamma Color Space。Gamma Color Space可能算是Unity自己提出的一个概念，指的是将图片的像素经过伽马校正后的颜色空间。<br>Unity文档中提到：<strong>The accepted standard for gamma space is called sRGB</strong>。准确地说，sRGB才是一种Color Space。为了方便理解，读者可以认为gamma space就是sRGB color space。</p>
+</blockquote>
+<h2 id="sRGB"><a href="#sRGB" class="headerlink" title="sRGB"></a>sRGB</h2><p><a href="https://en.wikipedia.org/wiki/SRGB" target="_blank" rel="noopener">Wikipedia</a>上定义：<br>sRGB (standard Red Green Blue) is an RGB color space that HP and Microsoft created cooperatively in 1996 to use on monitors, printers, and the Web.</p>
+<p>我们可以粗浅地理解为：<br><strong>sRGB格式相当于对物理空间的颜色做了一次伽马校正(Gamma Correction)</strong>。sRGB空间下的颜色即为经过伽马校正后的颜色。将sRGB格式的Texture输入给显示器，显示器经过自身的Gamma变换之后，输出的值就是准确的、线性空间下的颜色值，这样人从显示器看到的图像就和人眼直接观察物理世界一样了。</p>
+<blockquote>
+<p>笔者认为，由此我们很容易理解为什么Gamma校正和转换的过程被称为<strong>Encoding</strong>和<strong>Decoding</strong>——sRGB是一种格式，转换成这种格式我们可以叫做：<strong>编码成sRGB格式</strong>，那么其逆运算的过程就是<strong>解码</strong>。</p>
+</blockquote>
+<p>wikipedia中介绍了不同颜色空间(CIE XYZ to sRGB)的转换过程。我们只需要理解<strong>线性空间</strong>到<strong>sRGB空间</strong>的计算公式即可。<br>The following formula transforms <strong>the linear RGB values</strong> into <strong>sRGB</strong> :</p>
+<p><img src="./1599332150051.png" alt="Alt text"></p>
+<ul>
+<li>where u is R, G, or B.</li>
+</ul>
+<h1 id="Unity对Color-Space的处理"><a href="#Unity对Color-Space的处理" class="headerlink" title="Unity对Color Space的处理"></a>Unity对Color Space的处理</h1><p>前面已经阐述过，显示器在显示的时候，会用display gamma把显示的像素进行display transfer之后输出实际显示的亮度值。所以，我们要在这之前，对图像先进行gamma encoding(或Gamma校正)。也就是说，我们输出给显示器的颜色值，应当是sRGB空间下的值，这样，显示器输出给人眼的值，才是我们期望人眼看到的值（和人眼直接观察物理世界一样）。</p>
+<p>Unity官方文档解释到：<br>The reason both gamma and linear color spaces exist is because <strong>lighting calculations should be done in linear space in order to be mathematically correct</strong>, but the <strong>result should be presented in gamma space to look correct to our eyes</strong>.<br>如果要确保计算机渲染的效果最大程度接近真实世界，我们应当在线性空间下进行光照计算，因为这符合真实世界的规律（使用贴图中颜色的Linear RGB值进行计算）；应当输出给显示器Gamma空间的颜色值（输出给屏幕sRGB格式的像素）。</p>
+<blockquote>
+<p>Unity文档中的以下表述可以帮助读者更好地理解颜色空间的问题：<br>Even though <strong>monitors</strong> today are digital, they still take a <strong>gamma-encoded signal as input</strong>. Image <strong>files</strong> and video files are explicitly encoded to be in gamma space (meaning they <strong>carry gamma-encoded values</strong>, not linear intensities). This is the standard; everything is in gamma space.</p>
+</blockquote>
+<p>接下来我们看看Unity对Color Space的两种workflow：Gamma和Linear。</p>
+<blockquote>
+<p>该设置在Unity的Edit -&gt; Project Settings -&gt; Player -&gt; Other Settings中。</p>
+</blockquote>
+<p>其实说将Color Space设置成Gamma和Linear容易造成误解，因为这个设置并不是说输出的值是Gamma空间还是Linear空间。该设置只是选择两套处理颜色空间的方案(Workflow, or Pipeline)。<br><img src="./An+image+comparing+gamma+and+linear+pipelines.png" alt="Alt text"></p>
+<h2 id="Gamma-workflow"><a href="#Gamma-workflow" class="headerlink" title="Gamma workflow"></a>Gamma workflow</h2><p> 当选择Gamma Space时，实际上就是“放任模式”，不会对shader的输入进行任何处理，即使输入可能是非线性的；也不会对输出像素进行任何处理，这意味着输出的像素会经过显示器的display gamma转换后得到非预期的亮度，通常表现为整个场景会比较昏暗。</p>
+<p>我们使用Photoshop创建两张颜色为(127, 127, 127)纯色图片（映射到0到1的数值为0.498）。在Unity中将图片设置为UGUI的Image，并在屏幕上显示。在Import Settings当中，将其中一张图片勾选为sRGB(Color Texture)，另一张图片不勾选该项。<br>由下图可见，两张图片在显示上并没有区别，输出给显示器的颜色值都为0.498。</p>
+<p><img src="./1.png" alt="Alt text"><br>整个gamma workflow的过程中不会进行gamma校正。</p>
+<h2 id="Linear-workflow"><a href="#Linear-workflow" class="headerlink" title="Linear workflow"></a>Linear workflow</h2><p>选择Color Space为Linear的含义，并不是输出给屏幕的颜色为Linear RPG值，而是说，进行的光照计算的处理，是在Linear Space下进行的。下段文字为kinematicsoup介绍的Linear Pipeline的过程:<br>The input colors and textures have their gamma correction removed before shading, putting them into linear space. When shaded, the result is physically correct because the shading process and inputs are all in the same space. After, any post effects should be computed while the frame is still in linear space, as post effects are typically linear, much like shading. Finally the image is then gamma corrected so it will have the proper intensity after the display’s gamma adjustments.<br>在Linear workflow下，Unity会对sRGB格式的Texture进行decoding，将sRGB空间的颜色值转换为线性空间，然后在Linear Space下进行着色（光照计算等）。在最后输出阶段，进行的伽马校正（gamma correction），将Linear空间的像素转换为sRGB空间，输出给显示器。经过显示器的转换之后，输出给人眼的颜色就是更接近真实的颜色（亮度）。</p>
+<p>在Linear workflow下，做前文相同的操作，可以发现，没有勾选sRGB的Texture（右边）会更亮一些。<br><img src="./QQ截图20200906041147.png" alt="Alt text"><br>初始状态下，两张图片的亮度都为0.498。</p>
+<p>左边的Texture勾选了sRGB，那么Unity会把这张图片当作sRGB空间下的图片，在进行着色前，先将图片进行Decoding(Remove Gamma Correction)，转换成Linear Space下的图片，在输出给显示器之前，再进行Encoding，编码成sRGB格式。此时，输出给显示器的亮度值经过互为逆运算的两个步骤，仍然为0.498。经过显示器的转换，即为我们看到的左边的方块。</p>
+<p>右边的Texture没有勾选sRGB，Unity会把这张图片当作Linear Space下的图片，也就不进行Decoding。在着色之后，进行Encoding(Gamma Correction)，输出给显示器的亮度值为0.733。经显示器转换处理之后，看到的就是右边的方块。</p>
+<p>经过笔者计算验证，Unity进行Encoding的时候，使用的公式就是上文提到的公式（可能存在少量误差）：</p>
+<p><img src="./1599332150051.png" alt="Alt text"></p>
+<ul>
+<li>where u is R, G, or B.</li>
+</ul>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>促使笔者对本文的知识点进行整理的原因，主要是本公司（UWA）初始版本的的特效检测工具在Linear Color Space下存在计算得到的OverdrawRate偏高的小BUG。详情请看UWA问答：<a href="https://answer.uwa4d.com/question/5f51b8ba9424416784ef20d7" target="_blank" rel="noopener">https://answer.uwa4d.com/question/5f51b8ba9424416784ef20d7</a></p>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><p><a href="https://blog.csdn.net/candycat1992/article/details/46228771" target="_blank" rel="noopener">https://blog.csdn.net/candycat1992/article/details/46228771</a><br><a href="https://www.zhihu.com/question/27467127#answer-10413243" target="_blank" rel="noopener">https://www.zhihu.com/question/27467127#answer-10413243</a><br><a href="https://docs.unity3d.com/Manual/index.html" target="_blank" rel="noopener">Unity Manual</a><br><a href="https://www.jianshu.com/p/e15932c40bea" target="_blank" rel="noopener">https://www.jianshu.com/p/e15932c40bea</a><br><a href="https://en.wikipedia.org/wiki/SRGB" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/SRGB</a><br><a href="https://en.wikipedia.org/wiki/Gamma_correction" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Gamma_correction</a><br><a href="https://unity.cn/projects/unite-2018-qian-tan-jia-ma-he-xian-xing-yan-se-kong-jian" target="_blank" rel="noopener">https://unity.cn/projects/unite-2018-qian-tan-jia-ma-he-xian-xing-yan-se-kong-jian</a><br><a href="https://www.kinematicsoup.com/news/2016/6/15/gamma-and-linear-space-what-they-are-how-they-differ" target="_blank" rel="noopener">https://www.kinematicsoup.com/news/2016/6/15/gamma-and-linear-space-what-they-are-how-they-differ</a><br><a href="https://zhuanlan.zhihu.com/p/66558476" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/66558476</a></p>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2020/10/03/installation-of-luacheck/" data-toggle="tooltip" data-placement="top" title="Win10系统下Lua及Luacheck环境配置">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                <!-- tip start -->
+                
+
+                
+                <div class="comment_notes">
+                    <p>
+                        This is copyright.
+                    </p>
+                </div>
+                
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                
+<link rel="stylesheet" href="/css/music-player/fonts/iconfont.css">
+
+
+<link rel="stylesheet" href="/css/music-player/css/reset.css">
+
+
+<link rel="stylesheet" href="/css/music-player/css/player.css">
+
+
+<div class="music-player">
+    <audio class="music-player__audio" ></audio>
+    <div class="music-player__main">
+        <div class="music-player__blur"></div>
+        <div class="music-player__disc">
+            <div class="music-player__image">
+                <img width="100%" src="" alt="">
+            </div>
+            <div class="music-player__pointer"><img width="100%" src="/img/cd_tou.png" alt=""></div>
+        </div>
+        <div class="music-player__controls">
+            <div class="music__info">
+                <h3 class="music__info--title">...</h3>
+                <p class="music__info--singer">...</p>
+            </div>
+            <div class="player-control">
+                <div class="player-control__content">
+                    <div class="player-control__btns">
+                        <div class="player-control__btn player-control__btn--prev"><i class="iconfont icon-prev"></i></div>
+                        <div class="player-control__btn player-control__btn--play"><i class="iconfont icon-play"></i></div>
+                        <div class="player-control__btn player-control__btn--next"><i class="iconfont icon-next"></i></div>
+                        <div class="player-control__btn player-control__btn--mode"><i class="iconfont icon-loop"></i></div>
+                    </div>
+                    <div class="player-control__volume">
+                        <div class="control__volume--icon player-control__btn"><i class="iconfont icon-volume"></i></div>
+                        <div class="control__volume--progress player_progress"></div>
+                    </div>
+                </div>
+                <div class="player-control__content">
+                    <div class="player__song--progress player_progress"></div>
+                    <div class="player__song--timeProgess nowTime">00:00</div>
+                    <div class="player__song--timeProgess totalTime">00:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/music-player/utill.js"></script>
+
+
+<script src="/js/music-player/jquery.min.js"></script>
+
+<!-- netease; qqkg -->
+<!--
+<script src="/js/music-player/player.js?library=config.music.library.js"></script>
+-->
+<script src="../../../../js/music-player/player.js?library=netease&music=https://kg.qq.com/node/play?s=7deFpz7Z26Jmv7di&g_f=share_html"></script>
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                <!--  css & js -->
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#CG" title="CG">CG</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://blog.csdn.net/d_Nail" target="_blank">Dusign&#39;s Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Dusign&#39;s Web</a></li>
+                    
+                        <li><a href="https://github.com/dusign" target="_blank">Dusign&#39;s Github</a></li>
+                    
+                        <li><a href="#" target="_blank">Other</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+
+
+<style  type="text/css">
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Prin 2020 
+                    <br>
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://prince-y-p.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Search -->
+
+    <script type="text/javascript">      
+        var search_path = "search.xml";
+        if (search_path.length == 0) {
+            search_path = "search.xml";
+        }
+    var path = "/" + search_path;
+    searchFunc(path, 'local-search-input', 'local-search-result');
+    </script>
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+
+    
+        <!-- background effects line -->
+        
+
+        
+            <script type="text/javascript" src="/js/mouse-click.js" content='[&quot;🌱&quot;,&quot;just do it&quot;,&quot;🍀&quot;]' color='[&quot;rgb(121,93,179)&quot; ,&quot;rgb(76,180,231)&quot; ,&quot;rgb(184,90,154)&quot;]'></script>
+        
+
+        <!-- background effects end -->
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+
+</html>

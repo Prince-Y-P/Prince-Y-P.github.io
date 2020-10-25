@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="keyword"  content="Prin, hexo-theme-snail">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
+    <title>
+        
+          【基础】U3D中的Mesh - undefined
+        
+    </title>
+
+    <link rel="canonical" href="https://prince-y-p.com/2020/10/25/Mesh-in-Unity3D/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS --> 
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
+    
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('')
+                /*post*/
+            
+        
+    }
+    
+    #signature{
+        background-image: url('/img/signature/dusign.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#rendering" title="rendering">rendering</a>
+                            
+                              <a class="tag" href="/tags/#U3D资源" title="U3D资源">U3D资源</a>
+                            
+                        </div>
+                        <h1>【基础】U3D中的Mesh</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Prin on
+                            2020-10-25
+                        </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">4.3k</span> and
+                                Reading Time <span class="post-count">18</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
+                    </div>
+                
+
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    
+    <div class="waveWrapper">
+        <div class="wave wave_before" style="background-image: url('/img/wave-light.png')"></div>
+        <div class="wave wave_after" style="background-image: url('/img/wave-light.png')"></div>
+    </div>
+    
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Prin&#39;s World</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/categories/">Categories</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/photography/">Photography</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                    
+                    <li>
+                        <a href="YOUR_CHINESE_BLOG_URL" target="_blank">Chinese Blog</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>Unity3D中的 <strong>Mesh(网格)</strong> 事实上就是我们所说的 <strong>三角网格</strong> 。<br>三角网格就是由一系列三角形组成的多边形网格，主要用于模拟复杂物体的表面。</p>
+<h2 id="数据结构——索引三角网格"><a href="#数据结构——索引三角网格" class="headerlink" title="数据结构——索引三角网格"></a>数据结构——索引三角网格</h2><p>用c++语言模拟Unity3D中Mesh数据的存储结构。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//顶点表</span></span><br><span class="line"><span class="comment">//-----------------------------------</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Vertex</span>&#123;</span>   <span class="comment">//由于存储三角形顶点级信息</span></span><br><span class="line">	Vector3 p;</span><br><span class="line">	.......    <span class="comment">//其他信息 纹理映射坐标 法向量 光照信息</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//三角形表</span></span><br><span class="line"><span class="comment">//-----------------------------------</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Triangle</span>&#123;</span>  <span class="comment">//保存三角形级信息</span></span><br><span class="line">	<span class="keyword">int</span> vertex[<span class="number">3</span>];  <span class="comment">//三个顶点在顶点列表的索引</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//存放三角网格的结构 维护两个表 定点表和三角形表</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TriangleMesh</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> vertexCount; <span class="comment">//顶点数</span></span><br><span class="line">	Vertex *vertexList; <span class="comment">//顶点存放链表</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> *uv;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> triangleCount; <span class="comment">//三角形数量</span></span><br><span class="line">	Triangle *triangleCount; <span class="comment">//存放三角形的链表</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	........</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h3 id="vertices"><a href="#vertices" class="headerlink" title="vertices"></a>vertices</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vector3[] vertices; <span class="comment">//所有的顶点。</span></span><br></pre></td></tr></table></figure>
+<p>每个三角形面三个顶点，面与面之间不一定共用顶点。<br>法向量相同的两个面可以公用顶点，法向量不同的两个面，在同一个位置会分别有两个顶点数据，坐标相同，法向量不同。</p>
+<p>每个顶点包含一个3D位置，一般也会包括<strong>纹理映射坐标(UV坐标)</strong>，表面<strong>法向量</strong>，<strong>光照值</strong>等附加信息</p>
+<h4 id="为何有冗余顶点"><a href="#为何有冗余顶点" class="headerlink" title="为何有冗余顶点"></a>为何有冗余顶点</h4><p>正方体6个面，每个面由2个三角形组成，所以共需要36个三角形顶点索引。但是正方体只有8个顶点，为什么需要24个顶点坐标数据呢？</p>
+<p>答案是：Unity3D的Mesh.triangles是<strong>三角形索引数组</strong>，不仅依靠这个索引值<strong>索引三角形顶点坐标</strong>，而且<strong>索引纹理坐标</strong>，<strong>索引法线向量</strong>。即正方体的<strong>每个顶点都参与了3个平面，而这3个平面的法线向量是不同的</strong>，该顶点在渲染这3个平面的时候需要索引到不同的法线向量。而由于顶点坐标和法线向量是由同一个索引值triangles[Index]取得的，例如，根据triangles[0],triangles[14],triangles[17]在vertices中索引到的顶点都为（0.5，－0.5，0.5），但是在normals中索引到的法向量值各不相同。这就决定了在正方体中一个顶点，需要有<strong>3份存储</strong>。（如果你需要创建其它模型，需要根据实际情况决定顶点坐标的冗余度。实质上顶点坐标的冗余正是方便了法线坐标、纹理坐标的存取。）</p>
+<h3 id="triangles"><a href="#triangles" class="headerlink" title="triangles"></a>triangles</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] triangles <span class="comment">// a list of triangles that contains indices into the vertex array</span></span><br></pre></td></tr></table></figure>
+<p>三角形的哪一面可见是由顶点序号的方向来确定的。如果顶点顺序是顺时针方向的话那么三角形是正面可见。</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mesh.vertices = <span class="keyword">new</span> Vector3[] &#123;<span class="keyword">new</span> Vector3(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>), <span class="keyword">new</span> Vector3(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>), <span class="keyword">new</span> Vector3(<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>)&#125;;</span><br><span class="line">mesh.uv = <span class="keyword">new</span> Vector2[] &#123;<span class="keyword">new</span> Vector2(<span class="number">0</span>, <span class="number">0</span>), <span class="keyword">new</span> Vector2(<span class="number">0</span>, <span class="number">1</span>), <span class="keyword">new</span> Vector2(<span class="number">1</span>, <span class="number">1</span>)&#125;;</span><br><span class="line">mesh.triangles =  <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="normals"><a href="#normals" class="headerlink" title="normals"></a>normals</h3><p>每个顶点对应一个法线，即顶点所在平面的法线</p>
+<ul>
+<li>法线是垂直于面的向量。我们通常使用单位长度的法向量，并向量指向面的外部，而不是内部。</li>
+<li>法线可以用于确定光线与顶点的夹角。这个细节的使用取决于Shader。<blockquote>
+<p>作为三角面它永远是平的，因此它不应该需要被提供一个单独的法线信息。然而，我们需要造假。在现实中，顶点是不存在法线的，三角面才有。通过附加自定义顶点法线和三角面插着，我们可以奖状我们有一个平滑的曲面代替一堆平的三角面。这个错觉是令人信服的，只要你不去注意网格锋利的轮廓（锯齿）。</p>
+</blockquote>
+</li>
+</ul>
+<p>法线用于规定每个顶点，所以我们必须填充另一个向量数组。另一种选择，我们可以依据网格的三角面来计算出法线。</p>
+<h3 id="Tangent"><a href="#Tangent" class="headerlink" title="Tangent"></a>Tangent</h3><blockquote>
+<p>tangent: 切线，切面，正切</p>
+</blockquote>
+<p>法线贴图在切线空间中定义。<br>所以切线是一个三维向量，但是在Unity中它是使用四维向量定义的。第四个值通常是1或者-1，用于控制第三切线空间唯独方向-朝前或朝后,这有助于展示法线贴图，通常用于左右对称的3D模型，像人一样。Untiy的shader执行此计算要求我们使用-1。</p>
+<h4 id="法线贴图-Normal-Map"><a href="#法线贴图-Normal-Map" class="headerlink" title="法线贴图(Normal Map)"></a>法线贴图(Normal Map)</h4><p>使用颜色值记录了法相向量</p>
+<h3 id="UV坐标-纹理坐标"><a href="#UV坐标-纹理坐标" class="headerlink" title="UV坐标(纹理坐标)"></a>UV坐标(纹理坐标)</h3><p>UV mapping is the 3D modeling process of projecting a 2D image to a 3D model’s surface for <strong>texture mapping</strong>.</p>
+<blockquote>
+<p>The letters “U” and “V” denote the axes of the 2D texture because “X”, “Y”, and “Z” are already used to denote the axes of the 3D object in model space, while “W” (in addition to XYZ) is used in calculating quaternion rotations, a common operation in computer graphics.</p>
+<h4 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h4><p>U3D中的<strong>纹理贴图的原理</strong>应该是你的模型坐标进过顶点变化到投影坐标系，然后在接下来的片段着色的时候通过传递过来的UV值用<code>tex2D(_texName, UV)</code>来获取颜色值，然后渲染到屏幕上。</p>
+</blockquote>
+<p>UV坐标通常在(0,0)到(1,1)之间，它覆盖了整个纹理。超出范围的坐标将造成<strong>clamped</strong>或者<strong>Tiling</strong>平铺的效果，这去取决于纹理设置。</p>
+<h4 id="uv、uv2、uv3、uv4"><a href="#uv、uv2、uv3、uv4" class="headerlink" title="uv、uv2、uv3、uv4"></a>uv、uv2、uv3、uv4</h4><p>如果在模型导入时就存在 uv2，uv3，uv4，那么这是因为在建模软件中添加了这些顶点属性。<br>uv2通常被用于Lightmap，uv2可以在建模软件中添加，也可以在Unity中通过Generate Lightmap UVs的选项来生成。<br>一般来说uv3和uv4的使用较为少见，通常是用来配合特殊的Shader实现特殊的效果。</p>
+<h3 id="colors属性"><a href="#colors属性" class="headerlink" title="colors属性"></a>colors属性</h3><p>在一些建模软件中导出的网格模型(Mesh)可能会带有colors属性，描述每个顶点的颜色。有些Shader可以使用这个属性进行运算与着色。然而很多时候colors属性是用不到的，<strong>如Unity标准着色器就不使用这个属性</strong>。</p>
+<blockquote>
+<p>Most shaders choose to ignore vertex color, with exception of sprites shader.<br>大多数着色器选择忽略顶点颜色，但精灵着色器除外<br><a href="https://stackoverflow.com/questions/34460587/unity-changing-only-certain-part-of-3d-models-color" target="_blank" rel="noopener">https://stackoverflow.com/questions/34460587/unity-changing-only-certain-part-of-3d-models-color</a></p>
+</blockquote>
+<p>colors属性与tangents属性一样，如果网格顶点拥有该属性，同样会对内存、物理体积和加载性能造成影响。</p>
+<p>默认情况下，在3d建模软件中并不会导出Color属性。以3ds max为例，Color通常是通过modifier添加的，因此只需要在导出前将其删除即可。<br>去除方法：<a href="https://answer.uwa4d.com/question/5a8f77970b827e2c0bfdcfaf" target="_blank" rel="noopener">https://answer.uwa4d.com/question/5a8f77970b827e2c0bfdcfaf</a></p>
+<blockquote>
+<p>注意：切忌将不同属性的网格模型拼合在一起。举个例子 ，100个网格模型进行Static Batching，如果99个模型只有Position和UV两种属性，而剩下1个模型函数有Position、UV、Normal、Tangent和Color五种属性。那么引擎在进行拼合时，会将前99个模型的顶点属性补齐，然后再进行拼合。这样无形中会增加大量的内存占用，从而造成不必要的内存浪费。</p>
+</blockquote>
+<h3 id="无用属性的去除方法"><a href="#无用属性的去除方法" class="headerlink" title="无用属性的去除方法"></a>无用属性的去除方法</h3><p>1.如果有3dmax的源文件，可以直接在3dmax里操作，在那个channelinfo—清掉那个vc<br>2.如果只有fbx，或者这类文件太多，可以直接下载一个fbx的sdk，拿里面的例子改一下，生成一个exe。然后在unity里直接调用就行了。<br>其实从外包回来的fbx，一般都有问题，要么顶点色，要么会出现uv3、uv4。我这里附上工具和c++、及在unity调用的代码，你可以试一下。如果运行不了，缺dll，你就到网上找一下，多半可以用。 clear_fbx_clr_uv_tool.rar<br>注意这个工具会清掉顶点色和uv3、uv4！！<br>3.印象中在unity里也可以直接清顶点色，好像是meshfiter那里把colors直接置空，再重新保存回去。</p>
+<h2 id="Unity中Mesh重要属性和方法"><a href="#Unity中Mesh重要属性和方法" class="headerlink" title="Unity中Mesh重要属性和方法"></a>Unity中Mesh重要属性和方法</h2><h3 id="重要属性"><a href="#重要属性" class="headerlink" title="重要属性"></a>重要属性</h3><p>(1) vertices 网格顶点数组;<br>(2) normals 网格的法线数组;<br>(3) tangents 网格的切线数组;<br>(4) uv 网格的基础纹理坐标;<br>(5) uv2 网格设定的第二个纹理坐标;<br>(6) bounds 网格的包围盒;<br>(7) Colors 网格的顶点颜色数组;<br>(8) triangles 包含所有三角形的顶点索引数组;<br>(9) vectexCount 网格中的顶点数量(只读的);<br>(10) subMeshCount 子网格的数量，每个材质都有一个独立的网格列表;<br>(11) bonesWeights: 每个顶点的骨骼权重;<br>(12) bindposes: 绑定姿势，每个索引绑定的姿势使用具有相同的索引骨骼;</p>
+<h3 id="重要方法"><a href="#重要方法" class="headerlink" title="重要方法"></a>重要方法</h3><p>(1) Clear 清空所有的顶点数据和所有的三角形索引;<br>(2) RecalculateBounds 重新计算网格的包围盒;<br>(3) RecalculateNormals 重新计算网格的法线;<br>(4) Optimze 显示优化的网格;<br>(5) GetTriangles 返回网格的三角形列表;<br>(6) SetTriangles 为网格设定三角形列表;<br>(7) CominMeshes组合多个网格到同一个网格;</p>
+<h2 id="Import-Settings"><a href="#Import-Settings" class="headerlink" title="Import Settings"></a>Import Settings</h2><h3 id="Mesh-Compression（通常禁用，优化渲染和发布文件大小时启用）"><a href="#Mesh-Compression（通常禁用，优化渲染和发布文件大小时启用）" class="headerlink" title="Mesh Compression（通常禁用，优化渲染和发布文件大小时启用）"></a>Mesh Compression（通常禁用，优化渲染和发布文件大小时启用）</h3><p>启用网格压缩，unity会按照一定的级别来压缩网格数据，压缩级别越高，网格的精度越低，这对于渲染优化和发布时游戏文件大小的降低很有用，但可能会导致失真。官方的想法是，尽可能的压缩网格，只要模型看起来不至于太奇怪。</p>
+<h3 id="Optimize-Mesh"><a href="#Optimize-Mesh" class="headerlink" title="Optimize Mesh"></a>Optimize Mesh</h3><p>优化网格，如果开启，网格的定点和三角形会按照U3D既定的一套规则重新排序用以提高GPU性能。<br>The Optimize Meshes option in a mesh’s import settings will reorganize the vertex data for quicker readability, and sometimes regenerate the low-level rendering style (down to the level of points versus tris versus strips) to optimize the rendering speed of the mesh.</p>
+<p>该优化方法也可以在代码中调用：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Mesh mesh = gameObject.GetComponent&lt;MeshFilter&gt;().mesh;</span><br><span class="line">mesh.Optimize();</span><br></pre></td></tr></table></figure><br>This function causes the geometry and vertices of the mesh to be reordered internally in an attempt to improve vertex cache utilisation on the graphics hardware and thus rendering performance.<br>This operation can take a few seconds or more for complex meshes and should only be used where <strong>the ordering of the geometry and vertices is not significant</strong> as both will change.<br>理论上如果模型对顶点和面片顺序没有要求的话，不会导致显示问题。</p>
+<h2 id="相关组件"><a href="#相关组件" class="headerlink" title="相关组件"></a>相关组件</h2><h3 id="MeshFiler组件"><a href="#MeshFiler组件" class="headerlink" title="MeshFiler组件"></a>MeshFiler组件</h3><p>MeshFilter 这个组件记录了你想要展示的网格数据</p>
+<h3 id="MeshRender组件"><a href="#MeshRender组件" class="headerlink" title="MeshRender组件"></a>MeshRender组件</h3><p>MeshRenderer 使用这个组件告诉网格如何渲染，比如使用哪个材质球，是否接受阴影和其他设置。</p>
+<h2 id="Mesh编程"><a href="#Mesh编程" class="headerlink" title="Mesh编程"></a>Mesh编程</h2><h3 id="画面片"><a href="#画面片" class="headerlink" title="画面片"></a>画面片</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> UnityEditor;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GenMesh</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">MenuItem(<span class="meta-string">"MeshEditor/GenMesh"</span>)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">GenMeshM</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Mesh m1 = CreateRect();</span><br><span class="line">        AssetDatabase.CreateAsset(m1, <span class="string">"Assets/models/m1.asset"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Mesh <span class="title">CreateRect</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        Mesh mesh = <span class="keyword">new</span> Mesh();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> particleNum = <span class="number">10</span>;</span><br><span class="line">        <span class="comment">//顶点坐标</span></span><br><span class="line">        Vector3[] verts = <span class="keyword">new</span> Vector3[<span class="number">4</span> * particleNum];</span><br><span class="line">        <span class="comment">//uv坐标</span></span><br><span class="line">        Vector2[] uvs = <span class="keyword">new</span> Vector2[<span class="number">4</span> * particleNum];</span><br><span class="line">        <span class="comment">//三角形索引</span></span><br><span class="line">        <span class="keyword">int</span>[] tris = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span> * <span class="number">3</span> * particleNum];</span><br><span class="line"></span><br><span class="line">        Vector3 position;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; particleNum; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> i4 = i * <span class="number">4</span>;</span><br><span class="line">            <span class="keyword">int</span> i6 = i * <span class="number">6</span>;</span><br><span class="line"></span><br><span class="line">            position.x = <span class="number">5</span> * i;</span><br><span class="line">            position.y = <span class="number">5</span> * i;</span><br><span class="line">            position.z = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//顶点坐标</span></span><br><span class="line">            verts[i4 + <span class="number">0</span>] = position;</span><br><span class="line">            verts[i4 + <span class="number">1</span>] = position + <span class="keyword">new</span> Vector3(<span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">            verts[i4 + <span class="number">2</span>] = position + <span class="keyword">new</span> Vector3(<span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">            verts[i4 + <span class="number">3</span>] = position + <span class="keyword">new</span> Vector3(<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//四个顶点在UV坐标系中的位置</span></span><br><span class="line">            uvs[i4 + <span class="number">0</span>] = <span class="keyword">new</span> Vector2(<span class="number">0.0f</span>, <span class="number">0.0f</span>);</span><br><span class="line">            uvs[i4 + <span class="number">1</span>] = <span class="keyword">new</span> Vector2(<span class="number">1.0f</span>, <span class="number">0.0f</span>);</span><br><span class="line">            uvs[i4 + <span class="number">2</span>] = <span class="keyword">new</span> Vector2(<span class="number">1.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">            uvs[i4 + <span class="number">3</span>] = <span class="keyword">new</span> Vector2(<span class="number">0.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//顺时针绘制三角形0 1 2 / 0 2 3</span></span><br><span class="line">            tris[i6 + <span class="number">0</span>] = i4 + <span class="number">0</span>;</span><br><span class="line">            tris[i6 + <span class="number">1</span>] = i4 + <span class="number">1</span>;</span><br><span class="line">            tris[i6 + <span class="number">2</span>] = i4 + <span class="number">2</span>;</span><br><span class="line">            tris[i6 + <span class="number">3</span>] = i4 + <span class="number">0</span>;</span><br><span class="line">            tris[i6 + <span class="number">4</span>] = i4 + <span class="number">2</span>;</span><br><span class="line">            tris[i6 + <span class="number">5</span>] = i4 + <span class="number">3</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mesh.vertices = verts;</span><br><span class="line">        mesh.triangles = tris;</span><br><span class="line">        mesh.uv = uvs;</span><br><span class="line">        mesh.RecalculateBounds();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> mesh;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="画圆"><a href="#画圆" class="headerlink" title="画圆"></a>画圆</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">region</span> 画圆</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 画圆</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="radius"&gt;</span>圆的半径<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="segments"&gt;</span>圆的分割数<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="centerCircle"&gt;</span>圆心得位置<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">DrawCircle</span>(<span class="params"><span class="keyword">float</span> radius, <span class="keyword">int</span> segments, Vector3 centerCircle</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        gameObject.AddComponent&lt;MeshFilter&gt;();</span><br><span class="line">        gameObject.AddComponent&lt;MeshRenderer&gt;();</span><br><span class="line">        gameObject.GetComponent&lt;MeshRenderer&gt;().material = mat;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//顶点</span></span><br><span class="line">        Vector3[] vertices = <span class="keyword">new</span> Vector3[segments + <span class="number">1</span>];</span><br><span class="line">        vertices[<span class="number">0</span>] = centerCircle;</span><br><span class="line">        <span class="keyword">float</span> deltaAngle = Mathf.Deg2Rad * <span class="number">360f</span> / segments;</span><br><span class="line">        <span class="keyword">float</span> currentAngle = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; vertices.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">float</span> cosA = Mathf.Cos(currentAngle);</span><br><span class="line">            <span class="keyword">float</span> sinA = Mathf.Sin(currentAngle);</span><br><span class="line">            vertices[i] = <span class="keyword">new</span> Vector3(cosA * radius + centerCircle.x, sinA * radius + centerCircle.y, <span class="number">0</span>);</span><br><span class="line">            currentAngle += deltaAngle;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//三角形</span></span><br><span class="line">        <span class="keyword">int</span>[] triangles = <span class="keyword">new</span> <span class="keyword">int</span>[segments * <span class="number">3</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">1</span>; i &lt; segments * <span class="number">3</span> - <span class="number">3</span>; i += <span class="number">3</span>, j++)</span><br><span class="line">        &#123;</span><br><span class="line">            triangles[i] = <span class="number">0</span>;</span><br><span class="line">            triangles[i + <span class="number">1</span>] = j + <span class="number">1</span>;</span><br><span class="line">            triangles[i + <span class="number">2</span>] = j;</span><br><span class="line">        &#125;</span><br><span class="line">        triangles[segments * <span class="number">3</span> - <span class="number">3</span>] = <span class="number">0</span>;</span><br><span class="line">        triangles[segments * <span class="number">3</span> - <span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line">        triangles[segments * <span class="number">3</span> - <span class="number">1</span>] = segments;</span><br><span class="line"></span><br><span class="line">        Vector2[] uvs = <span class="keyword">new</span> Vector2[vertices.Length];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; vertices.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            uvs[i] = <span class="keyword">new</span> Vector2(vertices[i].x / radius / <span class="number">2</span> + <span class="number">0.5f</span>, vertices[i].y / radius / <span class="number">2</span> + <span class="number">0.5f</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Mesh mesh = GetComponent&lt;MeshFilter&gt;().mesh;</span><br><span class="line">        mesh.Clear();</span><br><span class="line"></span><br><span class="line">        mesh.vertices = vertices;</span><br><span class="line">        mesh.triangles = triangles;</span><br><span class="line">        mesh.uv = uvs;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endregion</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="画圆环"><a href="#画圆环" class="headerlink" title="画圆环"></a>画圆环</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">region</span> 画圆</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 画圆</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="radius"&gt;</span>圆的半径<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="segments"&gt;</span>圆的分割数<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="centerCircle"&gt;</span>圆心得位置<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">DrawCircle</span>(<span class="params"><span class="keyword">float</span> radius, <span class="keyword">int</span> segments, Vector3 centerCircle</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        gameObject.AddComponent&lt;MeshFilter&gt;();</span><br><span class="line">        gameObject.AddComponent&lt;MeshRenderer&gt;();</span><br><span class="line">        gameObject.GetComponent&lt;MeshRenderer&gt;().material = mat;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//顶点</span></span><br><span class="line">        Vector3[] vertices = <span class="keyword">new</span> Vector3[segments + <span class="number">1</span>];</span><br><span class="line">        vertices[<span class="number">0</span>] = centerCircle;</span><br><span class="line">        <span class="keyword">float</span> deltaAngle = Mathf.Deg2Rad * <span class="number">360f</span> / segments;</span><br><span class="line">        <span class="keyword">float</span> currentAngle = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; vertices.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">float</span> cosA = Mathf.Cos(currentAngle);</span><br><span class="line">            <span class="keyword">float</span> sinA = Mathf.Sin(currentAngle);</span><br><span class="line">            vertices[i] = <span class="keyword">new</span> Vector3(cosA * radius + centerCircle.x, sinA * radius + centerCircle.y, <span class="number">0</span>);</span><br><span class="line">            currentAngle += deltaAngle;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//三角形</span></span><br><span class="line">        <span class="keyword">int</span>[] triangles = <span class="keyword">new</span> <span class="keyword">int</span>[segments * <span class="number">3</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">1</span>; i &lt; segments * <span class="number">3</span> - <span class="number">3</span>; i += <span class="number">3</span>, j++)</span><br><span class="line">        &#123;</span><br><span class="line">            triangles[i] = <span class="number">0</span>;</span><br><span class="line">            triangles[i + <span class="number">1</span>] = j + <span class="number">1</span>;</span><br><span class="line">            triangles[i + <span class="number">2</span>] = j;</span><br><span class="line">        &#125;</span><br><span class="line">        triangles[segments * <span class="number">3</span> - <span class="number">3</span>] = <span class="number">0</span>;</span><br><span class="line">        triangles[segments * <span class="number">3</span> - <span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line">        triangles[segments * <span class="number">3</span> - <span class="number">1</span>] = segments;</span><br><span class="line"></span><br><span class="line">        Vector2[] uvs = <span class="keyword">new</span> Vector2[vertices.Length];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; vertices.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            uvs[i] = <span class="keyword">new</span> Vector2(vertices[i].x / radius / <span class="number">2</span> + <span class="number">0.5f</span>, vertices[i].y / radius / <span class="number">2</span> + <span class="number">0.5f</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Mesh mesh = GetComponent&lt;MeshFilter&gt;().mesh;</span><br><span class="line">        mesh.Clear();</span><br><span class="line"></span><br><span class="line">        mesh.vertices = vertices;</span><br><span class="line">        mesh.triangles = triangles;</span><br><span class="line">        mesh.uv = uvs;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endregion</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="Mesh顶点编辑器"><a href="#Mesh顶点编辑器" class="headerlink" title="Mesh顶点编辑器"></a>Mesh顶点编辑器</h3><p>摘自：<a href="https://gameinstitute.qq.com/community/detail/129174" target="_blank" rel="noopener">https://gameinstitute.qq.com/community/detail/129174</a><br>思路：获取mesh上的所有顶点，然后在每个顶点位置创建一个控制点，控制点可以是任意你喜欢的物体，通过判断控制点的位置信息来修改mesh的顶点位置。<br>把每个顶点的坐标转为字符串，使用该坐标的字符串作为<strong>key</strong>来把<strong>控制点</strong>与<strong>顶点数据</strong>联系起来。</p>
+<hr>
+<p>控制点：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line">public class MeshEditorPoint : MonoBehaviour ｛</span><br><span class="line">    <span class="comment">//顶点id，（顶点初始位置转字符串）</span></span><br><span class="line">    [<span class="meta">HideInInspector</span>] <span class="keyword">public</span> <span class="keyword">string</span> pointid;</span><br><span class="line">    <span class="comment">//记录坐标点上一次移动的位置，用于判断控制点是否移动</span></span><br><span class="line">    [<span class="meta">HideInInspector</span>] <span class="keyword">private</span> Vector3 lastPosition;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">delegate</span> <span class="keyword">void</span> <span class="title">MoveDelegate</span>(<span class="params"><span class="keyword">string</span> pid,Vector3 pos</span>)</span>;</span><br><span class="line">    <span class="comment">//控制点移动时的回调</span></span><br><span class="line">    <span class="keyword">public</span> MoveDelegate onMove = <span class="literal">null</span>;</span><br><span class="line">	<span class="comment">// Use this for initialization</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Start</span> (<span class="params"></span>) ｛</span></span><br><span class="line"><span class="function">        lastPosition</span> = transform.position;</span><br><span class="line">	｝</span><br><span class="line">	<span class="comment">// Update is called once per frame</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Update</span> (<span class="params"></span>) ｛</span></span><br><span class="line"><span class="function">        <span class="title">if</span>(<span class="params">transform.position != lastPosition</span>)｛</span></span><br><span class="line"><span class="function">            <span class="title">if</span>(<span class="params">onMove != <span class="literal">null</span></span>) <span class="title">onMove</span>(<span class="params">pointid, transform.localPosition</span>)</span>;</span><br><span class="line">            lastPosition = transform.position;</span><br><span class="line">        ｝</span><br><span class="line">	｝</span><br><span class="line">｝</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>顶点编辑器<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line">public class ModelMeshEditor : MonoBehaviour ｛</span><br><span class="line">    <span class="comment">//控制点的大小</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">float</span> pointScale = <span class="number">1.0f</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> lastPointScale = <span class="number">1.0f</span>;</span><br><span class="line">    Mesh mesh;</span><br><span class="line">    <span class="comment">//顶点列表</span></span><br><span class="line">    List&lt;Vector3&gt; positionList = <span class="keyword">new</span> List&lt;Vector3&gt;();</span><br><span class="line">    <span class="comment">//顶点控制物体列表</span></span><br><span class="line">    List&lt;GameObject&gt; positionObjList = <span class="keyword">new</span> List&lt;GameObject&gt;();</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> key:顶点字符串</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> value:顶点在列表中的位置</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    Dictionary&lt;<span class="keyword">string</span>, List&lt;<span class="keyword">int</span>&gt;&gt; pointmap = <span class="keyword">new</span> Dictionary&lt;<span class="keyword">string</span>, List&lt;<span class="keyword">int</span>&gt;&gt;();</span><br><span class="line">	<span class="comment">// Use this for initialization</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Start</span> (<span class="params"></span>) ｛</span></span><br><span class="line"><span class="function">        lastPointScale</span> = pointScale;</span><br><span class="line">        mesh = GetComponent&lt;MeshFilter&gt;().sharedMesh;</span><br><span class="line">        CreateEditorPoint();</span><br><span class="line">	｝</span><br><span class="line">    <span class="comment">//创建控制点</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CreateEditorPoint</span>(<span class="params"></span>)｛</span></span><br><span class="line"><span class="function">        positionList</span> = <span class="keyword">new</span> List&lt;Vector3&gt;(mesh.vertices);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mesh.vertices.Length; i++)</span><br><span class="line">        ｛</span><br><span class="line">            <span class="keyword">string</span> vstr = Vector2String(mesh.vertices[i]);</span><br><span class="line">            <span class="keyword">if</span>(!pointmap.ContainsKey(vstr))｛</span><br><span class="line">                pointmap.Add(vstr,<span class="keyword">new</span> List&lt;<span class="keyword">int</span>&gt;());</span><br><span class="line">            ｝</span><br><span class="line">            pointmap[vstr].Add(i);</span><br><span class="line">        ｝</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">string</span> key <span class="keyword">in</span> pointmap.Keys)</span><br><span class="line">        ｛</span><br><span class="line">            GameObject editorpoint = (GameObject)Resources.Load(<span class="string">"Prefabs/MeshEditor/MeshEditorPoint"</span>);</span><br><span class="line">            editorpoint = Instantiate(editorpoint);</span><br><span class="line">            editorpoint.transform.parent = transform;</span><br><span class="line">            editorpoint.transform.localPosition = String2Vector(key);</span><br><span class="line">            editorpoint.transform.localScale = <span class="keyword">new</span> Vector3(<span class="number">1f</span>, <span class="number">1f</span>, <span class="number">1f</span>);</span><br><span class="line">            MeshEditorPoint editorPoint = editorpoint.GetComponent&lt;MeshEditorPoint&gt;();</span><br><span class="line">            editorPoint.onMove = PointMove;</span><br><span class="line">            editorPoint.pointid = key;</span><br><span class="line">            positionObjList.Add(editorpoint);</span><br><span class="line">        ｝</span><br><span class="line">    ｝</span><br><span class="line">    <span class="comment">//顶点物体被移动时调用此方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PointMove</span>(<span class="params"><span class="keyword">string</span> pointid,Vector3 position</span>)｛</span></span><br><span class="line"><span class="function">        <span class="title">if</span>(<span class="params">!pointmap.ContainsKey(pointid</span>))｛</span></span><br><span class="line"><span class="function">            return</span>;</span><br><span class="line">        ｝</span><br><span class="line">        List&lt;<span class="keyword">int</span>&gt; _list = pointmap[pointid];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; _list.Count; i ++)｛</span><br><span class="line">            positionList[_list[i]] = position;</span><br><span class="line">        ｝</span><br><span class="line">        mesh.vertices = positionList.ToArray();</span><br><span class="line">        mesh.RecalculateNormals();</span><br><span class="line">    ｝</span><br><span class="line">	<span class="comment">// Update is called once per frame</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Update</span> (<span class="params"></span>) ｛</span></span><br><span class="line"><span class="function">        <span class="comment">//检测控制点尺寸是否改变</span></span></span><br><span class="line"><span class="function">        <span class="title">if</span> (<span class="params">Math.Abs(lastPointScale - pointScale</span>) &gt; 0.1f)｛</span></span><br><span class="line"><span class="function">            lastPointScale</span> = pointScale;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; positionObjList.Count; i ++)｛</span><br><span class="line">                positionObjList[i].transform.localScale = <span class="keyword">new</span> Vector3(pointScale, pointScale, pointScale);</span><br><span class="line">            ｝</span><br><span class="line">        ｝</span><br><span class="line">	｝</span><br><span class="line">    <span class="function"><span class="keyword">string</span> <span class="title">Vector2String</span>(<span class="params">Vector3 v</span>)｛</span></span><br><span class="line"><span class="function">        StringBuilder str</span> = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        str.Append(v.x).Append(<span class="string">","</span>).Append(v.y).Append(<span class="string">","</span>).Append(v.z);</span><br><span class="line">        <span class="keyword">return</span> str.ToString();</span><br><span class="line">    ｝</span><br><span class="line">    <span class="function">Vector3 <span class="title">String2Vector</span>(<span class="params"><span class="keyword">string</span> vstr</span>)</span></span><br><span class="line"><span class="function">    ｛</span></span><br><span class="line"><span class="function">        <span class="keyword">try</span>｛</span></span><br><span class="line"><span class="function">            <span class="keyword">string</span>[] strings</span> = vstr.Split(<span class="string">','</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Vector3(<span class="keyword">float</span>.Parse(strings[<span class="number">0</span>]), <span class="keyword">float</span>.Parse(strings[<span class="number">1</span>]), <span class="keyword">float</span>.Parse(strings[<span class="number">2</span>]));</span><br><span class="line">        ｝<span class="keyword">catch</span>(Exception e)｛</span><br><span class="line">            Debug.LogError(e.ToString());</span><br><span class="line">            <span class="keyword">return</span> Vector3.zero;</span><br><span class="line">        ｝</span><br><span class="line">    ｝</span><br><span class="line">｝</span><br></pre></td></tr></table></figure></p>
+<h2 id="相关知识"><a href="#相关知识" class="headerlink" title="相关知识"></a>相关知识</h2><h3 id="关于锯齿"><a href="#关于锯齿" class="headerlink" title="关于锯齿"></a>关于锯齿</h3><p>曲面的或者是圆的面只能被大量小的三角形来接近组成。如果三角面显示足够的小（不大于一个像素），那么你就不会感觉曲面或者是圆是由三角面组成的。从实时性能角度来讲通常这种情况是不可能的，所以我们总能够在面的某个程度上发现锯齿。</p>
+<h3 id="Texture相关"><a href="#Texture相关" class="headerlink" title="Texture相关"></a>Texture相关</h3><p>Wrap Mode（包装方式）: Repeat(重复), Clamp(固定，贴不上的部分，会按照边缘进行延伸，而不会拉伸图片)</p>
+<h3 id="3D建模软件"><a href="#3D建模软件" class="headerlink" title="3D建模软件"></a>3D建模软件</h3><p>1:Autodesk 3D Studio Max 支持mac os windows;<br>2: Autodesk 3D Maya 支持windows<br>3: Cinema4D 支持mac os windows<br>4: Blender 开源跨平台的全能三维制作软件, 支持mac os windows, linux;<br>5: Cheetah3D: 支持mac os<br>6: Unity与建模软件的单位比例:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">软件</th>
+<th style="text-align:center">内部米</th>
+<th style="text-align:center">导入unity后的尺寸/m</th>
+<th style="text-align:center">与Unity单位的比例关系</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">3Dmax</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0.01</td>
+<td style="text-align:center">100:1</td>
+</tr>
+<tr>
+<td style="text-align:center">Maya</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0.01</td>
+<td style="text-align:center">1:100</td>
+</tr>
+<tr>
+<td style="text-align:center">Cinema 4D</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0.01</td>
+<td style="text-align:center">1:100</td>
+</tr>
+<tr>
+<td style="text-align:center">Light Wave</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0.01</td>
+<td style="text-align:center">100:1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>　　　　　　　</p>
+<h2 id="Refs"><a href="#Refs" class="headerlink" title="Refs:"></a>Refs:</h2><p><a href="https://www.cnblogs.com/zhanghaipeng-Unity3D/p/4714973.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhanghaipeng-Unity3D/p/4714973.html</a><br><a href="https://blog.csdn.net/qq_29579137/article/details/77369734" target="_blank" rel="noopener">https://blog.csdn.net/qq_29579137/article/details/77369734</a><br><a href="https://www.bbsmax.com/A/QV5ZQvObJy/" target="_blank" rel="noopener">https://www.bbsmax.com/A/QV5ZQvObJy/</a><br><a href="https://blog.csdn.net/nanggong/article/details/54728823" target="_blank" rel="noopener">https://blog.csdn.net/nanggong/article/details/54728823</a><br><a href="https://answer.uwa4d.com/question/5a8f77970b827e2c0bfdcfaf" target="_blank" rel="noopener">https://answer.uwa4d.com/question/5a8f77970b827e2c0bfdcfaf</a></p>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/10/25/Basic-Render-pipeline/" data-toggle="tooltip" data-placement="top" title="【渲染】基础——渲染管线(Rendering Pipeline)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                <!-- tip start -->
+                
+
+                
+                <div class="comment_notes">
+                    <p>
+                        This is copyright.
+                    </p>
+                </div>
+                
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                
+<link rel="stylesheet" href="/css/music-player/fonts/iconfont.css">
+
+
+<link rel="stylesheet" href="/css/music-player/css/reset.css">
+
+
+<link rel="stylesheet" href="/css/music-player/css/player.css">
+
+
+<div class="music-player">
+    <audio class="music-player__audio" ></audio>
+    <div class="music-player__main">
+        <div class="music-player__blur"></div>
+        <div class="music-player__disc">
+            <div class="music-player__image">
+                <img width="100%" src="" alt="">
+            </div>
+            <div class="music-player__pointer"><img width="100%" src="/img/cd_tou.png" alt=""></div>
+        </div>
+        <div class="music-player__controls">
+            <div class="music__info">
+                <h3 class="music__info--title">...</h3>
+                <p class="music__info--singer">...</p>
+            </div>
+            <div class="player-control">
+                <div class="player-control__content">
+                    <div class="player-control__btns">
+                        <div class="player-control__btn player-control__btn--prev"><i class="iconfont icon-prev"></i></div>
+                        <div class="player-control__btn player-control__btn--play"><i class="iconfont icon-play"></i></div>
+                        <div class="player-control__btn player-control__btn--next"><i class="iconfont icon-next"></i></div>
+                        <div class="player-control__btn player-control__btn--mode"><i class="iconfont icon-loop"></i></div>
+                    </div>
+                    <div class="player-control__volume">
+                        <div class="control__volume--icon player-control__btn"><i class="iconfont icon-volume"></i></div>
+                        <div class="control__volume--progress player_progress"></div>
+                    </div>
+                </div>
+                <div class="player-control__content">
+                    <div class="player__song--progress player_progress"></div>
+                    <div class="player__song--timeProgess nowTime">00:00</div>
+                    <div class="player__song--timeProgess totalTime">00:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/music-player/utill.js"></script>
+
+
+<script src="/js/music-player/jquery.min.js"></script>
+
+<!-- netease; qqkg -->
+<!--
+<script src="/js/music-player/player.js?library=config.music.library.js"></script>
+-->
+<script src="../../../../js/music-player/player.js?library=netease&music=https://kg.qq.com/node/play?s=7deFpz7Z26Jmv7di&g_f=share_html"></script>
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                <!--  css & js -->
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#rendering" title="rendering">rendering</a>
+                        
+                          <a class="tag" href="/tags/#U3D资源" title="U3D资源">U3D资源</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://blog.csdn.net/d_Nail" target="_blank">Dusign&#39;s Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Dusign&#39;s Web</a></li>
+                    
+                        <li><a href="https://github.com/dusign" target="_blank">Dusign&#39;s Github</a></li>
+                    
+                        <li><a href="#" target="_blank">Other</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+
+
+<style  type="text/css">
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Prin 2020 
+                    <br>
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://prince-y-p.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Search -->
+
+    <script type="text/javascript">      
+        var search_path = "search.xml";
+        if (search_path.length == 0) {
+            search_path = "search.xml";
+        }
+    var path = "/" + search_path;
+    searchFunc(path, 'local-search-input', 'local-search-result');
+    </script>
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+
+    
+        <!-- background effects line -->
+        
+
+        
+            <script type="text/javascript" src="/js/mouse-click.js" content='[&quot;🌱&quot;,&quot;just do it&quot;,&quot;🍀&quot;]' color='[&quot;rgb(121,93,179)&quot; ,&quot;rgb(76,180,231)&quot; ,&quot;rgb(184,90,154)&quot;]'></script>
+        
+
+        <!-- background effects end -->
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+
+</html>

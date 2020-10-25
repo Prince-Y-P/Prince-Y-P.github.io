@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="keyword"  content="Prin, hexo-theme-snail">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
+    <title>
+        
+          【渲染】基础——渲染管线(Rendering Pipeline) - undefined
+        
+    </title>
+
+    <link rel="canonical" href="https://prince-y-p.com/2020/10/25/Basic-Render-pipeline/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS --> 
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
+    
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('')
+                /*post*/
+            
+        
+    }
+    
+    #signature{
+        background-image: url('/img/signature/dusign.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#CG" title="CG">CG</a>
+                            
+                              <a class="tag" href="/tags/#Rendering" title="Rendering">Rendering</a>
+                            
+                        </div>
+                        <h1>【渲染】基础——渲染管线(Rendering Pipeline)</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Prin on
+                            2020-10-25
+                        </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">2.2k</span> and
+                                Reading Time <span class="post-count">8</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
+                    </div>
+                
+
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    
+    <div class="waveWrapper">
+        <div class="wave wave_before" style="background-image: url('/img/wave-light.png')"></div>
+        <div class="wave wave_after" style="background-image: url('/img/wave-light.png')"></div>
+    </div>
+    
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Prin&#39;s World</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/categories/">Categories</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/photography/">Photography</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                    
+                    <li>
+                        <a href="YOUR_CHINESE_BLOG_URL" target="_blank">Chinese Blog</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="渲染管线概览"><a href="#渲染管线概览" class="headerlink" title="渲染管线概览"></a>渲染管线概览</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="渲染管线（流水线）"><a href="#渲染管线（流水线）" class="headerlink" title="渲染管线（流水线）"></a>渲染管线（流水线）</h4><p>《Render-Time Rendering Third Edition》一书中将计算机图形渲染的流程划分为3个阶段<br><img src="./RenderingPipeline.png" alt="Alt text"><br>定义：也称渲染流水线，是显示芯片内部处理图形信号<strong>相互独立</strong>的<strong>并行</strong>的处理单位。</p>
+<blockquote>
+<p>一个<strong>流水线</strong>是一序列可以<strong>并行</strong>和<strong>按固定顺序进行</strong>的阶段。也就是说每个阶段都是从它的前一阶段输入，然后输出发给随后的阶段。</p>
+</blockquote>
+<p>渲染机理：将图像所具备的图形信息（顶点、纹理、材质、摄像机位置等）经过一系列阶段的处理，最终转换成屏幕上的图像。<br>实质是输入3D模型，输出2D图片显示出来的过程</p>
+<p><strong>渲染过程中的坐标转换：物体空间-&gt;世界空间-&gt;观察空间-&gt;裁剪空间-&gt;屏幕空间</strong></p>
+<h4 id="Shader"><a href="#Shader" class="headerlink" title="Shader"></a>Shader</h4><p>此处的Shader区别于Unity Shader文件<br>Shader（着色器），是一种较为短小的程序片段，用于告诉图形硬件如何加速输出图像，过去是有汇编语言来编写。<br>总而来说，Shader是<strong>可编程图形管线的算法片段</strong><br>分类:</p>
+<ul>
+<li>Vertex Shader</li>
+<li>Fragment Shader</li>
+</ul>
+<p><img src="./20171201155916085.jpg" alt="Alt text"><br>物体空间-&gt;世界空间-&gt;观察空间-&gt;裁剪空间-&gt;屏幕空间<br><strong>Shader和材质、贴图的关系：</strong><br>Shader将顶点数据以指定的方式和贴图或者颜色组合起来，将输出数据绘制到屏幕上。<br><strong>材质</strong>就是将<strong>Shader</strong>以及<strong>输入参数（包括贴图）</strong>打包存储起来，将材质赋予到三维物体上进行渲染<br>这样就是说材质就是引擎最终使用的商品（每个渲染的物体都需要一个材质）<br>Shader就是生产这种商品的加工过程或方法，贴图就是商品材料之一。</p>
+<h3 id="三个阶段"><a href="#三个阶段" class="headerlink" title="三个阶段"></a>三个阶段</h3><h4 id="应用阶段-Application-Stage"><a href="#应用阶段-Application-Stage" class="headerlink" title="应用阶段 Application Stage"></a>应用阶段 Application Stage</h4><p><strong>目标：</strong> 准备渲染所需的几何信息，即渲染图元（rendering primitives）</p>
+<p><strong>渲染数据：</strong></p>
+<ul>
+<li>场景数据</li>
+<li>粗粒度剔除</li>
+<li>渲染状态</li>
+</ul>
+<p><strong>基本流程：</strong></p>
+<ul>
+<li>加载数据到显存</li>
+<li>设置渲染状态</li>
+<li>调用DrawCall</li>
+</ul>
+<h4 id="几何阶段-Geometry-Stage"><a href="#几何阶段-Geometry-Stage" class="headerlink" title="几何阶段 Geometry Stage"></a>几何阶段 Geometry Stage</h4><p><strong>接受数据：</strong> 应用阶段所准备好的<strong>渲染图源</strong>信息，也就是顶点数据（模型自身坐标系、顶点颜色、纹理UV等）<br><strong>目标：</strong> 决定所需绘制图元的信息（绘制方法、绘制坐标）<br><strong>基本流程：</strong></p>
+<p><strong>顶点着色器(Vertex Shader)：</strong><br>对每个顶点均调用一次。<br>通过一系列的<strong>坐标转换</strong>，将模型的顶点在摄像机前进行位移，并最终投影到摄像机的投影屏幕上<br><strong>本地坐标系-&gt;世界坐标系-&gt;观察坐标系-&gt;投影坐标系</strong></p>
+<p>顶点处理这个阶段包括顶点的<strong>坐标变换</strong>、<strong>逐顶点雾化</strong>、<strong>材质属性</strong>、<strong>光照属性</strong>处理</p>
+<p><strong>曲面细分着色器(Tessellation Shader)</strong>:细分图元</p>
+<blockquote>
+<p>In Direct3D 11 pipeline (a part of DirectX 11), the graphics primitive is the patch.[4] The tessellator generates a triangle-based tessellation of the patch according to tessellation parameters such as the TessFactor, which controls the degree of fineness of the mesh.<br>Tessellation: 棋盘型布置，密铺，曲面细分</p>
+</blockquote>
+<p><strong>几何着色器(Geometry Shader)</strong>:逐图元着色操作或是生成新的图元(减少CPU负担)</p>
+<p><strong>裁剪(Clipping)</strong>: 裁剪去不在摄像机视野内的顶点（视域体裁剪）</p>
+<p><strong>屏幕映射(Screen Mapping)</strong>:将图元的x和y坐标转换到屏幕坐标系(不对z坐标处理)</p>
+<h4 id="光栅化阶段-Rasterizer-Stage"><a href="#光栅化阶段-Rasterizer-Stage" class="headerlink" title="光栅化阶段 Rasterizer Stage"></a>光栅化阶段 Rasterizer Stage</h4><blockquote>
+<p>光栅化：是把顶点数据转换为片元的过程，具有将图转化为一个个栅格组成的图象的作用，特点是每个元素对应帧缓冲区中的一像素。（将以向量为基本结构的面转换为一个个点阵形式的像素。）</p>
+</blockquote>
+<p>经过三角形设置，三角形遍历等操作生成一系列片元，片元着色器对每个像素调用一次片元着色函数，<br>进行纹理采样,计算光照等操作，最终输出屏幕图像。<br><strong>接受数据：</strong> 几何阶段准备好的顶点信息<br><strong>目标：</strong> 对几何阶段传递过来的<strong>屏幕空间的顶点信息</strong>进行处理,最终生成屏幕像素,渲染出图像<br><strong>基本流程：</strong></p>
+<p><strong>三角形设置(Triangle Setup)</strong>:    根据几何阶段传递的数据(三角网络的顶点),计算三角网络每边的数据信息</p>
+<p><strong>三角形遍历(Triangle Traversal)</strong>:工作:根据三角形设置的结果,判断某个三角网格所覆盖的像素,并根据三个顶点的信息对整个覆盖区域进行 插值 ,生成一系列 片元(fragment) ，片元包含信息有:屏幕坐标、深度、法线、纹理…</p>
+<p><strong>片元着色器(Fragment Shader)</strong>: 又称<strong>像素着色器(Pixel Shader)</strong><br>调用次数:一个像素点调用一次工作:纹理采样,计算光照(阴影、明暗…)<br>逐片元操作(Per-Fragment Operations):<br>工作:模板测试-&gt;深度测试-&gt;混合-&gt;颜色缓冲区<br>这一阶段包括对每个像素区域进行着色、对像素贴上贴图、形成最终的画面（输入像素的位置、深度、贴图坐标、法线、切点、颜色等；输出每个像素的颜色和透明度）</p>
+<h3 id="CPU与GPU"><a href="#CPU与GPU" class="headerlink" title="CPU与GPU"></a>CPU与GPU</h3><p>CPU在内存中建立以下资源</p>
+<ul>
+<li>顶点定义</li>
+<li>顶点缓存</li>
+<li>索引缓存</li>
+<li>贴图</li>
+<li>摄像机</li>
+<li>投影</li>
+</ul>
+<p>CPU从内存中发送以下资源到显存中供GPU使用</p>
+<ul>
+<li>顶点定义</li>
+<li>顶点缓存</li>
+<li>索引缓存</li>
+<li>贴图</li>
+<li>坐标系变换矩阵</li>
+<li>渲染状态</li>
+<li>贴图采样方式</li>
+</ul>
+<h4 id="GPU渲染管线理解"><a href="#GPU渲染管线理解" class="headerlink" title="GPU渲染管线理解"></a>GPU渲染管线理解</h4><p><img src="./o4YBAFtVNLGART11AADOMqy6xRY961.jpg" alt="Alt text"></p>
+<p><a href="https://www.cnblogs.com/timlly/p/11471507.html" target="_blank" rel="noopener">深入GPU硬件架构及运行机制</a></p>
+<h2 id="数学相关具体处理过程"><a href="#数学相关具体处理过程" class="headerlink" title="数学相关具体处理过程"></a>数学相关具体处理过程</h2><h3 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h3><p>视锥体（view frustum）<br>frustum(截头锥体)</p>
+<h3 id="坐标转换过程"><a href="#坐标转换过程" class="headerlink" title="坐标转换过程"></a>坐标转换过程</h3><p>物体空间(object space)-&gt;世界空间(World Space)-&gt;观察空间(View Space)-&gt;裁剪空间(clip space)-&gt;屏幕空间(Screen Space)</p>
+<h4 id="NDC-Normalized-Device-Coordinate-归一化设备坐标"><a href="#NDC-Normalized-Device-Coordinate-归一化设备坐标" class="headerlink" title="NDC(Normalized Device Coordinate)归一化设备坐标"></a>NDC(Normalized Device Coordinate)归一化设备坐标</h4><p>在这一步会进行一个叫齐次除法的步骤，说白了就是各个点（x,y,z,w）会除以w的值（注：计算机图形学中经常使用四元数代表一个点，叫齐次空间，齐次点等 ）<br><img src="./20180524234721665.jpg" alt="Alt text"><br><img src="./2018052423464776.jpg" alt="Alt text"></p>
+<h4 id="屏幕空间（Screen-Space）"><a href="#屏幕空间（Screen-Space）" class="headerlink" title="屏幕空间（Screen Space）"></a>屏幕空间（Screen Space）</h4><p>pixelWidth:屏幕横向分辨率<br>pixelHeight:屏幕纵向分辨率<br>OpenGL规范<br><img src="./20180525000554600.jpg" alt="OpenGL规范"><br>DirectX规范<br><img src="./20180525000613422.jpg" alt="DirectX规范"></p>
+<p>screenx={clipx<em>pixelWidth/(2</em>clipw)}+pixelWidth/2<br>screeny={clipy<em>pixelHeight/(2</em>clipw)}+pixelHeight/2</p>
+<h3 id="Vertex-Shader-amp-Fragment-Shader"><a href="#Vertex-Shader-amp-Fragment-Shader" class="headerlink" title="Vertex Shader &amp; Fragment Shader"></a>Vertex Shader &amp; Fragment Shader</h3><h4 id="顶点着色器"><a href="#顶点着色器" class="headerlink" title="顶点着色器"></a>顶点着色器</h4><p>将物体从<strong>物体空间</strong>-&gt;<strong>世界空间</strong>-&gt;<strong>观察空间</strong>-&gt;<strong>裁剪空间</strong>就是顶点着色器的工作。</p>
+<blockquote>
+<ol>
+<li>将物体空间的数据（点）作为顶点着色器的输入</li>
+<li>将所有在自己范围中的点全部遍历一遍，就是每个点都会算进行加工</li>
+<li>高度可编程配置！</li>
+</ol>
+</blockquote>
+<h4 id="片元着色器"><a href="#片元着色器" class="headerlink" title="片元着色器"></a>片元着色器</h4><p> 将裁剪空间中的点从<strong>裁剪空间</strong>-&gt;<strong>屏幕空间</strong>就是片元着色器的工作。<br>片元着色器会返回一个四元数-（r,g,b,a）-&gt;分别为（red&lt;红&gt;，green&lt;绿&gt;，blue&lt;蓝&gt;，alpha&lt;透明度&gt;）</p>
+<blockquote>
+<ol>
+<li>将裁减空间的数据（点）作为片元着色器的输入</li>
+<li>将所有在自己范围中的像素全部遍历一遍（三角遍历Rasterizer—-Triangle Traversal），就是每个片元（像素）都会运算进行加工。</li>
+<li>高度可编程配置！</li>
+</ol>
+</blockquote>
+<h2 id="Shader-1"><a href="#Shader-1" class="headerlink" title="Shader"></a>Shader</h2><h3 id="简单的Shader-Demo"><a href="#简单的Shader-Demo" class="headerlink" title="简单的Shader Demo"></a>简单的Shader Demo</h3><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">Shader <span class="string">"Test/Shader"</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	SubShader</span><br><span class="line">	&#123;</span><br><span class="line">		Tags &#123; <span class="string">"RenderType"</span>=<span class="string">"Opaque"</span> &#125;</span><br><span class="line">		LOD <span class="number">100</span></span><br><span class="line"></span><br><span class="line">		Pass</span><br><span class="line">		&#123;</span><br><span class="line">			CGPROGRAM</span><br><span class="line">			<span class="meta">#<span class="meta-keyword">pragma</span> vertex vert//告诉编译器 顶点着色器叫什么名字</span></span><br><span class="line">			<span class="meta">#<span class="meta-keyword">pragma</span> fragment frag//告诉编译器 片元着色器叫什么名字</span></span><br><span class="line"></span><br><span class="line">			<span class="meta">#include "UnityCG.cginc"//包含内置文件，方便写代码</span></span><br><span class="line"></span><br><span class="line">			<span class="keyword">struct</span> appdata</span><br><span class="line">			&#123;</span><br><span class="line">				float4 vertex : POSITION;<span class="comment">//物体坐标</span></span><br><span class="line">			&#125;;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">struct</span> v2f</span><br><span class="line">			&#123;</span><br><span class="line">				float4 vertex : SV_POSITION;<span class="comment">//裁剪空间坐标</span></span><br><span class="line">			&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">			<span class="function">v2f <span class="title">vert</span> (<span class="params">appdata v</span>)<span class="comment">//顶点着色器，以物体坐标为输入（appdata下的vertex）</span></span></span><br><span class="line"><span class="function"></span>			&#123;</span><br><span class="line">				v2f o;</span><br><span class="line">				o.vertex = UnityObjectToClipPos(v.vertex);<span class="comment">//将物体坐标变换到裁剪空间</span></span><br><span class="line">				<span class="keyword">return</span> o;<span class="comment">//返回裁剪空间的数据</span></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="function">fixed4 <span class="title">frag</span> (<span class="params">v2f i</span>) : SV_Target<span class="comment">//片元着色器，以裁剪空间数据作为输入（上面顶点着色器的输出）</span></span></span><br><span class="line"><span class="function"></span>			&#123;</span><br><span class="line">				fixed4 col = fixed4(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>);<span class="comment">//定义一个白色</span></span><br><span class="line">				<span class="keyword">return</span> col;<span class="comment">//返回白色</span></span><br><span class="line">			&#125;</span><br><span class="line">			ENDCG</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="接口与实现"><a href="#接口与实现" class="headerlink" title="接口与实现"></a>接口与实现</h3><p>UnityObjectToClipPos()</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> float4 <span class="title">UnityObjectToClipPos</span><span class="params">(in float3 pos)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// More efficient than computing M*VP matrix product</span></span><br><span class="line">   <span class="keyword">return</span> mul(UNITY_MATRIX_VP, mul(unity_ObjectToWorld, float4(pos, <span class="number">1.0</span>)));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> float4 <span class="title">UnityObjectToClipPos</span><span class="params">(float4 pos)</span> <span class="comment">// overload for float4; avoids "implicit truncation" warning for existing shaders</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> UnityObjectToClipPos(pos.xyz);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>unity_ObjectToWorld是物体空间到世界空间的转换矩阵mul()矩阵乘法内置函数。<br>UNITY_MATRIX_VP（观察空间和裁剪空间合一起了），乘完后将从世界空间变换到裁剪空间。</p>
+<p>完全手动自定义计算的话，这么写：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">float4 <span class="title">UnityObjectToClipPos</span><span class="params">(in float3 pos)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	float4 objectSpaceData = float4(pos, <span class="number">1.0f</span>);</span><br><span class="line">	float4 worldSpaceData = mul(unity_ObjectToWorld, objectSpaceData);</span><br><span class="line">	float4 viewSpaceData = mul(UNITY_MATRIX_V, worldSpaceData);</span><br><span class="line">	float4 clipSpaceData = mul(UNITY_MATRIX_P，viewSpaceData );</span><br><span class="line">	<span class="keyword">return</span> clipSpaceData;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://www.cnblogs.com/SouthBegonia/p/11564407.html" target="_blank" rel="noopener">https://www.cnblogs.com/SouthBegonia/p/11564407.html</a><br><a href="https://blog.csdn.net/AvatarForTest/article/details/80438344" target="_blank" rel="noopener">https://blog.csdn.net/AvatarForTest/article/details/80438344</a><br><a href="http://m.elecfans.com/article/713834.html" target="_blank" rel="noopener">http://m.elecfans.com/article/713834.html</a></p>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2020/10/25/Mesh-in-Unity3D/" data-toggle="tooltip" data-placement="top" title="【基础】U3D中的Mesh">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/10/25/AssetBundle/" data-toggle="tooltip" data-placement="top" title="【加载】Asset bundle">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                <!-- tip start -->
+                
+
+                
+                <div class="comment_notes">
+                    <p>
+                        This is copyright.
+                    </p>
+                </div>
+                
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                
+<link rel="stylesheet" href="/css/music-player/fonts/iconfont.css">
+
+
+<link rel="stylesheet" href="/css/music-player/css/reset.css">
+
+
+<link rel="stylesheet" href="/css/music-player/css/player.css">
+
+
+<div class="music-player">
+    <audio class="music-player__audio" ></audio>
+    <div class="music-player__main">
+        <div class="music-player__blur"></div>
+        <div class="music-player__disc">
+            <div class="music-player__image">
+                <img width="100%" src="" alt="">
+            </div>
+            <div class="music-player__pointer"><img width="100%" src="/img/cd_tou.png" alt=""></div>
+        </div>
+        <div class="music-player__controls">
+            <div class="music__info">
+                <h3 class="music__info--title">...</h3>
+                <p class="music__info--singer">...</p>
+            </div>
+            <div class="player-control">
+                <div class="player-control__content">
+                    <div class="player-control__btns">
+                        <div class="player-control__btn player-control__btn--prev"><i class="iconfont icon-prev"></i></div>
+                        <div class="player-control__btn player-control__btn--play"><i class="iconfont icon-play"></i></div>
+                        <div class="player-control__btn player-control__btn--next"><i class="iconfont icon-next"></i></div>
+                        <div class="player-control__btn player-control__btn--mode"><i class="iconfont icon-loop"></i></div>
+                    </div>
+                    <div class="player-control__volume">
+                        <div class="control__volume--icon player-control__btn"><i class="iconfont icon-volume"></i></div>
+                        <div class="control__volume--progress player_progress"></div>
+                    </div>
+                </div>
+                <div class="player-control__content">
+                    <div class="player__song--progress player_progress"></div>
+                    <div class="player__song--timeProgess nowTime">00:00</div>
+                    <div class="player__song--timeProgess totalTime">00:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/music-player/utill.js"></script>
+
+
+<script src="/js/music-player/jquery.min.js"></script>
+
+<!-- netease; qqkg -->
+<!--
+<script src="/js/music-player/player.js?library=config.music.library.js"></script>
+-->
+<script src="../../../../js/music-player/player.js?library=netease&music=https://kg.qq.com/node/play?s=7deFpz7Z26Jmv7di&g_f=share_html"></script>
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                <!--  css & js -->
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      
+        <aside id="sidebar">
+          <div id="toc" class="toc-article">
+          <strong class="toc-title">Contents</strong>
+          
+            
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#渲染管线概览"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">渲染管线概览</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#基本概念"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">基本概念</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#渲染管线（流水线）"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">渲染管线（流水线）</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Shader"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">Shader</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#三个阶段"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">三个阶段</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#应用阶段-Application-Stage"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">应用阶段 Application Stage</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#几何阶段-Geometry-Stage"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">几何阶段 Geometry Stage</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#光栅化阶段-Rasterizer-Stage"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text">光栅化阶段 Rasterizer Stage</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#CPU与GPU"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">CPU与GPU</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#GPU渲染管线理解"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">GPU渲染管线理解</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#数学相关具体处理过程"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">数学相关具体处理过程</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#相关概念"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">相关概念</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#坐标转换过程"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">坐标转换过程</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#NDC-Normalized-Device-Coordinate-归一化设备坐标"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">NDC(Normalized Device Coordinate)归一化设备坐标</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#屏幕空间（Screen-Space）"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">屏幕空间（Screen Space）</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Vertex-Shader-amp-Fragment-Shader"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">Vertex Shader &amp; Fragment Shader</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#顶点着色器"><span class="toc-nav-number">2.3.1.</span> <span class="toc-nav-text">顶点着色器</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#片元着色器"><span class="toc-nav-number">2.3.2.</span> <span class="toc-nav-text">片元着色器</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Shader-1"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Shader</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#简单的Shader-Demo"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">简单的Shader Demo</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#接口与实现"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">接口与实现</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Ref"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Ref</span></a></li></ol>
+            
+          
+          </div>
+        </aside>
+      
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#CG" title="CG">CG</a>
+                        
+                          <a class="tag" href="/tags/#Rendering" title="Rendering">Rendering</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://blog.csdn.net/d_Nail" target="_blank">Dusign&#39;s Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Dusign&#39;s Web</a></li>
+                    
+                        <li><a href="https://github.com/dusign" target="_blank">Dusign&#39;s Github</a></li>
+                    
+                        <li><a href="#" target="_blank">Other</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+
+
+<style  type="text/css">
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Prin 2020 
+                    <br>
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://prince-y-p.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Search -->
+
+    <script type="text/javascript">      
+        var search_path = "search.xml";
+        if (search_path.length == 0) {
+            search_path = "search.xml";
+        }
+    var path = "/" + search_path;
+    searchFunc(path, 'local-search-input', 'local-search-result');
+    </script>
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+
+    
+        <!-- background effects line -->
+        
+
+        
+            <script type="text/javascript" src="/js/mouse-click.js" content='[&quot;🌱&quot;,&quot;just do it&quot;,&quot;🍀&quot;]' color='[&quot;rgb(121,93,179)&quot; ,&quot;rgb(76,180,231)&quot; ,&quot;rgb(184,90,154)&quot;]'></script>
+        
+
+        <!-- background effects end -->
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+
+</html>
