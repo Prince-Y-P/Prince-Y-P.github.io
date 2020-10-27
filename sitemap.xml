@@ -2,6 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://prince-y-p.com/2020/10/25/OS-Shell-on-UNIX-like-systems/</loc>
+    
+    <lastmod>2020-10-27T07:35:28.043Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://prince-y-p.com/2020/10/25/Mesh-in-Unity3D/</loc>
+    
+    <lastmod>2020-10-27T07:35:25.677Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://prince-y-p.com/2020/10/25/Draw-Call-Batching/</loc>
+    
+    <lastmod>2020-10-27T07:35:11.298Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://prince-y-p.com/2020/09/14/gamma-correction-in-unity/</loc>
+    
+    <lastmod>2020-10-27T07:35:09.641Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://prince-y-p.com/2020/10/03/installation-of-luacheck/</loc>
+    
+    <lastmod>2020-10-27T07:34:49.238Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://prince-y-p.com/2020/10/25/AssetBundle/</loc>
+    
+    <lastmod>2020-10-27T07:33:59.059Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://prince-y-p.com/2020/10/25/Basic-Render-pipeline/</loc>
     
     <lastmod>2020-10-27T07:30:43.044Z</lastmod>
@@ -23,14 +65,14 @@
   </url>
   
   <url>
-    <loc>https://prince-y-p.com/archive/index.html</loc>
+    <loc>https://prince-y-p.com/categories/index.html</loc>
     
     <lastmod>2020-10-25T15:33:37.377Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://prince-y-p.com/categories/index.html</loc>
+    <loc>https://prince-y-p.com/archive/index.html</loc>
     
     <lastmod>2020-10-25T15:33:37.377Z</lastmod>
     
@@ -47,48 +89,6 @@
     <loc>https://prince-y-p.com/404.html</loc>
     
     <lastmod>2020-10-25T15:33:37.352Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://prince-y-p.com/2020/10/25/Mesh-in-Unity3D/</loc>
-    
-    <lastmod>2020-10-24T18:51:31.318Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://prince-y-p.com/2020/10/25/AssetBundle/</loc>
-    
-    <lastmod>2020-10-24T18:29:34.694Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://prince-y-p.com/2020/10/25/Draw-Call-Batching/</loc>
-    
-    <lastmod>2020-10-24T18:27:18.989Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://prince-y-p.com/2020/10/25/OS-Shell-on-UNIX-like-systems/</loc>
-    
-    <lastmod>2020-10-24T18:15:08.235Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://prince-y-p.com/2020/10/03/installation-of-luacheck/</loc>
-    
-    <lastmod>2020-10-03T15:47:30.785Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://prince-y-p.com/2020/09/14/gamma-correction-in-unity/</loc>
-    
-    <lastmod>2020-10-03T15:45:22.795Z</lastmod>
     
   </url>
   
