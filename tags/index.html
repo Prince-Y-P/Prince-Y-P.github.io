@@ -171,14 +171,14 @@
 
                         
                         <li>
-                            <a href="/categories/">Categories</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/categories/">Categories</a>
                         </li>
                         
                     
@@ -255,6 +255,10 @@
                 
                     <a href="#Rendering" title="Rendering" rel="2">Rendering</a>
                 
+                    <a href="#Asset" title="Asset" rel="1">Asset</a>
+                
+                    <a href="#加载" title="加载" rel="1">加载</a>
+                
                     <a href="#Texture" title="Texture" rel="1">Texture</a>
                 
                     <a href="#Shell" title="Shell" rel="1">Shell</a>
@@ -267,6 +271,8 @@
                 
                     <a href="#MacOS" title="MacOS" rel="1">MacOS</a>
                 
+                    <a href="#Lua" title="Lua" rel="1">Lua</a>
+                
                     <a href="#Draw Call" title="Draw Call" rel="1">Draw Call</a>
                 
                     <a href="#Batching" title="Batching" rel="1">Batching</a>
@@ -274,12 +280,6 @@
                     <a href="#渲染" title="渲染" rel="1">渲染</a>
                 
                     <a href="#优化" title="优化" rel="1">优化</a>
-                
-                    <a href="#Asset" title="Asset" rel="1">Asset</a>
-                
-                    <a href="#加载" title="加载" rel="1">加载</a>
-                
-                    <a href="#Lua" title="Lua" rel="1">Lua</a>
                 
             </div>
 
@@ -355,9 +355,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/10/28/CG-About-Texture-Filtering/">
+                     <a href="/2020/09/14/CG-gamma-correction-in-unity/">
                         <h2 class="post-title">
-                            【渲染】纹理滤波(Texture Filtering)相关知识整理
+                            理解伽马校正(Gamma Correction)与Unity的Gamma or Linear workflow
                         </h2>
                         
                     </a>
@@ -370,9 +370,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/09/14/CG-gamma-correction-in-unity/">
+                     <a href="/2020/10/28/CG-About-Texture-Filtering/">
                         <h2 class="post-title">
-                            理解伽马校正(Gamma Correction)与Unity的Gamma or Linear workflow
+                            【渲染】纹理滤波(Texture Filtering)相关知识整理
                         </h2>
                         
                     </a>
@@ -410,6 +410,50 @@
                      <a href="/2020/10/28/CG-About-Texture-Filtering/">
                         <h2 class="post-title">
                             【渲染】纹理滤波(Texture Filtering)相关知识整理
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Asset">
+                    <span class="tag-text">Asset</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2020/10/25/Load-AssetBundle/">
+                        <h2 class="post-title">
+                            【加载】Asset bundle
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="加载">
+                    <span class="tag-text">加载</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2020/10/25/Load-AssetBundle/">
+                        <h2 class="post-title">
+                            【加载】Asset bundle
                         </h2>
                         
                     </a>
@@ -552,6 +596,28 @@
             </div>
             
             <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Lua">
+                    <span class="tag-text">Lua</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2020/10/03/Lua-installation-of-luacheck/">
+                        <h2 class="post-title">
+                            Win10系统下Lua及Luacheck环境配置
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="Draw Call">
                     <span class="tag-text">Draw Call</span>
                 </span>
@@ -630,72 +696,6 @@
                      <a href="/2020/10/25/U3D-Draw-Call-Batching/">
                         <h2 class="post-title">
                             【渲染】Draw Call与Batching(合批)
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Asset">
-                    <span class="tag-text">Asset</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2020/10/25/Load-AssetBundle/">
-                        <h2 class="post-title">
-                            【加载】Asset bundle
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="加载">
-                    <span class="tag-text">加载</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2020/10/25/Load-AssetBundle/">
-                        <h2 class="post-title">
-                            【加载】Asset bundle
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Lua">
-                    <span class="tag-text">Lua</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2020/10/03/Lua-installation-of-luacheck/">
-                        <h2 class="post-title">
-                            Win10系统下Lua及Luacheck环境配置
                         </h2>
                         
                     </a>
