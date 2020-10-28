@@ -209,9 +209,8 @@ comment:
 music:
   enable: true
   #library: netease
-  #music: https://kg.qq.com/node/play?s=7deFpz7Z26Jmv7di&g_f=share_html
   library: netease
-  music: https://c.y.qq.com/base/fcgi-bin/u?__=kHcb4M
+  #music: https://kg.qq.com/node/play?s=7deFpz7Z26Jmv7di&g_f=share_html
 
 # Tip
 tip:
