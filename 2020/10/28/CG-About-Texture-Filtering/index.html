@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="keyword"  content="Prin, hexo-theme-snail">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
+    <title>
+        
+          【渲染】纹理滤波(Texture Filtering)相关知识整理 - undefined
+        
+    </title>
+
+    <link rel="canonical" href="https://prince-y-p.com/2020/10/28/CG-About-Texture-Filtering/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS --> 
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
+    
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('')
+                /*post*/
+            
+        
+    }
+    
+    #signature{
+        background-image: url('/img/signature/dusign.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#CG" title="CG">CG</a>
+                            
+                              <a class="tag" href="/tags/#Rendering" title="Rendering">Rendering</a>
+                            
+                              <a class="tag" href="/tags/#Texture" title="Texture">Texture</a>
+                            
+                        </div>
+                        <h1>【渲染】纹理滤波(Texture Filtering)相关知识整理</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Prin on
+                            2020-10-28
+                        </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">5.2k</span> and
+                                Reading Time <span class="post-count">19</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
+                    </div>
+                
+
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    
+    <div class="waveWrapper">
+        <div class="wave wave_before" style="background-image: url('/img/wave-light.png')"></div>
+        <div class="wave wave_after" style="background-image: url('/img/wave-light.png')"></div>
+    </div>
+    
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Prin&#39;s World</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/categories/">Categories</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/photography/">Photography</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                    
+                    <li>
+                        <a href="YOUR_CHINESE_BLOG_URL" target="_blank">Chinese Blog</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h2><h3 id="纹理映射-与-纹理采样"><a href="#纹理映射-与-纹理采样" class="headerlink" title="纹理映射 与 纹理采样"></a>纹理映射 与 纹理采样</h3><p>纹理映射：使用uv坐标将纹理像素(texel)映射到屏幕像素(pixel)的过程。</p>
+<p>纹理采样（Texture Sample）：既然纹理是一张图片，那么自然就有分辨率的存在，纹理采样便是从纹理图片中采集一个像素颜色的操作。</p>
+<h3 id="插值-Interpolation-的概念"><a href="#插值-Interpolation-的概念" class="headerlink" title="插值(Interpolation)的概念"></a>插值(Interpolation)的概念</h3><p>在数学的数值分析领域中，内插或称插值（英语：interpolation）是一种通过已知的、离散的数据点，在范围内推求新数据点的过程或方法。求解科学和工程的问题时，通常有许多数据点借由采样、实验等方法获得，这些数据可能代表了有限个数值函数，其中自变量的值。而根据这些数据，我们往往希望得到一个连续的函数（也就是曲线）；或者更密集的离散方程与已知数据互相吻合，这个过程叫做拟合。</p>
+<p>常用的插值方法有：最近邻插值（Nearest-neighbor interpolation）、线性插值（线性插值）、多项式插值（Polynomial interpolation）、样条曲线插值（Spline interpolation）等。</p>
+<p>高维度空间的计算中，需要用到多元插值（Multivariate interpolation）。方法有：</p>
+<ul>
+<li>双线性插值(bilinear interpolation) 和 双三次插值(bicubic interpolation) in two dimensions</li>
+<li>trilinear interpolation in three dimensions.</li>
+</ul>
+<h4 id="线性插值-Linear-interpolation"><a href="#线性插值-Linear-interpolation" class="headerlink" title="线性插值(Linear interpolation)"></a>线性插值(Linear interpolation)</h4><p>In mathematics, linear interpolation is a method of curve fitting using linear polynomials to construct new data points within the range of a discrete set of known data points.<br><img src="./1603809936492.png" alt="Alt text"></p>
+<h2 id="纹理滤波（Texture-Filtering）"><a href="#纹理滤波（Texture-Filtering）" class="headerlink" title="纹理滤波（Texture Filtering）"></a>纹理滤波（Texture Filtering）</h2><p><strong>纹理滤波（Texture Filtering）</strong>又称为<strong>纹理平滑（texture smoothing ）</strong> - the method used to determine the texture color for a texture mapped pixel, using the colors of nearby texels (pixels of the texture).</p>
+<blockquote>
+<p>当三维空间里面的多边形经过坐标变换、投影、光栅化等过程，变成二维屏幕上的一组象素的时候，对每个象素需要到相应纹理图像中进行采样，<strong>纹理过滤</strong>或者说<strong>纹理平滑</strong>是在纹理采样中使采样结果更加合理，以减少各种人为产生的穿帮现象的技术。</p>
+</blockquote>
+<p>纹理滤波主要分为两类：</p>
+<ul>
+<li><p><strong>放大过滤（magnification filtering）</strong>: reconstruction filter where sparse data is interpolated to fill gaps. （填充缺口）。一个纹理单元对应着多个像素。</p>
+</li>
+<li><p><strong>缩小过滤（minification filtering）</strong>: anti-aliasing (AA), where texture samples exist at a higher frequency than required for the sample frequency needed for texture fill. （抗锯齿）。一个像素对应着多个纹理单元。</p>
+</li>
+</ul>
+<blockquote>
+<p>There are many methods of texture filtering, which make different trade-offs between computational complexity, memory bandwidth and image quality.</p>
+</blockquote>
+<h3 id="为什么需要纹理滤波"><a href="#为什么需要纹理滤波" class="headerlink" title="为什么需要纹理滤波"></a>为什么需要纹理滤波</h3><p>对于任意的3D表面在纹理映射过程中，需要进行纹理查找来找到屏幕上的一个像素对应于纹理上的哪个位置，而在纹理采样过程中，可能出现如下问题：</p>
+<ol>
+<li>三维图形上的pixel中心和纹理上的texel中心并不一至。屏幕上像素的纹理映射坐标可能不会完美地落到像素格上。</li>
+<li>取决于观察者，textured surface可能在任意的距离和方向，一个像素（pixel）通常不会直接对应一个纹素（texel），可能一个像素被映射到许多纹理像素，或者许多个像素都映射到相同纹素。<br>因此，需要执行一些形式的滤波来决定屏幕像素的最佳颜色。滤波不足或不正确将在图像中表现为伪像（图像中的错误），例如“块状”，锯齿状或闪烁。</li>
+</ol>
+<hr>
+<ul>
+<li><p>纹理放大(Texture Magnification)：the texels are larger than screen pixels, and need to be scaled up appropriately - a process known as texture magnification.<br>当最后呈现到屏幕中的尺寸比纹理实际尺寸大的时候，许多个像素都映射到同一纹理，此时需要对纹理进行放大过滤（magnification filtering）。</p>
+</li>
+<li><p>纹理缩小(Texture Minification)：each texel is smaller than a pixel, and so one pixel covers multiple texels. In this case an appropriate color has to be picked based on the covered texels, via texture minification.<br>当最后呈现到屏幕中的尺寸比纹理实际尺寸小的时候，一个像素被映射到许多纹理像素上，此时需要对纹理进行缩小过滤（minification filtering）。</p>
+</li>
+</ul>
+<h3 id="为什么称为滤波-Filter"><a href="#为什么称为滤波-Filter" class="headerlink" title="为什么称为滤波(Filter)"></a>为什么称为滤波(Filter)</h3><p><strong>图像其实是一种波，可以用波的算法处理图像</strong></p>
+<h4 id="图像是波"><a href="#图像是波" class="headerlink" title="图像是波"></a>图像是波</h4><p>每个像素的颜色，可以用红、绿、蓝、透明度四个值描述，大小范围都是0 ～ 255，比如黑色是[0, 0, 0, 255]，白色是[255, 255, 255, 255]。<br><img src="./bg2017121302.png" alt="Alt text"><br>每条曲线都在不停的上下波动。有些区域的波动比较小，有些区域突然出现了大幅波动（比如 54 和 324 这两点）。曲线波动较大的地方，也是图像出现突变的地方。这说明波动与图像是紧密关联的。图像本质上就是各种色彩波的叠加。</p>
+<h4 id="频率（frequency）"><a href="#频率（frequency）" class="headerlink" title="频率（frequency）"></a>频率（frequency）</h4><p>图像就是色彩的波动：波动大，就是色彩急剧变化；波动小，就是色彩平滑过渡。因此，波的各种指标可以用来描述图像。<br>频率（frequency）是波动快慢的指标，单位时间内波动次数越多，频率越高，反之越低。<br><strong>色彩剧烈变化的地方，就是图像的高频区域；色彩稳定平滑的地方，就是低频区域。</strong></p>
+<h4 id="滤波器（filter）及在图像中的应用"><a href="#滤波器（filter）及在图像中的应用" class="headerlink" title="滤波器（filter）及在图像中的应用"></a>滤波器（filter）及在图像中的应用</h4><p>物理学对波的研究已经非常深入，提出了很多处理波的方法，其中就有滤波器（filter）：过滤掉某些波，保留另一些波。物理中两种常见的滤波器：</p>
+<ul>
+<li>低通滤波器（lowpass）：减弱或阻隔高频信号，保留低频信号</li>
+<li>高通滤波器（highpass）：减弱或阻隔低频信号，保留高频信号</li>
+</ul>
+<p>应用在图像中：<br><strong>lowpass</strong>使得图像的高频区域变成低频，即色彩变化剧烈的区域变得平滑，也就是出现<strong>模糊效果</strong>。<br><img src="./1603787295513.png" alt="Alt text"></p>
+<p><strong>highpass</strong>正好相反，过滤了低频，只保留那些变化最快速最剧烈的区域，也就是图像里面的物体边缘，所以常用于<strong>边缘识别</strong>。<br><img src="./1603787306380.png" alt="Alt text"></p>
+<h3 id="Mipmapping"><a href="#Mipmapping" class="headerlink" title="Mipmapping"></a>Mipmapping</h3><p>Mipmapping is a standard technique used to <strong>save some of the filtering work</strong> needed during <strong>texture minification</strong>.<br>为了加快渲染速度和减少纹理锯齿，贴图被处理成由一系列被预先计算和优化过的图片组成的文件，这样的贴图被称为Mipmap。</p>
+<h4 id="使用原因"><a href="#使用原因" class="headerlink" title="使用原因"></a>使用原因</h4><p>背景：Textured objects can be viewed at different distances from the viewpoint</p>
+<p>Problem：Which level of detail (Resolution) should one use for the texture image?</p>
+<ul>
+<li>Too high resolution: Aliasing effects</li>
+<li>Too small resolution: Too few details visible</li>
+</ul>
+<p>Solution: Use different levels of detail according to the distance between object and viewpoint → <strong>mipmaps</strong></p>
+<blockquote>
+<p>名称由来：mip = “multum in parvo”，拉丁语。</p>
+</blockquote>
+<p>在纹理缩小过程中，被贴上纹理的多边形距离很远时，纹理的多个纹素可能只落在一个屏幕像素中。需要读取多个纹素并通过合并他们的值的方式来决定屏幕像素的颜色，这样计算开销很大。Mipmapping会对纹理进行预过滤，并以较小的分辨率进行存储，从而避免运行时进行如此计算的开销。</p>
+<h4 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h4><p>Solves LOD problem by generating a pyramid of textures：</p>
+<ul>
+<li>Highest texture resolution at pyramid level 0</li>
+<li>Halfed Resolution at each subsequent level</li>
+</ul>
+<p>预先生成一系列以2为倍数缩小（长宽）的纹理序列，在采样纹理时根据图形的大小自动选择相近等级的Mipmap进行采样。</p>
+<blockquote>
+<p>As the textured surface moves farther away, the texture being applied switches to the prefiltered smaller size. Different sizes of the mipmap are referred to as ‘levels’, with Level 0 being the largest size (used closest to the viewer), and increasing levels used at increasing distances.</p>
+</blockquote>
+<p>所需空间：(1 + 1/3) times the space<br><img src="./MemoryOfMipmap.png" alt="Alt text"></p>
+<p>OpenGL automatically determines the mipmap level to use based on the projected size of the object.</p>
+<blockquote>
+<p>Mipmap通过下采样（downsampling）原始纹理生成。具体算法有：Nearest Neighbour, Boxfilter, Gaussian filter等</p>
+</blockquote>
+<h4 id="如何选择Mipmap-Level"><a href="#如何选择Mipmap-Level" class="headerlink" title="如何选择Mipmap Level"></a>如何选择Mipmap Level</h4><p>像素着色器是以像素为单位运行的，采样时该如何得知图形的大小呢？<br>现在的GPU在光栅化后不是逐像素单个渲染，而是分成2x2=4个的像素分块，每个线程处理4个。之所以这样处理是为了保存像素的偏导数信息，在计算mipmap等级和面法线等时候很有用。OpenGL提供了（唯一）一组获取相邻像素信息的函数——偏导函数dFdx和dFdy。偏导数代表了函数在某一方向的变化率，那么如果相邻两个像素间纹理坐标变化很大，则说明绘制的图形很小。<br>如下，计算出纹理坐标在纵向和横向的偏导数（并取最大值）来计算Mipmap级别：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">MipmapLevel</span><span class="params">(vec2 texCoord)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// The OpenGL Graphics System: A Specification 4.2</span></span><br><span class="line">    <span class="comment">//  - chapter 3.9.11, equation 3.21</span></span><br><span class="line">    vec2 dx = dFdx(texCoord);</span><br><span class="line">    vec2 dy = dFdy(texCoord);</span><br><span class="line">    <span class="keyword">float</span> delta = max(dot(dx, dx), dot(dy, dy));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.5</span> * log2(delta);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>MipmapLOD计算详解可见：<a href="http://warmcat.org/chai/blog/?p=1183" target="_blank" rel="noopener">http://warmcat.org/chai/blog/?p=1183</a></p>
+<h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4><p>Mipmap除了能消除采样率过低带来的失真问题，还有一个重要的优点是<strong>节约显存带宽</strong>，注意是带宽而不是容量。Mipmap实际消耗的显存大约增加了1/3，但每次仅从需要的mipmap级别进行读取，而不必每次都访问原始大小的纹理，因此可以节约带宽。</p>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ol>
+<li>Mipmap贴图文件占用更多硬盘空间     — 解决方法：使用dds进行压缩存储</li>
+<li>Mipmap纹理占用更多内存、显存空间</li>
+</ol>
+<h2 id="常用滤波方法（插值算法）"><a href="#常用滤波方法（插值算法）" class="headerlink" title="常用滤波方法（插值算法）"></a>常用滤波方法（插值算法）</h2><p>不同的过滤模式，计算复杂度不一样，会得到不同的效果。</p>
+<h3 id="最近邻插值采样-Nearest-neighbor-interpolation"><a href="#最近邻插值采样-Nearest-neighbor-interpolation" class="headerlink" title="最近邻插值采样(Nearest-neighbor interpolation)"></a>最近邻插值采样(Nearest-neighbor interpolation)</h3><blockquote>
+<p>OpenGL中对应的滤波方式为GL_NEAREST，Unity中对应的为Point。<br>Unity官方文档描述: Point 单点插值，纹理将变得块状化（blocky up close）</p>
+</blockquote>
+<p><strong>Nearest-neighbor interpolation</strong> (also known as <strong>proximal interpolation</strong> or, <strong>point sampling</strong>)<br>临近返回采样点所落在的像素内，即中心距离采样点曼哈顿距离最近的texel。</p>
+<p>The nearest neighbor algorithm selects the value of the nearest point and does not consider the values of neighboring points at all, yielding a piecewise-constant interpolant.</p>
+<p><img src="./1603790161075.png" alt="Alt text"></p>
+<h4 id="优势-1"><a href="#优势-1" class="headerlink" title="优势"></a>优势</h4><p>临近采样的结果始终是纹理中的颜色，在做一些像素风格游戏的时候采用临近。临近通常带来锋利的结果（不是锯齿），颜色之间没有过渡。</p>
+<p>当纹理的大小与贴图的三维图形的大小差不多时，这种方法非常有效和快捷。</p>
+<h4 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h4><h5 id="块状（blocky-）"><a href="#块状（blocky-）" class="headerlink" title="块状（blocky ）"></a>块状（blocky ）</h5><p>不同的UV可能会得到相同的颜色，在放大观察时(Magify状态)会有明显色块(马赛克）。当一个texel对应多个pixel时，所有落在这个texel的pixel都会得到同样的颜色值，在屏幕上就会产生明显的像素锯齿，如果是3D游戏的话，就会显得很假。</p>
+<blockquote>
+<p>双线性插值解决了texel magnify时像素锯齿的问题，能根据采样点得到不同的颜色值，增加像素细节，只要不是一个uv，就会根据插值得到不同的结果。</p>
+</blockquote>
+<h5 id="高频走样（波纹和闪烁现象）"><a href="#高频走样（波纹和闪烁现象）" class="headerlink" title="高频走样（波纹和闪烁现象）"></a>高频走样（波纹和闪烁现象）</h5><p>当minify时，一个pixel”覆盖”多个texel，相邻的两个pixel取的texel太远，在纹理图上可能是两个完全不相邻、完全没有关系的像素。对于高频图像，大量信息被压缩在相对比较小的空间中，则像素变化微小时，色彩变化会剧烈，这个问题在物理上叫做高频走样。在绘制地板和远处物体时会由于这个原因，导致<strong>波纹和闪烁（sparkling）</strong>。</p>
+<p>在看向地板远端的时候，会发现采样的结果并不连续，而是扭曲的波纹，移动摄像机后，会出现闪烁的问题，看起来非常糟糕。这是由于纹理在远处采样时pixel和它相邻的pixel跨越的texel太长，使在纹理中不相邻的两个texel（或者它们双线性插值的结果）被绘制在了一起。</p>
+<ul>
+<li>波纹是由于屏幕像素有限，原本不相邻的像素被绘制在一起导致的</li>
+<li>闪烁是由于图像的高频，采样的低频，轻微偏移就会产生巨大变化导致的。</li>
+</ul>
+<h5 id="性能上"><a href="#性能上" class="headerlink" title="性能上"></a>性能上</h5><p>放大的情况下非常快，但是在缩小时开销却极高，因为屏幕上相邻的像素点，可能对应于纹理上距离很远的两个点，而这会破坏纹理采样时的内存连续性，导致L1或者L2缓存的命中率极低，使得纹理采样性能大大降低。</p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p><img src="./1603854909317.png" alt="Alt text"><br>如图所示，近处纹理放大过滤，造成了明显的马赛克现象。远处出现闪烁。</p>
+<h3 id="最近点插值-mipmap的方式"><a href="#最近点插值-mipmap的方式" class="headerlink" title="最近点插值+mipmap的方式"></a>最近点插值+mipmap的方式</h3><p>这种方式在最近点插值的基础上，引入了mipmap，当距离相机很近时，使用miplevel0，此时和最近点插值完全一样。当距离下相机很远时，使用更高的miplevel等级，此时使用最近点插值采样更小尺寸的纹理。因此可以缓解缩小时的闪烁和锯齿现象，并且能够充分利用纹理采样时的内存连续性，使得纹理采样性能提高。但是在纹理放大时，不能解决产生的色块现象。<br><img src="./1603855058444.png" alt="Alt text"><br>加了mipmap之后可以看到噪点消失，但是远处纹理明显模糊，而且不同mipmap过渡处有明显分界，而近处的纹理仍然有色块现象。</p>
+<h3 id="双线性插值-Bilinear-interpolation"><a href="#双线性插值-Bilinear-interpolation" class="headerlink" title="双线性插值 (Bilinear interpolation)"></a>双线性插值 (Bilinear interpolation)</h3><blockquote>
+<p>OpenGL对应的设置为GL_LINEAR，unity对应的设置为bilinear。<br>Unity 官方文档描述：Bilinear 双线性插值，纹理将变得模糊（blurry up close）；</p>
+</blockquote>
+<p><strong>Bilinear interpolation</strong> is also called <strong>bilinear filtering</strong> or <strong>bilinear texture mapping</strong>.<br>在数学上，双线性插值是对线性插值在二维直角网格上的扩展<br>Bilinear interpolation is performed using linear interpolation first in one direction, and then again in the other direction. Although each step is linear in the sampled values and in the position, the interpolation as a whole is not linear but rather quadratic in the sample location.<br>首先在 X 轴方向插值两次，对得到的两个插值结果再在 Y 轴方向上进行一次插值。</p>
+<p><img src="./1603810157411.png" alt="Alt text"></p>
+<p><img src="./1603857020919.png" alt="Alt text"></p>
+<p><img src="./1603857053404.png" alt="Alt text"><br>图像的双线性插值放大算法中，目标图像中新创造的象素值，是由源图像位置在它附近的2*2区域4个邻近象素的值通过加权平均计算得出的。</p>
+<p>双线性过滤对于锯齿问题会有一个很明显的提升。该方法中，采样目标点附近的4个纹素，并且根据权重(距离中心点的距离)进行加权平均。这种方法使得放大纹理时的色块现象得以消失，因为此时两个相邻像素之间是平滑过度的。当缩小纹理时可以结合mipmap进行使用，尽管当缩小很多时，依然会有和最近点过滤方法一样的锯齿和闪烁现象，但是对于大部分合理的缩小比例，可以作为一种开销较少的有硬件加速的纹理超采样方案。<br><img src="./1603855288637.png" alt="Alt text"><br>近处纹理放大导致的马赛克现象明显消失，但是不同mipmap等级间的分界依然明显</p>
+<h3 id="三线性插值-Trilinear-interpolation"><a href="#三线性插值-Trilinear-interpolation" class="headerlink" title="三线性插值 (Trilinear interpolation)"></a>三线性插值 (Trilinear interpolation)</h3><p>Trilinear interpolation is a method of multivariate interpolation on a 3-dimensional regular grid.<br>对两个相邻的mipmap等级的纹理进行双线性过滤采样，并对两个采样结果线性插值得到最终的颜色。<br>三线性过滤是对双线性过滤中当纹理距离相机的距离刚好处于两个mipmap等级的交界处时的明显的一个过渡现象的解决方案。<br>通过对两个相邻的mipmap等级的纹理进行双线性过滤采样，并对两个采样结果线性插值得到最终的颜色。这样当纹理到相机的距离逐渐增加时，可以得到平滑的一个过渡，而不是突兀的变化。当然，对于足够近的纹理，因为使用miplevel0这个等级，因此和双线性过滤完全一致。</p>
+<p>经过mipmap+三线性插值，解决了</p>
+<ul>
+<li>点采样法引起的像素值不连续</li>
+<li>远景的高频走样</li>
+<li>不同lod level区域的明显分界</li>
+<li>切换lod level的突变</li>
+</ul>
+<p><img src="./1603855360374.png" alt="Alt text"></p>
+<h4 id="不足-1"><a href="#不足-1" class="headerlink" title="不足"></a>不足</h4><p>然而mipmap自身定义上就导致严重的问题。为了解决高频走样，引入了mipmap，强行将高频区域变为低频区域，减少信息量。这样的后果就是随着lod越来越远，采样结果就越模糊。在游戏中，往往表现为感觉越往远看，地面上就越感觉蒙着一层雾，像眼睛近视了一样。</p>
+<p>为了增强远景的清晰度，显卡厂商增加了一个新的过程，即各向异性过滤。这个效果对GPU的要求较高，所以在游戏中属于“最高画质”的选项。</p>
+<h3 id="各向异性过滤-Anisotropic-filtering"><a href="#各向异性过滤-Anisotropic-filtering" class="headerlink" title="各向异性过滤(Anisotropic filtering)"></a>各向异性过滤(Anisotropic filtering)</h3><p>当一个物体的表面和相机有很大的夹角时，纹理在屏幕上的对应填充区域就不是方形的。例如一个地板，距离相机远的地方，填充区域的宽高是不对等的，此时方形的纹理贴图就不是很合适了，此时就会导致模糊或者闪烁或者两者皆有。各向异性过滤通过采样一个非方形纹理解决了这个问题。</p>
+<p>在Unity中通过Aniso Level设置该过滤效果。</p>
+<blockquote>
+<p>Texture.anisoLevel - Anisotropic filtering level of the texture. Anisotropic filtering makes textures look better when viewed at a shallow angle, but comes at a performance cost in the graphics hardware. Usually you use it on floor, ground or road textures to make them look better.<br>The value range of this variable goes from 1 to 9, where 1 equals no filtering applied and 9 equals full filtering applied. As the value gets bigger, the texture is clearer at shallow angles. Lower values mean the texture will be more blurry at shallow angles.</p>
+</blockquote>
+<p>Aniso Level == 0<br><img src="./1603855799619.png" alt="Alt text"><br>Aniso Level == 9<br><img src="./1603855820036.png" alt="Alt text"></p>
+<h2 id="OpenGL对Minification-Magnification-Filter的选择"><a href="#OpenGL对Minification-Magnification-Filter的选择" class="headerlink" title="OpenGL对Minification/Magnification Filter的选择"></a>OpenGL对Minification/Magnification Filter的选择</h2><p>此处摘录自CHAI’S BLOG：<a href="http://warmcat.org/chai/blog/?p=1222" target="_blank" rel="noopener">http://warmcat.org/chai/blog/?p=1222</a><br>OpenGL允许设置纹理的过滤，分为GL_TEXTURE_MIN_FILTER和GL_TEXTURE_MAG_FILTER两种。<br>如果采样点的像素被认为是Minify了的，则用GL_TEXTURE_MIN_FILTER，如果是为认为是Magnify了的，用GL_TEXTURE_MAG_FILTER，决定用哪一个和mipmap无关，mipmap的三线性过滤通过_MIPMAP_NEAREAST和_MIPMAP_LINEAR决定。<br>默认情况下，GL_TEXTURE_MAG_FILTER 的过滤方式是GL_LINEAR，GL_TEXTURE_MIN_FILTER 的过滤方式是GL_NEAREST_MIPMAP_LINEAR。</p>
+<p>opengl提供了dfdx,dfdy两个函数对片段的属性做屏幕空间的偏微分，如果对uv做偏微分的话就是:</p>
+<script type="math/tex; mode=display">dfdx(uv)=(\frac{\partial u}{\partial x}, \frac{\partial v}{\partial x})</script><script type="math/tex; mode=display">dfdy(uv)=(\frac{\partial u}{\partial y}, \frac{\partial v}{\partial y})</script><p><img src="./1603865152983.png" alt="Alt text"><br>∂u/∂x和∂v/∂x是左下角的像素和它水平方向的邻居的差，∂u/∂y和∂v/∂y是左下角的像素和它上面的邻居的差，由于∂x=1，∂y=1，则<br>dfdx(uv) = P1.uv - P0.uv<br>dfdy(uv) = P3.uv - P0.uv</p>
+<p>使用以下公式判断此纹素是min还是mag<br><img src="./1603864791127.png" alt="Alt text"><br>如果ρ&lt;=1，此纹素被放大了，即mag<br>如果ρ&gt;1，此纹素被缩小了，即min</p>
+<h2 id="拓展知识"><a href="#拓展知识" class="headerlink" title="拓展知识"></a>拓展知识</h2><h3 id="纹理环绕（Texture-Wrap）"><a href="#纹理环绕（Texture-Wrap）" class="headerlink" title="纹理环绕（Texture Wrap）"></a>纹理环绕（Texture Wrap）</h3><p>纹理环绕的作用是为了处理超出0.0~1.0范围的纹理坐标，例如采用重复（REPEAT）的环绕方式，采样（4.5,-4.5）的纹理坐标，实际采样的纹理坐标应是（0.5，0.5）。对于负数纹理坐标，采样的实际位置应是1-uv，例如（-0.2,-0.6）应该采样（0.8,0.4）</p>
+<h3 id="上-下采样"><a href="#上-下采样" class="headerlink" title="上/下采样"></a>上/下采样</h3><h4 id="downsampled（下采样）"><a href="#downsampled（下采样）" class="headerlink" title="downsampled（下采样）"></a>downsampled（下采样）</h4><p>目的：</p>
+<ul>
+<li>使得图像符合显示区域的大小；</li>
+<li>生成对应图像的缩略图；</li>
+</ul>
+<p>方法：对于一幅图像尺寸为M<em>N，对其进行s倍的下采样，即得到（M/s）</em>（N/s）尺寸的分辨率图像，当然，s应该是M和N的公约数才可以，如果考虑是矩阵形式的图像，就是把原始图像s*s窗口内的图像变成一个像素，这个像素点就是窗口内所有像素的均值 Pk = (∑ Xi)/ S^2</p>
+<h4 id="upsampling（上采样）"><a href="#upsampling（上采样）" class="headerlink" title="upsampling（上采样）"></a>upsampling（上采样）</h4><p>放大图像（或称为上采样（upsampling）或图像插值（interpolating））的主要目的是放大原图像，从而可以显示在更高分辨率的显示设备上。</p>
+<p>上采样的原理：图像放大几乎都是采用内插值方法，即在原有图像像素的基础上在像素点之间采用合适的插值算法插入新的元素。插值算法还包括了传统插值，基于边缘图像的插值，还有基于区域的图像插值。</p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://www.sohu.com/a/397647922_468740" target="_blank" rel="noopener">https://www.sohu.com/a/397647922_468740</a><br><a href="http://www.ruanyifeng.com/blog/2017/12/image-and-wave-filters.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2017/12/image-and-wave-filters.html</a><br><a href="https://zh.wikipedia.org/wiki/%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC</a><br><a href="https://en.wikipedia.org/wiki/Texture_filtering" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Texture_filtering</a><br><a href="https://en.wikipedia.org/wiki/Linear_interpolation" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Linear_interpolation</a><br><a href="http://warmcat.org/chai/blog/?p=1077" target="_blank" rel="noopener">http://warmcat.org/chai/blog/?p=1077</a><br><a href="http://warmcat.org/chai/blog/?p=1222" target="_blank" rel="noopener">http://warmcat.org/chai/blog/?p=1222</a></p>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/10/25/Basic-Mesh-in-Unity3D/" data-toggle="tooltip" data-placement="top" title="【基础】U3D中的Mesh">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                <!-- tip start -->
+                
+
+                
+                <div class="comment_notes">
+                    <p>
+                        This is copyright.
+                    </p>
+                </div>
+                
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                
+<link rel="stylesheet" href="/css/music-player/fonts/iconfont.css">
+
+
+<link rel="stylesheet" href="/css/music-player/css/reset.css">
+
+
+<link rel="stylesheet" href="/css/music-player/css/player.css">
+
+
+<div class="music-player">
+    <audio class="music-player__audio" ></audio>
+    <div class="music-player__main">
+        <div class="music-player__blur"></div>
+        <div class="music-player__disc">
+            <div class="music-player__image">
+                <img width="100%" src="" alt="">
+            </div>
+            <div class="music-player__pointer"><img width="100%" src="/img/cd_tou.png" alt=""></div>
+        </div>
+        <div class="music-player__controls">
+            <div class="music__info">
+                <h3 class="music__info--title">...</h3>
+                <p class="music__info--singer">...</p>
+            </div>
+            <div class="player-control">
+                <div class="player-control__content">
+                    <div class="player-control__btns">
+                        <div class="player-control__btn player-control__btn--prev"><i class="iconfont icon-prev"></i></div>
+                        <div class="player-control__btn player-control__btn--play"><i class="iconfont icon-play"></i></div>
+                        <div class="player-control__btn player-control__btn--next"><i class="iconfont icon-next"></i></div>
+                        <div class="player-control__btn player-control__btn--mode"><i class="iconfont icon-loop"></i></div>
+                    </div>
+                    <div class="player-control__volume">
+                        <div class="control__volume--icon player-control__btn"><i class="iconfont icon-volume"></i></div>
+                        <div class="control__volume--progress player_progress"></div>
+                    </div>
+                </div>
+                <div class="player-control__content">
+                    <div class="player__song--progress player_progress"></div>
+                    <div class="player__song--timeProgess nowTime">00:00</div>
+                    <div class="player__song--timeProgess totalTime">00:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/music-player/utill.js"></script>
+
+
+<script src="/js/music-player/jquery.min.js"></script>
+
+<!-- netease; qqkg -->
+<!--
+<script src="/js/music-player/player.js?library=config.music.library.js"></script>
+-->
+<script src="../../../../js/music-player/player.js?library=netease&music=https://kg.qq.com/node/play?s=7deFpz7Z26Jmv7di&g_f=share_html"></script>
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                <!--  css & js -->
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      
+        <aside id="sidebar">
+          <div id="toc" class="toc-article">
+          <strong class="toc-title">Contents</strong>
+          
+            
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#相关概念"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">相关概念</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#纹理映射-与-纹理采样"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">纹理映射 与 纹理采样</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#插值-Interpolation-的概念"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">插值(Interpolation)的概念</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#线性插值-Linear-interpolation"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">线性插值(Linear interpolation)</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#纹理滤波（Texture-Filtering）"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">纹理滤波（Texture Filtering）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#为什么需要纹理滤波"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">为什么需要纹理滤波</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#为什么称为滤波-Filter"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">为什么称为滤波(Filter)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#图像是波"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">图像是波</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#频率（frequency）"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">频率（frequency）</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#滤波器（filter）及在图像中的应用"><span class="toc-nav-number">2.2.3.</span> <span class="toc-nav-text">滤波器（filter）及在图像中的应用</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Mipmapping"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">Mipmapping</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#使用原因"><span class="toc-nav-number">2.3.1.</span> <span class="toc-nav-text">使用原因</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#实现方法"><span class="toc-nav-number">2.3.2.</span> <span class="toc-nav-text">实现方法</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#如何选择Mipmap-Level"><span class="toc-nav-number">2.3.3.</span> <span class="toc-nav-text">如何选择Mipmap Level</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#优势"><span class="toc-nav-number">2.3.4.</span> <span class="toc-nav-text">优势</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#缺点"><span class="toc-nav-number">2.3.5.</span> <span class="toc-nav-text">缺点</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#常用滤波方法（插值算法）"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">常用滤波方法（插值算法）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#最近邻插值采样-Nearest-neighbor-interpolation"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">最近邻插值采样(Nearest-neighbor interpolation)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#优势-1"><span class="toc-nav-number">3.1.1.</span> <span class="toc-nav-text">优势</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#不足"><span class="toc-nav-number">3.1.2.</span> <span class="toc-nav-text">不足</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#块状（blocky-）"><span class="toc-nav-number">3.1.2.1.</span> <span class="toc-nav-text">块状（blocky ）</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#高频走样（波纹和闪烁现象）"><span class="toc-nav-number">3.1.2.2.</span> <span class="toc-nav-text">高频走样（波纹和闪烁现象）</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#性能上"><span class="toc-nav-number">3.1.2.3.</span> <span class="toc-nav-text">性能上</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#示例"><span class="toc-nav-number">3.1.3.</span> <span class="toc-nav-text">示例</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#最近点插值-mipmap的方式"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">最近点插值+mipmap的方式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#双线性插值-Bilinear-interpolation"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">双线性插值 (Bilinear interpolation)</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#三线性插值-Trilinear-interpolation"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text">三线性插值 (Trilinear interpolation)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#不足-1"><span class="toc-nav-number">3.4.1.</span> <span class="toc-nav-text">不足</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#各向异性过滤-Anisotropic-filtering"><span class="toc-nav-number">3.5.</span> <span class="toc-nav-text">各向异性过滤(Anisotropic filtering)</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#OpenGL对Minification-Magnification-Filter的选择"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">OpenGL对Minification&#x2F;Magnification Filter的选择</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#拓展知识"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">拓展知识</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#纹理环绕（Texture-Wrap）"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">纹理环绕（Texture Wrap）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#上-下采样"><span class="toc-nav-number">5.2.</span> <span class="toc-nav-text">上&#x2F;下采样</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#downsampled（下采样）"><span class="toc-nav-number">5.2.1.</span> <span class="toc-nav-text">downsampled（下采样）</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#upsampling（上采样）"><span class="toc-nav-number">5.2.2.</span> <span class="toc-nav-text">upsampling（上采样）</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Ref"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">Ref</span></a></li></ol>
+            
+          
+          </div>
+        </aside>
+      
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#CG" title="CG">CG</a>
+                        
+                          <a class="tag" href="/tags/#Rendering" title="Rendering">Rendering</a>
+                        
+                          <a class="tag" href="/tags/#Texture" title="Texture">Texture</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://blog.csdn.net/d_Nail" target="_blank">Dusign&#39;s Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Dusign&#39;s Web</a></li>
+                    
+                        <li><a href="https://github.com/dusign" target="_blank">Dusign&#39;s Github</a></li>
+                    
+                        <li><a href="#" target="_blank">Other</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+
+
+<style  type="text/css">
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Prin 2020 
+                    <br>
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://prince-y-p.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Search -->
+
+    <script type="text/javascript">      
+        var search_path = "search.xml";
+        if (search_path.length == 0) {
+            search_path = "search.xml";
+        }
+    var path = "/" + search_path;
+    searchFunc(path, 'local-search-input', 'local-search-result');
+    </script>
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+
+    
+        <!-- background effects line -->
+        
+
+        
+            <script type="text/javascript" src="/js/mouse-click.js" content='[&quot;🌱&quot;,&quot;just do it&quot;,&quot;🍀&quot;]' color='[&quot;rgb(121,93,179)&quot; ,&quot;rgb(76,180,231)&quot; ,&quot;rgb(184,90,154)&quot;]'></script>
+        
+
+        <!-- background effects end -->
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+
+</html>
