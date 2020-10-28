@@ -9,6 +9,8 @@ tags:
 - Unix
 - Linux
 - MacOS
+catalog: true
+
 ---
 
 # Shell overview

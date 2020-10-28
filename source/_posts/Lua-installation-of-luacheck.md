@@ -1,7 +1,10 @@
 ---
 title: Win10系统下Lua及Luacheck环境配置
 date: 2020-10-03 00:23:46
+categories:
+- Lua
 tags: Lua
+catalog: true
 ---
 
 

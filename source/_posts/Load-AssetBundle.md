@@ -6,6 +6,8 @@ categories:
 tags:
 - Asset
 - 加载
+catalog: true
+
 ---
 
 

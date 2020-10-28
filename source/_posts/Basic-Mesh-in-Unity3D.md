@@ -6,6 +6,8 @@ categories:
 tags:
 - rendering
 - U3D资源
+catalog: true
+
 ---
 
 Unity3D中的 **Mesh(网格)** 事实上就是我们所说的 **三角网格** 。

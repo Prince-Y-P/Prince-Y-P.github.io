@@ -8,6 +8,8 @@ tags:
 - Batching
 - 渲染
 - 优化
+catalog: true
+
 ---
 
 ## Draw Call
