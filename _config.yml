@@ -210,7 +210,7 @@ music:
   enable: true
   #library: netease
   #music: https://kg.qq.com/node/play?s=7deFpz7Z26Jmv7di&g_f=share_html
-  library: qqkg
+  library: netease
   music: https://c.y.qq.com/base/fcgi-bin/u?__=kHcb4M
 
 # Tip
