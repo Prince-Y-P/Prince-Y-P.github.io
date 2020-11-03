@@ -1,9 +1,11 @@
 ---
-title: 理解伽马校正(Gamma Correction)与Unity的Gamma or Linear workflow
+title: 【渲染】理解伽马校正(Gamma Correction)与Unity的Gamma or Linear workflow
 date: 2020-09-14 00:11:00
 categories:
 - CG&Rendering
-tags: CG
+tags:
+- CG
+- Rendering
 catalog: true
 
 ---
