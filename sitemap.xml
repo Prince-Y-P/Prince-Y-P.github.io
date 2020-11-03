@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://prince-y-p.com/2020/11/03/About-Texture/</loc>
+    
+    <lastmod>2020-11-03T12:58:29.503Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://prince-y-p.com/2020/10/25/Basic-Mesh-in-Unity3D/</loc>
+    
+    <lastmod>2020-11-03T12:52:25.514Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://prince-y-p.com/2020/10/25/U3D-Draw-Call-Batching/</loc>
     
     <lastmod>2020-10-28T06:35:15.658Z</lastmod>
@@ -26,13 +40,6 @@
     <loc>https://prince-y-p.com/2020/10/25/OS-Shell-on-UNIX-like-systems/</loc>
     
     <lastmod>2020-10-27T07:35:28.043Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://prince-y-p.com/2020/10/25/Basic-Mesh-in-Unity3D/</loc>
-    
-    <lastmod>2020-10-27T07:35:25.677Z</lastmod>
     
   </url>
   
@@ -72,14 +79,14 @@
   </url>
   
   <url>
-    <loc>https://prince-y-p.com/categories/index.html</loc>
+    <loc>https://prince-y-p.com/archive/index.html</loc>
     
     <lastmod>2020-10-25T15:33:37.377Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://prince-y-p.com/archive/index.html</loc>
+    <loc>https://prince-y-p.com/categories/index.html</loc>
     
     <lastmod>2020-10-25T15:33:37.377Z</lastmod>
     

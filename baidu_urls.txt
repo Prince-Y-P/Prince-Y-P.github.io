@@ -1,3 +1,4 @@
+https://prince-y-p.com/2020/11/03/About-Texture/
 https://prince-y-p.com/2020/10/28/CG-About-Texture-Filtering/
 https://prince-y-p.com/2020/10/25/Basic-Mesh-in-Unity3D/
 https://prince-y-p.com/2020/10/25/Basic-Render-pipeline/
@@ -5,4 +6,3 @@ https://prince-y-p.com/2020/10/25/Load-AssetBundle/
 https://prince-y-p.com/2020/10/25/U3D-Draw-Call-Batching/
 https://prince-y-p.com/2020/10/25/OS-Shell-on-UNIX-like-systems/
 https://prince-y-p.com/2020/10/03/Lua-installation-of-luacheck/
-https://prince-y-p.com/2020/09/14/CG-gamma-correction-in-unity/
