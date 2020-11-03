@@ -20,11 +20,11 @@
       
         <tags>
             
+            <tag> Asset </tag>
+            
             <tag> Rendering </tag>
             
             <tag> Texture </tag>
-            
-            <tag> Asset </tag>
             
         </tags>
       
@@ -78,9 +78,9 @@
       
         <tags>
             
-            <tag> Asset </tag>
-            
             <tag> rendering </tag>
+            
+            <tag> Asset </tag>
             
         </tags>
       
@@ -232,7 +232,7 @@
     
     
     <entry>
-      <title>理解伽马校正(Gamma Correction)与Unity的Gamma or Linear workflow</title>
+      <title>【渲染】理解伽马校正(Gamma Correction)与Unity的Gamma or Linear workflow</title>
       <link href="2020/09/14/CG-gamma-correction-in-unity/"/>
       <url>2020/09/14/CG-gamma-correction-in-unity/</url>
       
@@ -247,6 +247,8 @@
       
       
         <tags>
+            
+            <tag> Rendering </tag>
             
             <tag> CG </tag>
             
