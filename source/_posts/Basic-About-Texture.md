@@ -1,6 +1,6 @@
 ---
 title: 【基础】纹理(Texture)知识知多少
-date: 2020-11-03 20:53:00
+date: 2020-11-06 17:36:00
 categories:
 - Unity3D
 tags:
@@ -10,7 +10,57 @@ tags:
 catalog: true
 ---
 
-纹理(Texture)，也称纹理贴图（texture mapping），是表示物体表面细节的一幅或几幅二维图形。在计算机图形学中是把存储在内存里的位图包裹到3D渲染物体的表面。纹理贴图给物体提供了丰富的细节，用简单的方式模拟出了复杂的外观。一个图像（纹理）被贴(映射)到场景中的一个简单形体上，就像印花贴到一个平面上一样。这大大减少了在场景中制作形体和纹理的计算量。
+
+## Overview
+**纹理**最初的目的就是使用一张图片来控制模型的外观。使用**纹理映射（texture mapping）**技术，我们可以把一张图“黏”在模型表面，逐**纹素（texel）**（纹素的名字是为了和像素进行区分）地控制模型的颜色。
+
+## UV坐标
+**纹理映射坐标（texture-mapping coordinates） / UV坐标：** 存储在每个顶点上，定义了该顶点在纹理中对应的2D坐标。通常，这些坐标使用一个二维变量(u，v)来表示，其中u是横向坐标，而v是纵向坐标。
+
+> 顶点UV坐标的范围通常都被归一化到[0，1]范围内。
+> 在OpenGL里，纹理空间的原点位于左下角，而在DirectX中，原点位于左上角。Unity使用的纹理空间是符合OpenGL的传统的
+
+### uv, uv2, uv3, uv4
+![Alt text](./UV.png)
+unity一共支持4套uv，在shader编程中，分别叫UV0, UV1, UV2, UV3，而在c＃编程中分别叫uv, uv2, uv3, uv4。
+通常来说(使用c# API中的命名)，uv用于主纹理, uv2用于光照贴图(Lightmap)的采样, uv3用于实时动态光照, uv4可进行自定义。
+uv2可以在建模软件中添加，也可以在Unity中通过Generate Lightmap UVs的选项来生成。如果在建模软件中只做了一套uv，将模型导入unity的时候，在导入设置中勾选Generate Lightmap UVs, unity会自动为我们生成用于光照贴图的uv2。uv3和uv4的使用较为少见，通常是用来配合特殊的Shader实现特殊的效果。
+
+> 3DMax和maya等软件都能对模型加多套uv
+> 注意模型在fbx里可以保留多套uv，但是obj里只能保留默认的第一套
+> 另外unity里现在貌似支持最多四套
+
+### 清除不必要的UV通道
+某些时候，因为美术的一些意外操作，会引入多个我们不需要的UV通道。
+由于unity的光照贴图会自动占用uv2通道，如果你的项目中又使用的是动态加载光照贴图的方式的话，最好不要在导入模型的时候把UV2设置为null，如果你这样做了有可能会导致光照贴图显示不出来的问题。
+如果物体不需要烘培，你自己也不使用uv2，则可以删除该通道。
+
+```cs
+//删除color和uv
+public class ClearModelUV:AssetPostprocessor
+{
+
+	void OnPostprocessModel(GameObject rImaportModel)
+	{
+		this.ClearMeshUVAndColorChannel(rImaportModel);
+	}
+
+	private void ClearMeshUVAndColorChannel(GameObject rImportModel)
+	{
+		List<Vector2> rNewUV = null;
+		List<Color32> rNewColor = null;
+		var rFilters= rImportModel.GetComponentsInChildren<MeshFilter>();
+		for (int filter_index = 0; filter_index < rFilters.Length; filter_index++)
+		{
+			rFilters[filter_index].sharedMesh.SetColors(rNewColor);
+			rFilters[filter_index].sharedMesh.SetUVs(1, rNewUV);
+			rFilters[filter_index].sharedMesh.SetUVs(2, rNewUV);
+			rFilters[filter_index].sharedMesh.SetUVs(3, rNewUV);
+		}
+	}
+}
+```
+
 ## 属性
 ### Texture Type
 Default 默认的纹理类型，普通的图片
@@ -458,3 +508,5 @@ https://www.jianshu.com/p/bec1a7514b08
 https://blog.csdn.net/ynnmnm/article/details/44983545
 https://www.jianshu.com/p/832e242523a4
 https://blog.csdn.net/skymanwu/article/details/295121
+《Unity Shader入门精要》 冯乐乐
+https://zhuanlan.zhihu.com/p/126752791
