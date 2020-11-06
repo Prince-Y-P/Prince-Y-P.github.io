@@ -24,7 +24,7 @@ permalink_defaults:
 #email: hexo-theme-snail@mail.com
 #description: "A hexo theme"
 keyword: "Prin, hexo-theme-snail"
-header-img: img/header_img/home-bg-1-dark.jpg
+header-img: img/header_img/home-bg-1.jpg
 signature: true #show signature
 signature-img: img/signature/Prin-white.png
 
@@ -237,7 +237,7 @@ bg_effects:
           ,"rgb(76,180,231)"
           ,"rgb(184,90,154)"'
   wave:
-    enable: true
+    enable: false
 
 # Color Theme
 ## light , dark or star
