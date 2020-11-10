@@ -96,7 +96,6 @@ Advanced 高级(可自定义一些贴图属性)
 除非此PNG图片仅仅用于UI显示。
 
 ### Advanced
-Ref: https://blog.csdn.net/qq_29266497/article/details/81515326
 
 Non Power of 2：NPOT的处理方式。
 Read/Write Enabled：读写开关，非必要不开启，否则会增加一倍的 内存。
@@ -359,6 +358,8 @@ Only POT textures can be compressed to ETC1 format. ( 只有POT(Power of two,2�
 * ToSmaller：512x512
 
 
+
+
 ## 实用的小工具
 ### Texture转换成Texture2D
 ```cs
@@ -503,10 +504,14 @@ Alpha通道
 专色通道
 矢量通道
 
+
+
 ## Ref
+
+《Unity Shader入门精要》 冯乐乐
+https://zhuanlan.zhihu.com/p/126752791
 https://www.jianshu.com/p/bec1a7514b08
 https://blog.csdn.net/ynnmnm/article/details/44983545
 https://www.jianshu.com/p/832e242523a4
 https://blog.csdn.net/skymanwu/article/details/295121
-《Unity Shader入门精要》 冯乐乐
-https://zhuanlan.zhihu.com/p/126752791
+https://blog.csdn.net/qq_29266497/article/details/81515326

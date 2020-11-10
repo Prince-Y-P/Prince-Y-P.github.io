@@ -10,6 +10,7 @@ tags:
 catalog: true
 ---
 
+
 ## 相关概念
 ### 纹理映射 与 纹理采样
 纹理映射：使用uv坐标将纹理像素(texel)映射到屏幕像素(pixel)的过程。
@@ -36,9 +37,11 @@ In mathematics, linear interpolation is a method of curve fitting using linear p
 > 当三维空间里面的多边形经过坐标变换、投影、光栅化等过程，变成二维屏幕上的一组象素的时候，对每个象素需要到相应纹理图像中进行采样，**纹理过滤**或者说**纹理平滑**是在纹理采样中使采样结果更加合理，以减少各种人为产生的穿帮现象的技术。
 
 纹理滤波主要分为两类：
-*  **放大过滤（magnification filtering）**: reconstruction filter where sparse data is interpolated to fill gaps. （填充缺口）。一个纹理单元对应着多个像素。
+*  **放大过滤（magnification filtering）**: reconstruction filter where sparse data is interpolated to fill gaps. （填充缺口）。一个纹理单元对应着多个像素。需要进行插值，平滑，防止马赛克现象。
 
 *  **缩小过滤（minification filtering）**: anti-aliasing (AA), where texture samples exist at a higher frequency than required for the sample frequency needed for texture fill. （抗锯齿）。一个像素对应着多个纹理单元。
+
+
 
 > There are many methods of texture filtering, which make different trade-offs between computational complexity, memory bandwidth and image quality.
 
@@ -51,10 +54,13 @@ In mathematics, linear interpolation is a method of curve fitting using linear p
 ---
 
 * 纹理放大(Texture Magnification)：the texels are larger than screen pixels, and need to be scaled up appropriately - a process known as texture magnification.
-当最后呈现到屏幕中的尺寸比纹理实际尺寸大的时候，许多个像素都映射到同一纹理，此时需要对纹理进行放大过滤（magnification filtering）。
+当最后呈现到屏幕中的尺寸比纹理实际尺寸大的时候，许多个像素都映射到同一纹素。纹理放大如果不进行过滤，会造成马赛克现象。此时需要对纹理进行放大过滤（magnification filtering），使用插值方法，进行平滑。
 
 * 纹理缩小(Texture Minification)：each texel is smaller than a pixel, and so one pixel covers multiple texels. In this case an appropriate color has to be picked based on the covered texels, via texture minification.
-当最后呈现到屏幕中的尺寸比纹理实际尺寸小的时候，一个像素被映射到许多纹理像素上，此时需要对纹理进行缩小过滤（minification filtering）。
+当最后呈现到屏幕中的尺寸比纹理实际尺寸小的时候，一个像素被映射到许多纹理像素上。此时需要对纹理进行缩小过滤（minification filtering）。纹理缩小会由于精度损失造成贴图的扭曲。
+
+如图所示，过度的纹理缩小会造成高频走样问题，贴图出现扭曲（波纹）。
+![Alt text](./1605006132395.png)
 
 ### 为什么称为滤波(Filter)
 **图像其实是一种波，可以用波的算法处理图像**
@@ -96,6 +102,8 @@ Solution: Use different levels of detail according to the distance between objec
 > 名称由来：mip = "multum in parvo"，拉丁语。
 
 在纹理缩小过程中，被贴上纹理的多边形距离很远时，纹理的多个纹素可能只落在一个屏幕像素中。需要读取多个纹素并通过合并他们的值的方式来决定屏幕像素的颜色，这样计算开销很大。Mipmapping会对纹理进行预过滤，并以较小的分辨率进行存储，从而避免运行时进行如此计算的开销。
+
+> 在3D场景中，由于距离问题，物体的纹理需要经常被缩放、拉伸，使用Mipmap会减小运行过程中的计算量，提升GPU效率。而在UI中，一般不需要繁缩放图片（特殊需求除外），因此不建议开启Mipmap，否则会造成内存浪费。
 
 #### 实现方法
 Solves LOD problem by generating a pyramid of textures：
@@ -165,7 +173,9 @@ The nearest neighbor algorithm selects the value of the nearest point and does n
 
 
 ##### 高频走样（波纹和闪烁现象）
-当minify时，一个pixel"覆盖"多个texel，相邻的两个pixel取的texel太远，在纹理图上可能是两个完全不相邻、完全没有关系的像素。对于高频图像，大量信息被压缩在相对比较小的空间中，则像素变化微小时，色彩变化会剧烈，这个问题在物理上叫做高频走样。在绘制地板和远处物体时会由于这个原因，导致**波纹和闪烁（sparkling）**。
+当minify时，一个pixel"覆盖"多个texel，相邻的两个pixel取的texel太远，在纹理图上可能是两个完全不相邻、完全没有关系的像素。对于高频图像，大量信息被压缩在相对比较小的空间中，则像素变化微小时，色彩变化会剧烈，这个问题在物理上叫做高频走样。在绘制地板和远处物体时会由于这个原因，导致**波纹（扭曲）和闪烁（sparkling）**。
+
+
 
 在看向地板远端的时候，会发现采样的结果并不连续，而是扭曲的波纹，移动摄像机后，会出现闪烁的问题，看起来非常糟糕。这是由于纹理在远处采样时pixel和它相邻的pixel跨越的texel太长，使在纹理中不相邻的两个texel（或者它们双线性插值的结果）被绘制在了一起。
 
