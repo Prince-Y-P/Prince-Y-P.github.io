@@ -2,7 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://prince-y-p.com/2020/11/06/Basic-About-Texture/</loc>
-    <lastmod>2020-11-06</lastmod>
+    <lastmod>2020-11-10</lastmod>
+  </url>
+  <url>
+    <loc>https://prince-y-p.com/2020/10/28/CG-About-Texture-Filtering/</loc>
+    <lastmod>2020-11-10</lastmod>
   </url>
   <url>
     <loc>https://prince-y-p.com/2020/09/14/CG-gamma-correction-in-unity/</loc>
@@ -18,10 +22,6 @@
   </url>
   <url>
     <loc>https://prince-y-p.com/2020/10/25/Basic-Render-pipeline/</loc>
-    <lastmod>2020-10-28</lastmod>
-  </url>
-  <url>
-    <loc>https://prince-y-p.com/2020/10/28/CG-About-Texture-Filtering/</loc>
     <lastmod>2020-10-28</lastmod>
   </url>
   <url>

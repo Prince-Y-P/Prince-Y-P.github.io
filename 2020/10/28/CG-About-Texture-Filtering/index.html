@@ -129,8 +129,8 @@
                         
                             <div class="blank_box"></div>
                             <span class="meta">
-                                Words <span class="post-count">5.2k</span> and
-                                Reading Time <span class="post-count">19</span> Minutes
+                                Words <span class="post-count">5.3k</span> and
+                                Reading Time <span class="post-count">20</span> Minutes
                             </span>
                             <div class="blank_box"></div>
                             <!-- 不蒜子统计 start -->
@@ -186,14 +186,14 @@
 
                         
                         <li>
-                            <a href="/categories/">Categories</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/categories/">Categories</a>
                         </li>
                         
                     
@@ -207,14 +207,14 @@
 
                         
                         <li>
-                            <a href="/photography/">Photography</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/photography/">Photography</a>
                         </li>
                         
                     
@@ -289,7 +289,7 @@
 </blockquote>
 <p>纹理滤波主要分为两类：</p>
 <ul>
-<li><p><strong>放大过滤（magnification filtering）</strong>: reconstruction filter where sparse data is interpolated to fill gaps. （填充缺口）。一个纹理单元对应着多个像素。</p>
+<li><p><strong>放大过滤（magnification filtering）</strong>: reconstruction filter where sparse data is interpolated to fill gaps. （填充缺口）。一个纹理单元对应着多个像素。需要进行插值，平滑，防止马赛克现象。</p>
 </li>
 <li><p><strong>缩小过滤（minification filtering）</strong>: anti-aliasing (AA), where texture samples exist at a higher frequency than required for the sample frequency needed for texture fill. （抗锯齿）。一个像素对应着多个纹理单元。</p>
 </li>
@@ -304,11 +304,12 @@
 </ol>
 <hr>
 <ul>
-<li><p>纹理放大(Texture Magnification)：the texels are larger than screen pixels, and need to be scaled up appropriately - a process known as texture magnification.<br>当最后呈现到屏幕中的尺寸比纹理实际尺寸大的时候，许多个像素都映射到同一纹理，此时需要对纹理进行放大过滤（magnification filtering）。</p>
+<li><p>纹理放大(Texture Magnification)：the texels are larger than screen pixels, and need to be scaled up appropriately - a process known as texture magnification.<br>当最后呈现到屏幕中的尺寸比纹理实际尺寸大的时候，许多个像素都映射到同一纹素。纹理放大如果不进行过滤，会造成马赛克现象。此时需要对纹理进行放大过滤（magnification filtering），使用插值方法，进行平滑。</p>
 </li>
-<li><p>纹理缩小(Texture Minification)：each texel is smaller than a pixel, and so one pixel covers multiple texels. In this case an appropriate color has to be picked based on the covered texels, via texture minification.<br>当最后呈现到屏幕中的尺寸比纹理实际尺寸小的时候，一个像素被映射到许多纹理像素上，此时需要对纹理进行缩小过滤（minification filtering）。</p>
+<li><p>纹理缩小(Texture Minification)：each texel is smaller than a pixel, and so one pixel covers multiple texels. In this case an appropriate color has to be picked based on the covered texels, via texture minification.<br>当最后呈现到屏幕中的尺寸比纹理实际尺寸小的时候，一个像素被映射到许多纹理像素上。此时需要对纹理进行缩小过滤（minification filtering）。纹理缩小会由于精度损失造成贴图的扭曲。</p>
 </li>
 </ul>
+<p>如图所示，过度的纹理缩小会造成高频走样问题，贴图出现扭曲（波纹）。<br><img src="./1605006132395.png" alt="Alt text"></p>
 <h3 id="为什么称为滤波-Filter"><a href="#为什么称为滤波-Filter" class="headerlink" title="为什么称为滤波(Filter)"></a>为什么称为滤波(Filter)</h3><p><strong>图像其实是一种波，可以用波的算法处理图像</strong></p>
 <h4 id="图像是波"><a href="#图像是波" class="headerlink" title="图像是波"></a>图像是波</h4><p>每个像素的颜色，可以用红、绿、蓝、透明度四个值描述，大小范围都是0 ～ 255，比如黑色是[0, 0, 0, 255]，白色是[255, 255, 255, 255]。<br><img src="./bg2017121302.png" alt="Alt text"><br>每条曲线都在不停的上下波动。有些区域的波动比较小，有些区域突然出现了大幅波动（比如 54 和 324 这两点）。曲线波动较大的地方，也是图像出现突变的地方。这说明波动与图像是紧密关联的。图像本质上就是各种色彩波的叠加。</p>
 <h4 id="频率（frequency）"><a href="#频率（frequency）" class="headerlink" title="频率（frequency）"></a>频率（frequency）</h4><p>图像就是色彩的波动：波动大，就是色彩急剧变化；波动小，就是色彩平滑过渡。因此，波的各种指标可以用来描述图像。<br>频率（frequency）是波动快慢的指标，单位时间内波动次数越多，频率越高，反之越低。<br><strong>色彩剧烈变化的地方，就是图像的高频区域；色彩稳定平滑的地方，就是低频区域。</strong></p>
@@ -331,6 +332,9 @@
 <p>名称由来：mip = “multum in parvo”，拉丁语。</p>
 </blockquote>
 <p>在纹理缩小过程中，被贴上纹理的多边形距离很远时，纹理的多个纹素可能只落在一个屏幕像素中。需要读取多个纹素并通过合并他们的值的方式来决定屏幕像素的颜色，这样计算开销很大。Mipmapping会对纹理进行预过滤，并以较小的分辨率进行存储，从而避免运行时进行如此计算的开销。</p>
+<blockquote>
+<p>在3D场景中，由于距离问题，物体的纹理需要经常被缩放、拉伸，使用Mipmap会减小运行过程中的计算量，提升GPU效率。而在UI中，一般不需要繁缩放图片（特殊需求除外），因此不建议开启Mipmap，否则会造成内存浪费。</p>
+</blockquote>
 <h4 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h4><p>Solves LOD problem by generating a pyramid of textures：</p>
 <ul>
 <li>Highest texture resolution at pyramid level 0</li>
@@ -365,7 +369,7 @@
 <blockquote>
 <p>双线性插值解决了texel magnify时像素锯齿的问题，能根据采样点得到不同的颜色值，增加像素细节，只要不是一个uv，就会根据插值得到不同的结果。</p>
 </blockquote>
-<h5 id="高频走样（波纹和闪烁现象）"><a href="#高频走样（波纹和闪烁现象）" class="headerlink" title="高频走样（波纹和闪烁现象）"></a>高频走样（波纹和闪烁现象）</h5><p>当minify时，一个pixel”覆盖”多个texel，相邻的两个pixel取的texel太远，在纹理图上可能是两个完全不相邻、完全没有关系的像素。对于高频图像，大量信息被压缩在相对比较小的空间中，则像素变化微小时，色彩变化会剧烈，这个问题在物理上叫做高频走样。在绘制地板和远处物体时会由于这个原因，导致<strong>波纹和闪烁（sparkling）</strong>。</p>
+<h5 id="高频走样（波纹和闪烁现象）"><a href="#高频走样（波纹和闪烁现象）" class="headerlink" title="高频走样（波纹和闪烁现象）"></a>高频走样（波纹和闪烁现象）</h5><p>当minify时，一个pixel”覆盖”多个texel，相邻的两个pixel取的texel太远，在纹理图上可能是两个完全不相邻、完全没有关系的像素。对于高频图像，大量信息被压缩在相对比较小的空间中，则像素变化微小时，色彩变化会剧烈，这个问题在物理上叫做高频走样。在绘制地板和远处物体时会由于这个原因，导致<strong>波纹（扭曲）和闪烁（sparkling）</strong>。</p>
 <p>在看向地板远端的时候，会发现采样的结果并不连续，而是扭曲的波纹，移动摄像机后，会出现闪烁的问题，看起来非常糟糕。这是由于纹理在远处采样时pixel和它相邻的pixel跨越的texel太长，使在纹理中不相邻的两个texel（或者它们双线性插值的结果）被绘制在了一起。</p>
 <ul>
 <li>波纹是由于屏幕像素有限，原本不相邻的像素被绘制在一起导致的</li>

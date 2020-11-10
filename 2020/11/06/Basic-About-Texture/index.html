@@ -186,14 +186,14 @@
 
                         
                         <li>
-                            <a href="/categories/">Categories</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/categories/">Categories</a>
                         </li>
                         
                     
@@ -207,14 +207,14 @@
 
                         
                         <li>
-                            <a href="/photography/">Photography</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/photography/">Photography</a>
                         </li>
                         
                     
@@ -297,8 +297,7 @@
 <h3 id="Alpha-Is-Transparen"><a href="#Alpha-Is-Transparen" class="headerlink" title="Alpha Is Transparen"></a>Alpha Is Transparen</h3><p>当alpha用于透明处理时，我们要勾上该选项，可以防止不透明边缘锯齿现象</p>
 <p>性”alpha is transparency”，原理是在压缩之前对贴图进行颜色放大处理来搞定边缘锯齿问题，这个颜色放大处理等同于ps里的最小值滤镜操作，对图片边缘做强化处理。</p>
 <p>一个坑：（<a href="http://blog.coolcoding.cn/?p=198）" target="_blank" rel="noopener">http://blog.coolcoding.cn/?p=198）</a><br>如果有一张PNG图片, 95%的地方是全透明的,而在全透明的地方,RGB值是有意义的;<br>如果设置了alphaIsTransparency属性,则全透明的地方,Unity会将RGB值全部丢失!!!<br>如果要使用此纹理的4个通道做数据存储时(比如地型的4通道混合)<br>千万不能勾选alphaIsTransparency属性<br>除非此PNG图片仅仅用于UI显示。</p>
-<h3 id="Advanced"><a href="#Advanced" class="headerlink" title="Advanced"></a>Advanced</h3><p>Ref: <a href="https://blog.csdn.net/qq_29266497/article/details/81515326" target="_blank" rel="noopener">https://blog.csdn.net/qq_29266497/article/details/81515326</a></p>
-<p>Non Power of 2：NPOT的处理方式。<br>Read/Write Enabled：读写开关，非必要不开启，否则会增加一倍的 内存。<br>Generate Mip Maps：生成Mip Maps，会增加33%的内存。一般用 于模型纹理，UI、天空盒等纹理不需要开启。<br>Border Mip Maps：防止低阶的Mip Map的色彩值溢出边界，一般用 于光照Cookie。<br>Mip Map Filtering：过滤算法，Box和Kaiser。<br>Fadeout Mip Maps：根据层阶使Mip Map慢慢变灰，一般用于细节 贴图（DetailMaps）。</p>
+<h3 id="Advanced"><a href="#Advanced" class="headerlink" title="Advanced"></a>Advanced</h3><p>Non Power of 2：NPOT的处理方式。<br>Read/Write Enabled：读写开关，非必要不开启，否则会增加一倍的 内存。<br>Generate Mip Maps：生成Mip Maps，会增加33%的内存。一般用 于模型纹理，UI、天空盒等纹理不需要开启。<br>Border Mip Maps：防止低阶的Mip Map的色彩值溢出边界，一般用 于光照Cookie。<br>Mip Map Filtering：过滤算法，Box和Kaiser。<br>Fadeout Mip Maps：根据层阶使Mip Map慢慢变灰，一般用于细节 贴图（DetailMaps）。</p>
 <h3 id="Wrap-Mode"><a href="#Wrap-Mode" class="headerlink" title="Wrap Mode"></a>Wrap Mode</h3><p>Wrap mode determines how texture is sampled when texture coordinates are outside of the typical 0..1 range.<br>这由纹理的映射函数来决定。在OpenGL中，这类映射函数称为“Texture Wrapping Mode”；在D3D中，称为“Texture Addressing Mode”。</p>
 <h4 id="Repeat-重复"><a href="#Repeat-重复" class="headerlink" title="Repeat   重复"></a>Repeat   重复</h4><p>Tiles the texture, creating a repeating pattern.<br>When UVs are outside of the 0…1 range, the integer part will be ignored, thus creating a repeating pattern.<br>在算法上，忽略纹理坐标的整数部分，并将纹理图的拷贝粘贴在物体表面上。对于大多数复制纹理的使用，在纹理顶部的纹理单元应与底部的纹理单元相匹配，在纹理左侧的纹理单元也应与右侧的纹理单元相匹配。这样才能做到无缝连接。</p>
 <h4 id="Clamp-拉伸"><a href="#Clamp-拉伸" class="headerlink" title="Clamp    拉伸"></a>Clamp    拉伸</h4><p>makes the texture edge pixels be stretched when outside of of 0..1 range.<br>This is useful for preventing wrapping artifacts when mapping an image onto an object and you don’t want the texture to tile. UV coordinates will be clamped to the range 0…1. When UVs are larger than 1 or smaller than 0, the last pixel at the border will be used.<br>将大于1.0的数值设置为1.0，将小于0.0的数值设置为0.0，即将超出[0.0,1.0]范围的数值截取到[0.0,1.0]范围内，这样会导致纹理边缘的重复。</p>
@@ -451,7 +450,7 @@
 <p>真正让图片变透明的不是Alpha 实际是Alpha所代表的数值和其他数值做了一次运算<br>比如你有一张图片你想抠出图片中间的一部分 在PS里你会建立一个蒙板 然后在蒙板里把不需要的地方填充成黑色 需要的留成白色 这个时候实际上是是做了一次乘法<br>用黑色所代表的数值0去乘以你所填充的地方 那么这个地方就变透明了</p>
 <p>设Alpha值[0，255]区间映射为[0，1]区间相对应的值表示，即Alpha值为0—1之间的数值。则图形文件中各个像素点可表示为：<br>Graphx（Redx，Greenx，Bulex，Alphax）<br>屏幕上相应像素点的显示值就转换为：<br>Dispx（Redx<em>Alphax，Greenx</em>Alphax，Bluex*Alphax）</p>
 <h3 id="通道"><a href="#通道" class="headerlink" title="通道"></a>通道</h3><p>Alpha通道<br>颜色通道<br>复合通道<br>专色通道<br>矢量通道</p>
-<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://www.jianshu.com/p/bec1a7514b08" target="_blank" rel="noopener">https://www.jianshu.com/p/bec1a7514b08</a><br><a href="https://blog.csdn.net/ynnmnm/article/details/44983545" target="_blank" rel="noopener">https://blog.csdn.net/ynnmnm/article/details/44983545</a><br><a href="https://www.jianshu.com/p/832e242523a4" target="_blank" rel="noopener">https://www.jianshu.com/p/832e242523a4</a><br><a href="https://blog.csdn.net/skymanwu/article/details/295121" target="_blank" rel="noopener">https://blog.csdn.net/skymanwu/article/details/295121</a><br>《Unity Shader入门精要》 冯乐乐<br><a href="https://zhuanlan.zhihu.com/p/126752791" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/126752791</a></p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p>《Unity Shader入门精要》 冯乐乐<br><a href="https://zhuanlan.zhihu.com/p/126752791" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/126752791</a><br><a href="https://www.jianshu.com/p/bec1a7514b08" target="_blank" rel="noopener">https://www.jianshu.com/p/bec1a7514b08</a><br><a href="https://blog.csdn.net/ynnmnm/article/details/44983545" target="_blank" rel="noopener">https://blog.csdn.net/ynnmnm/article/details/44983545</a><br><a href="https://www.jianshu.com/p/832e242523a4" target="_blank" rel="noopener">https://www.jianshu.com/p/832e242523a4</a><br><a href="https://blog.csdn.net/skymanwu/article/details/295121" target="_blank" rel="noopener">https://blog.csdn.net/skymanwu/article/details/295121</a><br><a href="https://blog.csdn.net/qq_29266497/article/details/81515326" target="_blank" rel="noopener">https://blog.csdn.net/qq_29266497/article/details/81515326</a></p>
 
                 
                 <hr>
