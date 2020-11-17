@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="baidu-site-verification" content="093lY4ziMu" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="keyword"  content="Prin, hexo-theme-snail">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
+    <title>
+        
+          【CG】齐次坐标(homogeneous coordinates )与坐标变换(transformation) - undefined
+        
+    </title>
+
+    <link rel="canonical" href="https://prince-y-p.com/2020/11/17/CG-homogeneous-coordinates-and-transformation/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS --> 
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
+    
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('')
+                /*post*/
+            
+        
+    }
+    
+    #signature{
+        background-image: url('/img/signature/Prin-white.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Rendering" title="Rendering">Rendering</a>
+                            
+                              <a class="tag" href="/tags/#CG" title="CG">CG</a>
+                            
+                              <a class="tag" href="/tags/#math" title="math">math</a>
+                            
+                        </div>
+                        <h1>【CG】齐次坐标(homogeneous coordinates )与坐标变换(transformation)</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Prin on
+                            2020-11-17
+                        </span>
+
+                        
+                            <div class="blank_box"></div>
+                            <span class="meta">
+                                Words <span class="post-count">3.7k</span> and
+                                Reading Time <span class="post-count">17</span> Minutes
+                            </span>
+                            <div class="blank_box"></div>
+                            <!-- 不蒜子统计 start -->
+                            <span class="meta">
+                                Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+                            </span>
+                            <!-- 不蒜子统计 end -->
+                        
+
+                    </div>
+                
+
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Prin&#39;s World</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/categories/">Categories</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/photography/">Photography</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                    
+                    <li>
+                        <a href="YOUR_CHINESE_BLOG_URL" target="_blank">Chinese Blog</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>同一个事物，从不同的视角去看，会有不同的理解。而任何一个视角看到的，都不是事物的全部，任何一种解释，都无法完全描述这个事物。单纯用一种方式去理解它，一定是片面的。只有从不同的层次、不同的角度去理解，我们的认知才能不断逼近这个事物的真相。<br>本文借鉴多位博主的研究成果，企图整理从不同的角度对齐次坐标的理解，帮助感兴趣的朋友更透彻地理解齐次坐标到底是什么，有什么意义，如何应用。</p>
+<h2 id="齐次坐标引入"><a href="#齐次坐标引入" class="headerlink" title="齐次坐标引入"></a>齐次坐标引入</h2><h3 id="Problem-Two-parallel-lines-can-intersect"><a href="#Problem-Two-parallel-lines-can-intersect" class="headerlink" title="Problem: Two parallel lines can intersect."></a>Problem: Two parallel lines can intersect.</h3><ul>
+<li><p>欧氏几何空间<br>In <strong>Euclidean space (geometry)</strong> - two parallel lines on the same plane cannot intersect, or cannot meet each other forever.</p>
+</li>
+<li><p>透视空间 - 无穷远处相交<br>In projective space - Finally, the two parallel rails meet at the horizon, which is a point at infinity.<br><img src="./1605592065160.png" alt="Alt text"></p>
+</li>
+</ul>
+<blockquote>
+<p>(Actually, Euclidean geometry is a subset of projective geometry</p>
+</blockquote>
+<p>The Cartesian coordinates of a 2D point can be expressed as (x, y).</p>
+<p>What if this point goes far away to infinity? The point at infinity would be (∞,∞), and it becomes meaningless in Euclidean space. <strong>The parallel lines should meet at infinity in projective space, but cannot do in Euclidean space.</strong></p>
+<h3 id="Solution-Homogeneous-Coordinates"><a href="#Solution-Homogeneous-Coordinates" class="headerlink" title="Solution: Homogeneous Coordinates"></a>Solution: Homogeneous Coordinates</h3><p>Homogeneous coordinates are a way of <strong>representing N-dimensional coordinates with N+1 numbers</strong>.</p>
+<p>(1, 2) becomes (1, 2, 1) in Homogeneous<br>If (1, 2) moves toward infinity, it becomes (∞,∞) in Cartesian coordinates. And it becomes (1, 2, 0) in Homogeneous coordinates.</p>
+<p><strong>We can express the point at infinity without using “∞”.</strong></p>
+<h3 id="Why-is-it-called-“homogeneous”"><a href="#Why-is-it-called-“homogeneous”" class="headerlink" title="Why is it called “homogeneous”?"></a>Why is it called “homogeneous”?</h3><p>Homogeneous coordinates are scale invariant.<br>(1a, 2a, 3a) in Homogeneous coordinates is the same point as (1/3, 2/3) in Euclidean space.<br>These points are “homogeneous” because they represent the same point in Euclidean space (or Cartesian space).</p>
+<h3 id="Proof-Two-parallel-lines-can-intersect"><a href="#Proof-Two-parallel-lines-can-intersect" class="headerlink" title="Proof: Two parallel lines can intersect."></a>Proof: Two parallel lines can intersect.</h3><p><img src="./1605593492210.png" alt="Alt text"></p>
+<ul>
+<li>if C ≠ D -&gt; there is no solution</li>
+<li>if C = D -&gt; two lines are identical (overlapped)</li>
+</ul>
+<p>笛卡尔坐标系下，两平行线要么重叠，要么永不相交。</p>
+<hr>
+<p>Rewrite the equations for projective space：<br><img src="./1605593639293.png" alt="Alt text"><br>we have a solution, (x, y, 0)<br>two parallel lines meet at (x, y, 0), which is the point at infinity.</p>
+<h2 id="意义"><a href="#意义" class="headerlink" title="意义"></a>意义</h2><p>从数学的角度讲：</p>
+<ul>
+<li>区分向量和点</li>
+<li>可以表示无穷远的点</li>
+<li>易于进行 仿射变化（Affine Transformation）。提供了用矩阵运算把二维、三维甚至高维空间中的一个点集从一个坐标系变换到另一个坐标系的有效方法。</li>
+</ul>
+<p>从现实意义的角度讲：</p>
+<ul>
+<li>描述透视空间</li>
+<li>区分不同位置的向量</li>
+</ul>
+<h3 id="区分向量和点"><a href="#区分向量和点" class="headerlink" title="区分向量和点"></a>区分向量和点</h3><p>问题：笛卡尔坐标系下，三维坐标既可以表示向量，也可以表示点，从坐标上无法区分。<br>而实质上，向量和点是有区别的，点的位置是对这个基的原点o所进行的一个位移。<br>当我们在坐标系 xOy 中</p>
+<ul>
+<li>用 (a,b) 定义一个向量 <strong>v</strong> 时，表示 <strong>v</strong> =a<strong>x</strong> +b<strong>y</strong></li>
+<li>用 (a,b) 表示一个点 p 时，表示 p−o=a<strong>x</strong> +b<strong>y</strong></li>
+</ul>
+<p>假若写下 (2,1)，如无附加说明，不能区别出它是向量还是点。<br>将点的表示重写为：<br><img src="./1605605087117.png" alt="Alt text"></p>
+<p>将向量的表示写为:<br><img src="./1605605093577.png" alt="Alt text"></p>
+<p>这样能够清晰地区分向量和点。数学家使用这种方式表示坐标 - 在n维向量（或坐标点）后面增加一维，这便是齐次坐标的思想。</p>
+<p>通过如下方式可将三维坐标转换成齐次坐标：</p>
+<ul>
+<li>把3D向量的第4个代数分量设置为0</li>
+<li>把3D点的第4个代数分量设置为1</li>
+</ul>
+<p>对于一个普通坐标的点P=(Px, Py, Pz)，有对应的<strong>一族</strong>齐次坐标(wPx, wPy, wPz, w)，其中w不等于零。</p>
+<blockquote>
+<p>比如，P(1, 4, 7)的齐次坐标有(1, 4, 7, 1)、（2, 8, 14, 2）、（-0.1, -0.4, -0.7, -0.1）等等。</p>
+</blockquote>
+<p>最后一个代数分量w称为<strong>比例因子</strong><br>当w=0时，可解释为无穷远的“点”，其意义是描述方向（既然已经是“无穷远”了，其实际位置已经没有意义了，只有用于描述方向的意义）。因此，w=0时，该坐标表示一个向量。对该坐标进行平移变换，不会产生效果，计算过程如图：<br><img src="./1605606438308.png" alt="Alt text"><br>这也符合我们原先的认知：向量没有位置，只有大小和方向。</p>
+<h3 id="描述投影几何（-projective-geometry）"><a href="#描述投影几何（-projective-geometry）" class="headerlink" title="描述投影几何（ projective geometry）"></a>描述投影几何（ projective geometry）</h3><p>用眼睛观察世界有一个特点，就是越远的物体看起来就越小，而且我们还能通过“越远越小”这种视觉效果估算距离。 这种现象被称为透视现象，同样的存在这种现象的空间被称为<strong>投影空间</strong>。<br>在笛卡尔空间中，两条平行线是永远不会相交的，但是在透视空间中，两条平行线会相交于一点，这是两种空间最大的区别。</p>
+<p>Projective geometry has an extra dimension, called W, in addition to the X, Y, and Z dimensions. This four-dimensional space is called “projective space,” and coordinates in projective space are called “homogeneous coordinates.”<br>（x,y,z）在齐次空间中有无数多个点与之对应。所有点的形式是（wx,wy,wz,w），其轨迹是通过齐次空间原点的“直线”</p>
+<h4 id="An-Analogy-In-2D"><a href="#An-Analogy-In-2D" class="headerlink" title="An Analogy In 2D"></a>An Analogy In 2D</h4><p><img src="./1605607149931.png" alt="Alt text"><br>The W dimension is the distance from the projector to the screen.<br>The value of W affects the size (a.k.a. scale) of the image.</p>
+<h4 id="Applying-It-To-3D"><a href="#Applying-It-To-3D" class="headerlink" title="Applying It To 3D"></a>Applying It To 3D</h4><p> When W increases, the coordinate expands (scales up). When W decreases, the coordinate shrinks (scales down). The W is basically a scaling transformation for the 3D coordinate.</p>
+<p>The usual advice for 3D programming beginners is to always set W=1 whenever converting a 3D coordinate to a 4D coordinate.<br>when you scale a coordinate by 1 it doesn’t shrink or grow, it just stays the same size.</p>
+<p>When W=1 it has no effect on the X, Y or Z values.<br>For this reason, when it comes to 3D computer graphics, coordinates are said to be “<strong>correct</strong>” only when W=1.</p>
+<ul>
+<li>If you rendered coordinates with W&gt;1 then everything would look too small, and with W&lt;1 everything would look too big.</li>
+<li>If you tried to render with W=0 your program would crash when it attempted to divide by zero.</li>
+<li>With W&lt;0 everything would flip upside-down and back-to-front.</li>
+</ul>
+<blockquote>
+<p>Mathematically speaking, there is no such thing as an “incorrect” homogeneous coordinate. Using coordinates with <strong>W=1</strong> is just <strong>a useful convention</strong> for 3D computer graphics.</p>
+</blockquote>
+<h4 id="Uses-Of-Homogeneous-Coordinates-In-Computer-Graphics"><a href="#Uses-Of-Homogeneous-Coordinates-In-Computer-Graphics" class="headerlink" title="Uses Of Homogeneous Coordinates In Computer Graphics"></a>Uses Of Homogeneous Coordinates In Computer Graphics</h4><h5 id="Translation-Matrices-For-3D-Coordinates"><a href="#Translation-Matrices-For-3D-Coordinates" class="headerlink" title="Translation Matrices For 3D Coordinates"></a>Translation Matrices For 3D Coordinates</h5><p>In order to do translation, the matrices need to have at least four columns.<br>A four-column matrix can only be multiplied with a four-element vector, which is why we often use homogeneous 4D vectors instead of 3D vectors.</p>
+<blockquote>
+<p>W的几何意义与投影有关，也只有投影变换矩阵影响到w的值。平移、旋转、缩放矩阵都不影响W。</p>
+</blockquote>
+<p>The 4th dimension W is usually unchanged, when using homogeneous coordinates in matrix transformation. <strong>W is set to 1 when converting a 3D coordinate into 4D, and it is usually still 1 after the transformation matrices are applied, at which point it can be converted back into a 3D coordinate by ignoring the W.</strong> This is true for all <strong>translation</strong>, <strong>rotation</strong>, and <strong>scaling</strong> transformations, which are by far the most common types of transformations. <strong>The notable exception is projection matrices, which do affect the W dimension</strong>.</p>
+<h5 id="Perspective-Transformation"><a href="#Perspective-Transformation" class="headerlink" title="Perspective Transformation"></a>Perspective Transformation</h5><p>Perspective is implemented in 3D computer graphics by using a transformation matrix that changes the W element of each vertex.<br>After the the camera matrix is applied to each vertex, but before the projection matrix is applied, <strong>the Z element of each vertex represents the distance away from the camera</strong>. Therefore, the larger Z is, the more the vertex should be scaled down. The W dimension affects the scale, so <strong>the projection matrix just changes the W value based on the Z value</strong>.<br>投影矩阵根据深度（Z）计算W值，W值影响缩放。<br><img src="./1605610411957.png" alt="Alt text"></p>
+<p>投影矩阵相乘之后，执行透视除法，把齐次坐标转换成W=1的形式。<br>After the perspective projection matrix is applied, each vertex undergoes “perspective division.” Perspective division is just a specific term for converting the homogeneous coordinate back to W=1, as explained earlier in the article.<br><img src="./1605610619279.png" alt="Alt text"><br>After perspective division, the W value is discarded, and we are left with a 3D coordinate that has been correctly scaled according to a 3D perspective projection.</p>
+<blockquote>
+<p> In OpenGL, <strong>perspective division happens automatically after the vertex shader runs on each vertex.</strong> This is one reason why gl_Position, the main output of the vertex shader, is a 4D vector, not a 3D vector.</p>
+</blockquote>
+<h5 id="Positioning-Directional-Lights"><a href="#Positioning-Directional-Lights" class="headerlink" title="Positioning Directional Lights"></a>Positioning Directional Lights</h5><p>Points at <strong>infinity</strong> occur when W=0. Coordinates with W=0 can not be converted into 3D coordinates.</p>
+<p><strong>Directional lights</strong></p>
+<ul>
+<li>point lights that are infinitely far away.</li>
+<li>the rays of light become parallel, and all of the light travels in a single direction.</li>
+</ul>
+<p>W=1, then it is a point light.<br>W=0, then it is a directional light.</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(lightPosition.w == <span class="number">0.0</span>)&#123;</span><br><span class="line">    <span class="comment">//directional light code here</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//point light code here</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="仿射变换总结"><a href="#仿射变换总结" class="headerlink" title="仿射变换总结"></a>仿射变换总结</h2><h3 id="旋转、缩放到平移"><a href="#旋转、缩放到平移" class="headerlink" title="旋转、缩放到平移"></a>旋转、缩放到平移</h3><p>对于一个 2 维点 p=(x,y)，<strong>仿射变换</strong>（T）是线性变换（Ap）和平移变换（+t）的叠加:<br>T(p)=Ap+t</p>
+<blockquote>
+<p>计算机图形学中的图形变换，实际上是在仿射空间中进行的</p>
+</blockquote>
+<p>线性变换在欧式空间中可以表示为矩阵乘积形式，如旋转变换和缩放变换：<br><img src="./1605604356384.png" alt="Alt text"></p>
+<p>而平移变换<br><img src="./1605604375076.png" alt="Alt text"><br>却不能用矩阵相乘的形式表达。</p>
+<p>现在引入齐次坐标系表达 p~=(x,y,1)，（尺度不变性，实际上在高一维的空间映射到 w=1 平面, 这样计算后结果直接可导出到欧式空间）。可以将旋转变换和缩放变换表示为：<br><img src="./1605604526234.png" alt="Alt text"></p>
+<p>以二维向量为例，平移变换则为：<br><img src="./1605604714025.png" alt="Alt text"></p>
+<p>仿射变换的矩阵形式<br><img src="./1605604635107.png" alt="Alt text"></p>
+<p>齐次坐标把各种变换都在统一了起来，不管怎样变换，变换多少次，都可以表示成一连串的矩阵相乘。任何三维坐标空间的转换，都可以用一个四维矩阵表示。</p>
+<hr>
+<p>三维向量平移运算：<br><img src="./1605624685160.png" alt="Alt text"></p>
+<h3 id="透视投影变换"><a href="#透视投影变换" class="headerlink" title="透视投影变换"></a>透视投影变换</h3><h4 id="正交投影矩阵"><a href="#正交投影矩阵" class="headerlink" title="正交投影矩阵"></a>正交投影矩阵</h4><p>正交投影矩阵的视锥体是一个长方体[l,r][b,t][f,n]，我们要把这个长方体转换到一个正方体[-1,1][-1,1][-1,1]中，如图。<br><img src="./1605619846921.png" alt="Alt text"><br><img src="./1605619859591.png" alt="Alt text"><br>第一步平移，计算出长方体的中心点为[(l+r)/2,(b+t)/2,(f+n)/2]，然后将中心点移动到原点，矩阵为<br><img src="./1605619868421.png" alt="Alt text"><br>第二步缩放，例如从[l,r]缩放到[-1,1]，缩放系数为2/(r-l)，所以矩阵为<br><img src="./1605619877457.png" alt="Alt text"><br>所以正交投影矩阵Mortho = Mscale*Mtranslate</p>
+<h4 id="透视投影矩阵"><a href="#透视投影矩阵" class="headerlink" title="透视投影矩阵"></a>透视投影矩阵</h4><p>透视投影的视锥体是一个四棱锥的一部分，其中近平面为z=n，远平面为z=f，我们要把这个视锥体转换到一个正方体[-1,1][-1,1][-1,1]中，可以先把远平面压缩，把视锥体压缩成一个长方体，然后再通过第二步中的正交投影矩阵就可以变换到正方体中，如图。<br><img src="./1605620068159.png" alt="Alt text"><br>三个原则：</p>
+<ol>
+<li>近平面的所有点坐标不变</li>
+<li>远平面的所有点坐标z值不变 都是f</li>
+<li>远平面的中心点坐标值不变 为(0,0,f)<br><img src="./1605620366905.png" alt="Alt text"><br>由三角形相似性，对于(x,y,z,1)一点，它在视锥体压缩以后坐标应该为(nx/z,ny/z,unknow,1)。<br><img src="./1605620393640.png" alt="Alt text"><br>也就是我们现在需要找到一个矩阵Mpersp-&gt;ortho，使得上面的转换成立。<br>(x,y,z,1)与(kx,ky,kz,k!=0)这两个点是完全等价的点<br><img src="./1605620546915.png" alt="Alt text"><br>需要找到矩阵Mpersp-&gt;ortho，使得上面的转换成立。</li>
+</ol>
+<p>由（1）近平面的所有点坐标不变<br><img src="./1605621055364.png" alt="Alt text"><br>对于第一二四行，我们写出等式<br>nx+0y+0n+0<em>1=x<br>0x+ny+0n+0</em>1=y<br>0x+0y+1n+0<em>1=1<br>很明显这是有问题的，因为n应该是任意常数，但是现在只有在n等于1时，一二四行的运算才成立<br>所以我们根据前面的方法，再把(x,y,n,1)都乘以一个n等价变为(nx,ny,n</em>n,n)。<br><img src="./1605621104726.png" alt="Alt text"><br>对于第一二四行，我们写出等式<br>nx+0y+0n+0<em>1=nx,<br>0x+ny+0n+0</em>1=ny,<br>0x+0y+1n+0<em>1=n<br>完美成立。现在我们可以安心的求第三行了。<br>设第三行的四个数分别为ABCD<br>可以获得等式 Ax+By+Cn+D = n</em>n。<br>明显A=0,B=0<br>Cn+D = n*n (式1)</p>
+<p>我们接下来考虑第三个原则，远平面的中心点坐标值不变 为(0,0,f)<br>同样为了保证之前求的矩阵一二四行成立，我们需要把(0,0,f,1)写成(0,0,f<em>f,f)<br><img src="./1605621167044.png" alt="Alt text"><br>Cf+D = f</em>f（式2）</p>
+<p>联立式1式2，解得<br>C = n+f<br>D = -nf</p>
+<p>终于，我们求得了Mpersp-&gt;ortho矩阵为<br><img src="./1605621187419.png" alt="Alt text"><br>也就是通过这个矩阵，我们可以把原来的透视投影的视锥体压缩为正交投影的视锥体(长方体)<br>最后我们再乘上一开始求出来正交投影矩阵Morth就得到了透视投影矩阵<br>Mpersp = Mortho*Mpersp-&gt;ortho<br><img src="./1605621299525.png" alt="Alt text"></p>
+<p><img src="./1605621446770.png" alt="Alt text"></p>
+<p>推导过程及代码：<br><a href="http://ogldev.atspace.co.uk/www/tutorial12/tutorial12.html" target="_blank" rel="noopener">http://ogldev.atspace.co.uk/www/tutorial12/tutorial12.html</a></p>
+<p><strong>After multiplying the vertex position by the projection matrix the coordinates are said to be in Clip Space and after performing the perspective divide the coordinates are in NDC Space (Normalized Device Coordinates).</strong></p>
+<h2 id="渲染管线中坐标变换总结"><a href="#渲染管线中坐标变换总结" class="headerlink" title="渲染管线中坐标变换总结"></a>渲染管线中坐标变换总结</h2><h3 id="坐标变换过程"><a href="#坐标变换过程" class="headerlink" title="坐标变换过程"></a>坐标变换过程</h3><p><img src="./1605627042134.png" alt="Alt text"></p>
+<ul>
+<li>Object Coordinate System: 也称作Local coordinate System，用来定义一个模型本身的坐标系。</li>
+<li>World Coordinate System: 3d 虚拟世界中的绝对坐标系，定义好这个坐标系的原点就可以用来描述模型的实现的位置，Camera 的位置，光源的位置。</li>
+<li>View Coordinate System: 一般使用用来计算光照效果。</li>
+<li>Clip Coordinate System:  对3D场景使用投影变换裁剪视锥。</li>
+<li>Normalized device coordinate System (NDC): 归一化设备坐标系</li>
+<li>Windows Coordinate System: 最后屏幕显示的2D坐标系统，一般原点定义在屏幕左上角。<h3 id="MVP矩阵及使用"><a href="#MVP矩阵及使用" class="headerlink" title="MVP矩阵及使用"></a>MVP矩阵及使用</h3>模型（Model）、观察（View）和投影（Projection）矩阵</li>
+</ul>
+<p><img src="./1605625875848.png" alt="Alt text"></p>
+<h4 id="The-Model-matrix"><a href="#The-Model-matrix" class="headerlink" title="The Model matrix"></a>The Model matrix</h4><p>We went from Model Space (all vertices defined relatively to the center of the model) to World Space (all vertices defined relatively to the center of the world).<br><img src="./1605625959705.png" alt="Alt text"></p>
+<h4 id="The-View-matrix"><a href="#The-View-matrix" class="headerlink" title="The View matrix"></a>The View matrix</h4><p>We went from World Space (all vertices defined relatively to the center of the world, as we made so in the previous section) to Camera Space (all vertices defined relatively to the camera).</p>
+<p><img src="./1605626040517.png" alt="Alt text"></p>
+<blockquote>
+<p>The engines don’t move the ship at all. The ship stays where it is and the engines move the universe around it.</p>
+</blockquote>
+<h4 id="The-Projection-matrix"><a href="#The-Projection-matrix" class="headerlink" title="The Projection matrix"></a>The Projection matrix</h4><p>We’re now in Camera Space. This means that after all theses transformations, a vertex that happens to have x==0 and y==0 should be rendered at the center of the screen. But we can’t use only the x and y coordinates to determine where an object should be put on the screen : its distance to the camera (z) counts, too ! <strong>For two vertices with similar x and y coordinates, the vertex with the biggest z coordinate will be more on the center of the screen than the other.</strong></p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Generates a really hard-to-read matrix, but a normal, standard 4x4 matrix nonetheless</span></span><br><span class="line">glm::<span class="type">mat4</span> projectionMatrix = glm::perspective(</span><br><span class="line">    glm::<span class="built_in">radians</span>(FoV), <span class="comment">// The vertical Field of View, in radians: the amount of "zoom". Think "camera lens". Usually between 90° (extra wide) and 30° (quite zoomed in)</span></span><br><span class="line">    <span class="number">4.0</span>f / <span class="number">3.0</span>f,       <span class="comment">// Aspect Ratio. Depends on the size of your window. Notice that 4/3 == 800/600 == 1280/960, sounds familiar ?</span></span><br><span class="line">    <span class="number">0.1</span>f,              <span class="comment">// Near clipping plane. Keep as big as possible, or you'll get precision issues.</span></span><br><span class="line">    <span class="number">100.0</span>f             <span class="comment">// Far clipping plane. Keep as little as possible.</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>We went from Camera Space (all vertices defined relatively to the camera) to Homogeneous Space (all vertices defined in a small cube. Everything inside the cube is onscreen).</p>
+<p>Before projection, we’ve got our blue objects, in Camera Space, and the red shape represents the <strong>frustum</strong> of the camera : the part of the scene that the camera is actually able to see.<br><img src="./1605626582117.png" alt="Alt text"><br>Multiplying everything by the Projection Matrix has the following effect :<br><img src="./1605626624387.png" alt="Alt text"><br>In this image, the frustum is now a perfect cube (between -1 and 1 on all axes, it’s a little bit hard to see it), and all blue objects have been deformed in the same way. Thus, the objects that are near the camera ( = near the face of the cube that we can’t see) are big, the others are smaller. Seems like real life !<br><img src="./1605626691338.png" alt="Alt text"></p>
+<p>Another mathematical transformation is applied (this one is automatic, you don’t have to do it yourself in the shader) to fit this to the actual window size :<br><img src="./1605626743536.png" alt="Alt text"></p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://oncemore2020.github.io/blog/homogeneous/" target="_blank" rel="noopener">https://oncemore2020.github.io/blog/homogeneous/</a><br><a href="http://www.songho.ca/math/homogeneous/homogeneous.html" target="_blank" rel="noopener">http://www.songho.ca/math/homogeneous/homogeneous.html</a><br><a href="https://zhuanlan.zhihu.com/p/110503121" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/110503121</a><br><a href="https://blog.csdn.net/yinhun2012/article/details/79566148" target="_blank" rel="noopener">https://blog.csdn.net/yinhun2012/article/details/79566148</a><br><a href="https://www.tomdalling.com/blog/modern-opengl/explaining-homogenous-coordinates-and-projective-geometry/" target="_blank" rel="noopener">https://www.tomdalling.com/blog/modern-opengl/explaining-homogenous-coordinates-and-projective-geometry/</a><br><a href="https://zhuanlan.zhihu.com/p/122411512" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/122411512</a><br><a href="http://www.opengl-tutorial.org/cn/beginners-tutorials/tutorial-3-matrices/" target="_blank" rel="noopener">http://www.opengl-tutorial.org/cn/beginners-tutorials/tutorial-3-matrices/</a><br><a href="http://www.guidebee.info/wordpress/?m=201106" target="_blank" rel="noopener">http://www.guidebee.info/wordpress/?m=201106</a></p>
+
+                
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/11/06/Basic-About-Texture/" data-toggle="tooltip" data-placement="top" title="【基础】纹理(Texture)知识知多少">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                <!-- tip start -->
+                
+
+                
+                <div class="comment_notes">
+                    <p>
+                        This is copyright.
+                    </p>
+                </div>
+                
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                
+<link rel="stylesheet" href="/css/music-player/fonts/iconfont.css">
+
+
+<link rel="stylesheet" href="/css/music-player/css/reset.css">
+
+
+<link rel="stylesheet" href="/css/music-player/css/player.css">
+
+
+<div class="music-player">
+    <audio class="music-player__audio" ></audio>
+    <div class="music-player__main">
+        <div class="music-player__blur"></div>
+        <div class="music-player__disc">
+            <div class="music-player__image">
+                <img width="100%" src="" alt="">
+            </div>
+            <div class="music-player__pointer"><img width="100%" src="/img/cd_tou.png" alt=""></div>
+        </div>
+        <div class="music-player__controls">
+            <div class="music__info">
+                <h3 class="music__info--title">...</h3>
+                <p class="music__info--singer">...</p>
+            </div>
+            <div class="player-control">
+                <div class="player-control__content">
+                    <div class="player-control__btns">
+                        <div class="player-control__btn player-control__btn--prev"><i class="iconfont icon-prev"></i></div>
+                        <div class="player-control__btn player-control__btn--play"><i class="iconfont icon-play"></i></div>
+                        <div class="player-control__btn player-control__btn--next"><i class="iconfont icon-next"></i></div>
+                        <div class="player-control__btn player-control__btn--mode"><i class="iconfont icon-loop"></i></div>
+                    </div>
+                    <div class="player-control__volume">
+                        <div class="control__volume--icon player-control__btn"><i class="iconfont icon-volume"></i></div>
+                        <div class="control__volume--progress player_progress"></div>
+                    </div>
+                </div>
+                <div class="player-control__content">
+                    <div class="player__song--progress player_progress"></div>
+                    <div class="player__song--timeProgess nowTime">00:00</div>
+                    <div class="player__song--timeProgess totalTime">00:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/music-player/utill.js"></script>
+
+
+<script src="/js/music-player/jquery.min.js"></script>
+
+<!-- netease; qqkg -->
+<!--
+<script src="/js/music-player/player.js?library=config.music.library.js"></script>
+-->
+<script src="../../../../js/music-player/player.js?library=netease&music="></script>
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                <!--  css & js -->
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      
+        <aside id="sidebar">
+          <div id="toc" class="toc-article">
+          <strong class="toc-title">Contents</strong>
+          
+            
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#齐次坐标引入"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">齐次坐标引入</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Problem-Two-parallel-lines-can-intersect"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Problem: Two parallel lines can intersect.</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Solution-Homogeneous-Coordinates"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Solution: Homogeneous Coordinates</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Why-is-it-called-“homogeneous”"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Why is it called “homogeneous”?</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Proof-Two-parallel-lines-can-intersect"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">Proof: Two parallel lines can intersect.</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#意义"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">意义</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#区分向量和点"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">区分向量和点</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#描述投影几何（-projective-geometry）"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">描述投影几何（ projective geometry）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#An-Analogy-In-2D"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">An Analogy In 2D</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Applying-It-To-3D"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">Applying It To 3D</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Uses-Of-Homogeneous-Coordinates-In-Computer-Graphics"><span class="toc-nav-number">2.2.3.</span> <span class="toc-nav-text">Uses Of Homogeneous Coordinates In Computer Graphics</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#Translation-Matrices-For-3D-Coordinates"><span class="toc-nav-number">2.2.3.1.</span> <span class="toc-nav-text">Translation Matrices For 3D Coordinates</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#Perspective-Transformation"><span class="toc-nav-number">2.2.3.2.</span> <span class="toc-nav-text">Perspective Transformation</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#Positioning-Directional-Lights"><span class="toc-nav-number">2.2.3.3.</span> <span class="toc-nav-text">Positioning Directional Lights</span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#仿射变换总结"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">仿射变换总结</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#旋转、缩放到平移"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">旋转、缩放到平移</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#透视投影变换"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">透视投影变换</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#正交投影矩阵"><span class="toc-nav-number">3.2.1.</span> <span class="toc-nav-text">正交投影矩阵</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#透视投影矩阵"><span class="toc-nav-number">3.2.2.</span> <span class="toc-nav-text">透视投影矩阵</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#渲染管线中坐标变换总结"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">渲染管线中坐标变换总结</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#坐标变换过程"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">坐标变换过程</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#MVP矩阵及使用"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">MVP矩阵及使用</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#The-Model-matrix"><span class="toc-nav-number">4.2.1.</span> <span class="toc-nav-text">The Model matrix</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#The-View-matrix"><span class="toc-nav-number">4.2.2.</span> <span class="toc-nav-text">The View matrix</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#The-Projection-matrix"><span class="toc-nav-number">4.2.3.</span> <span class="toc-nav-text">The Projection matrix</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Ref"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Ref</span></a></li></ol>
+            
+          
+          </div>
+        </aside>
+      
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Rendering" title="Rendering">Rendering</a>
+                        
+                          <a class="tag" href="/tags/#CG" title="CG">CG</a>
+                        
+                          <a class="tag" href="/tags/#math" title="math">math</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://blog.csdn.net/d_Nail" target="_blank">Dusign&#39;s Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Dusign&#39;s Web</a></li>
+                    
+                        <li><a href="https://github.com/dusign" target="_blank">Dusign&#39;s Github</a></li>
+                    
+                        <li><a href="#" target="_blank">Other</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+
+
+<style  type="text/css">
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/Prin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Prin 2020 
+                    <br>
+                    Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe name="star" style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://prince-y-p.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Search -->
+
+    <script type="text/javascript">      
+        var search_path = "search.xml";
+        if (search_path.length == 0) {
+            search_path = "search.xml";
+        }
+    var path = "/" + search_path;
+    searchFunc(path, 'local-search-input', 'local-search-result');
+    </script>
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+
+    
+        <!-- background effects line -->
+        
+
+        
+            <script type="text/javascript" src="/js/mouse-click.js" content='[&quot;🌱&quot;,&quot;just do it&quot;,&quot;🍀&quot;]' color='[&quot;rgb(121,93,179)&quot; ,&quot;rgb(76,180,231)&quot; ,&quot;rgb(184,90,154)&quot;]'></script>
+        
+
+        <!-- background effects end -->
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <script src="/js/ribbonDynamic.js"></script>
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+
+</html>
