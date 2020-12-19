@@ -179,7 +179,7 @@ deploy:
 - type: git
   repository: 
     github: git@github.com:Prin-PY/Prin-PY.github.io.git
-    coding: git@gitee.com:princeypeng/PrinceYPeng.git
+    gitee: git@gitee.com:princeypeng/PrinceYPeng.git
   branch: master
 - type: 'baidu_url_submitter'
 
