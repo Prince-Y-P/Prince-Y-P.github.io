@@ -12,7 +12,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://prince-y-p.com      # Note: don't forget to modify the CNAME file to your url
+url: https://www.prince-y-p.com      # Note: don't forget to modify the CNAME file to your url
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -178,8 +178,8 @@ path: baidusitemap.xml
 deploy:
 - type: git
   repository: 
-    github: git@github.com:Prince-Y-P/Prince-Y-P.github.io.git
-    coding: git@e.coding.net:prince-y-p/prince-y-p/prince-y-p.git
+    github: git@github.com:Prin-PY/Prin-PY.github.io.git
+    coding: git@gitee.com:princeypeng/PrinceYPeng.git
   branch: master
 - type: 'baidu_url_submitter'
 
@@ -261,8 +261,8 @@ backup:
   theme: snail
   message: Back up my www.prince-y-p.com blog
   repository:
-    github: git@github.com:Prince-Y-P/Prince-Y-P.github.io.git,backup 
-#    coding: git@e.coding.net:prince-y-p/prince-y-p/prince-y-p.git,backup
+    github: git@github.com:Prin-PY/Prin-PY.github.io.git,backup 
+    gitee: git@gitee.com:princeypeng/PrinceYPeng.git,backup
 
 
 baidu_url_submit:
