@@ -20,9 +20,9 @@
       
         <tags>
             
-            <tag> Rendering </tag>
-            
             <tag> CG </tag>
+            
+            <tag> Rendering </tag>
             
             <tag> math </tag>
             
@@ -49,11 +49,11 @@
       
         <tags>
             
+            <tag> Asset </tag>
+            
             <tag> Rendering </tag>
             
             <tag> Texture </tag>
-            
-            <tag> Asset </tag>
             
         </tags>
       
@@ -78,11 +78,11 @@
       
         <tags>
             
+            <tag> CG </tag>
+            
             <tag> Rendering </tag>
             
             <tag> Texture </tag>
-            
-            <tag> CG </tag>
             
         </tags>
       
@@ -107,9 +107,9 @@
       
         <tags>
             
-            <tag> Asset </tag>
-            
             <tag> rendering </tag>
+            
+            <tag> Asset </tag>
             
         </tags>
       
@@ -134,9 +134,9 @@
       
         <tags>
             
-            <tag> Rendering </tag>
-            
             <tag> CG </tag>
+            
+            <tag> Rendering </tag>
             
         </tags>
       
@@ -277,9 +277,9 @@
       
         <tags>
             
-            <tag> Rendering </tag>
-            
             <tag> CG </tag>
+            
+            <tag> Rendering </tag>
             
         </tags>
       
