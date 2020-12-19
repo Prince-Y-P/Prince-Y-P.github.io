@@ -112,9 +112,9 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#CG" title="CG">CG</a>
-                            
                               <a class="tag" href="/tags/#Rendering" title="Rendering">Rendering</a>
+                            
+                              <a class="tag" href="/tags/#CG" title="CG">CG</a>
                             
                               <a class="tag" href="/tags/#math" title="math">math</a>
                             
@@ -129,8 +129,8 @@
                         
                             <div class="blank_box"></div>
                             <span class="meta">
-                                Words <span class="post-count">3.7k</span> and
-                                Reading Time <span class="post-count">17</span> Minutes
+                                Words <span class="post-count">4.5k</span> and
+                                Reading Time <span class="post-count">20</span> Minutes
                             </span>
                             <div class="blank_box"></div>
                             <!-- 不蒜子统计 start -->
@@ -189,14 +189,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -210,14 +210,14 @@
 
                         
                         <li>
-                            <a href="/photography/">Photography</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/photography/">Photography</a>
                         </li>
                         
                     
@@ -376,6 +376,7 @@
 <li>远平面的所有点坐标z值不变 都是f</li>
 <li>远平面的中心点坐标值不变 为(0,0,f)<br><img src="./1605620366905.png" alt="Alt text"><br>由三角形相似性，对于(x,y,z,1)一点，它在视锥体压缩以后坐标应该为(nx/z,ny/z,unknow,1)。<br><img src="./1605620393640.png" alt="Alt text"><br>也就是我们现在需要找到一个矩阵Mpersp-&gt;ortho，使得上面的转换成立。<br>(x,y,z,1)与(kx,ky,kz,k!=0)这两个点是完全等价的点<br><img src="./1605620546915.png" alt="Alt text"><br>需要找到矩阵Mpersp-&gt;ortho，使得上面的转换成立。</li>
 </ol>
+<p>Ax+By+Cz+D = nx，求出 A=n,B=C=D=0<br>Ex+Fy+Gz+H = ny，求出F=n,E=G=H=0<br>Mx+Ny+Oz+P = z，求出O=1,M=N=P=0。<br><img src="./1606293635777.png" alt="Alt text"></p>
 <p>由（1）近平面的所有点坐标不变<br><img src="./1605621055364.png" alt="Alt text"><br>对于第一二四行，我们写出等式<br>nx+0y+0n+0<em>1=x<br>0x+ny+0n+0</em>1=y<br>0x+0y+1n+0<em>1=1<br>很明显这是有问题的，因为n应该是任意常数，但是现在只有在n等于1时，一二四行的运算才成立<br>所以我们根据前面的方法，再把(x,y,n,1)都乘以一个n等价变为(nx,ny,n</em>n,n)。<br><img src="./1605621104726.png" alt="Alt text"><br>对于第一二四行，我们写出等式<br>nx+0y+0n+0<em>1=nx,<br>0x+ny+0n+0</em>1=ny,<br>0x+0y+1n+0<em>1=n<br>完美成立。现在我们可以安心的求第三行了。<br>设第三行的四个数分别为ABCD<br>可以获得等式 Ax+By+Cn+D = n</em>n。<br>明显A=0,B=0<br>Cn+D = n*n (式1)</p>
 <p>我们接下来考虑第三个原则，远平面的中心点坐标值不变 为(0,0,f)<br>同样为了保证之前求的矩阵一二四行成立，我们需要把(0,0,f,1)写成(0,0,f<em>f,f)<br><img src="./1605621167044.png" alt="Alt text"><br>Cf+D = f</em>f（式2）</p>
 <p>联立式1式2，解得<br>C = n+f<br>D = -nf</p>
@@ -383,7 +384,19 @@
 <p><img src="./1605621446770.png" alt="Alt text"></p>
 <p>推导过程及代码：<br><a href="http://ogldev.atspace.co.uk/www/tutorial12/tutorial12.html" target="_blank" rel="noopener">http://ogldev.atspace.co.uk/www/tutorial12/tutorial12.html</a></p>
 <p><strong>After multiplying the vertex position by the projection matrix the coordinates are said to be in Clip Space and after performing the perspective divide the coordinates are in NDC Space (Normalized Device Coordinates).</strong></p>
-<h2 id="渲染管线中坐标变换总结"><a href="#渲染管线中坐标变换总结" class="headerlink" title="渲染管线中坐标变换总结"></a>渲染管线中坐标变换总结</h2><h3 id="坐标变换过程"><a href="#坐标变换过程" class="headerlink" title="坐标变换过程"></a>坐标变换过程</h3><p><img src="./1605627042134.png" alt="Alt text"></p>
+<h2 id="Prin对齐次坐标、透视投影的理解"><a href="#Prin对齐次坐标、透视投影的理解" class="headerlink" title="Prin对齐次坐标、透视投影的理解"></a>Prin对齐次坐标、透视投影的理解</h2><p>如何理解四维坐标，如何理解w分量？<br>本质问题是，将一个frustum(截头锥体)压缩成一个正方体，求frustum中的点的坐标到正方体空间中点的坐标的一个映射关系。并用矩阵、线性代数的语言描述这一变换，使得所有的点的变换可以用同一个矩阵乘法进行描述，从而可以让计算机对所有顶点批量处理这一变换。</p>
+<p>关键点：这个变换不是线性变换，无法用三维矩阵乘法描述。这个变换对所有点不是统一的，还与点到摄像机的距离有关系，不能对所有的点进行统一的变换，意味着对每个点增加一个属性，来描述点到摄像机的距离属性，从而使得这个变换与距离有关，这个属性就是点的w分量。</p>
+<p>引入w分量之后，点的坐标扩充到四维，变换矩阵是4x4的矩阵。使用四维矩阵进行投影变换本质上是使用四维空间下的线性变换描述三维空间下的非线性变换（将frustum“捏”成正方体的变换）。<br>引入w分量后，实际上将一个点映射成了无数个点。我们定义了三维空间中点(x, y, z)对应的齐次坐标为(wx, wy, wz, w),(w!=0)。</p>
+<p>之前“捏”frustum的操作，用三维空间线性变换是无法描述的，用3x3矩阵乘法进行变换是无法达到要求的。我们发现，当扩充一个维度之后，看待这个问题，之前的一些”无理要求”是可以满足的。</p>
+<p>按照把frustum“捏”成正方体的条件，建立方程，在齐次空间下求这个映射函数，求出了满足要求的变换矩阵。变换之后，点的坐标是下图右边这个样子：<br><img src="./1606297457393.png" alt="Alt text"><br>再映射到三维空间的点就是这个样子：<br><img src="./1606297509696.png" alt="Alt text"></p>
+<p>这样一来，我们对所有的点都可以进行这个变换过程:</p>
+<ol>
+<li>映射到齐次坐标空间（增加一个w分量，变为四维坐标）</li>
+<li>按照我们对视锥体进行形变的要求，求得4x4变换矩阵。</li>
+<li>齐次空间下做统一的缩放、平移变换，这个变换过程中，点将到摄像机的距离体现在w分量上面。</li>
+<li>变换后，再将点映射到三维空间，发现原视锥体经变换后成功映射为正方体，其他所有点也经过了相同的映射，结果是合理的。</li>
+</ol>
+<h2 id="渲染管线中坐标变换总结"><a href="#渲染管线中坐标变换总结" class="headerlink" title="渲染管线中坐标变换总结"></a>渲染管线中坐标变换总结</h2><h3 id="坐标变换过程"><a href="#坐标变换过程" class="headerlink" title="坐标变换过程"></a>坐标变换过程</h3><p>物体空间(object space)-&gt;世界空间(World Space)-&gt;观察空间(View Space)-&gt;裁剪空间(clip space)-&gt;屏幕空间(Screen Space)<br><img src="./1605627042134.png" alt="Alt text"></p>
 <ul>
 <li>Object Coordinate System: 也称作Local coordinate System，用来定义一个模型本身的坐标系。</li>
 <li>World Coordinate System: 3d 虚拟世界中的绝对坐标系，定义好这个坐标系的原点就可以用来描述模型的实现的位置，Camera 的位置，光源的位置。</li>
@@ -395,6 +408,13 @@
 <p><img src="./1605625875848.png" alt="Alt text"></p>
 <h4 id="The-Model-matrix"><a href="#The-Model-matrix" class="headerlink" title="The Model matrix"></a>The Model matrix</h4><p>We went from Model Space (all vertices defined relatively to the center of the model) to World Space (all vertices defined relatively to the center of the world).<br><img src="./1605625959705.png" alt="Alt text"></p>
 <h4 id="The-View-matrix"><a href="#The-View-matrix" class="headerlink" title="The View matrix"></a>The View matrix</h4><p>We went from World Space (all vertices defined relatively to the center of the world, as we made so in the previous section) to Camera Space (all vertices defined relatively to the camera).</p>
+<blockquote>
+<p>Unity中</p>
+<ul>
+<li>模型空间 &amp; 世界空间: 左手坐标系.</li>
+<li>观察空间: 右手坐标系 (+x轴指向右方, +y轴指向上方, +z轴指向相机的后方)</li>
+</ul>
+</blockquote>
 <p><img src="./1605626040517.png" alt="Alt text"></p>
 <blockquote>
 <p>The engines don’t move the ship at all. The ship stays where it is and the engines move the universe around it.</p>
@@ -526,7 +546,7 @@
           <strong class="toc-title">Contents</strong>
           
             
-              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#齐次坐标引入"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">齐次坐标引入</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Problem-Two-parallel-lines-can-intersect"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Problem: Two parallel lines can intersect.</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Solution-Homogeneous-Coordinates"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Solution: Homogeneous Coordinates</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Why-is-it-called-“homogeneous”"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Why is it called “homogeneous”?</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Proof-Two-parallel-lines-can-intersect"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">Proof: Two parallel lines can intersect.</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#意义"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">意义</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#区分向量和点"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">区分向量和点</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#描述投影几何（-projective-geometry）"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">描述投影几何（ projective geometry）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#An-Analogy-In-2D"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">An Analogy In 2D</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Applying-It-To-3D"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">Applying It To 3D</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Uses-Of-Homogeneous-Coordinates-In-Computer-Graphics"><span class="toc-nav-number">2.2.3.</span> <span class="toc-nav-text">Uses Of Homogeneous Coordinates In Computer Graphics</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#Translation-Matrices-For-3D-Coordinates"><span class="toc-nav-number">2.2.3.1.</span> <span class="toc-nav-text">Translation Matrices For 3D Coordinates</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#Perspective-Transformation"><span class="toc-nav-number">2.2.3.2.</span> <span class="toc-nav-text">Perspective Transformation</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#Positioning-Directional-Lights"><span class="toc-nav-number">2.2.3.3.</span> <span class="toc-nav-text">Positioning Directional Lights</span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#仿射变换总结"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">仿射变换总结</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#旋转、缩放到平移"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">旋转、缩放到平移</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#透视投影变换"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">透视投影变换</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#正交投影矩阵"><span class="toc-nav-number">3.2.1.</span> <span class="toc-nav-text">正交投影矩阵</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#透视投影矩阵"><span class="toc-nav-number">3.2.2.</span> <span class="toc-nav-text">透视投影矩阵</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#渲染管线中坐标变换总结"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">渲染管线中坐标变换总结</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#坐标变换过程"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">坐标变换过程</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#MVP矩阵及使用"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">MVP矩阵及使用</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#The-Model-matrix"><span class="toc-nav-number">4.2.1.</span> <span class="toc-nav-text">The Model matrix</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#The-View-matrix"><span class="toc-nav-number">4.2.2.</span> <span class="toc-nav-text">The View matrix</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#The-Projection-matrix"><span class="toc-nav-number">4.2.3.</span> <span class="toc-nav-text">The Projection matrix</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Ref"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Ref</span></a></li></ol>
+              <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#齐次坐标引入"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">齐次坐标引入</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Problem-Two-parallel-lines-can-intersect"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Problem: Two parallel lines can intersect.</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Solution-Homogeneous-Coordinates"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Solution: Homogeneous Coordinates</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Why-is-it-called-“homogeneous”"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Why is it called “homogeneous”?</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Proof-Two-parallel-lines-can-intersect"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">Proof: Two parallel lines can intersect.</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#意义"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">意义</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#区分向量和点"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">区分向量和点</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#描述投影几何（-projective-geometry）"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">描述投影几何（ projective geometry）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#An-Analogy-In-2D"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">An Analogy In 2D</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Applying-It-To-3D"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">Applying It To 3D</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Uses-Of-Homogeneous-Coordinates-In-Computer-Graphics"><span class="toc-nav-number">2.2.3.</span> <span class="toc-nav-text">Uses Of Homogeneous Coordinates In Computer Graphics</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#Translation-Matrices-For-3D-Coordinates"><span class="toc-nav-number">2.2.3.1.</span> <span class="toc-nav-text">Translation Matrices For 3D Coordinates</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#Perspective-Transformation"><span class="toc-nav-number">2.2.3.2.</span> <span class="toc-nav-text">Perspective Transformation</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#Positioning-Directional-Lights"><span class="toc-nav-number">2.2.3.3.</span> <span class="toc-nav-text">Positioning Directional Lights</span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#仿射变换总结"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">仿射变换总结</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#旋转、缩放到平移"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">旋转、缩放到平移</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#透视投影变换"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">透视投影变换</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#正交投影矩阵"><span class="toc-nav-number">3.2.1.</span> <span class="toc-nav-text">正交投影矩阵</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#透视投影矩阵"><span class="toc-nav-number">3.2.2.</span> <span class="toc-nav-text">透视投影矩阵</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Prin对齐次坐标、透视投影的理解"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Prin对齐次坐标、透视投影的理解</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#渲染管线中坐标变换总结"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">渲染管线中坐标变换总结</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#坐标变换过程"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">坐标变换过程</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#MVP矩阵及使用"><span class="toc-nav-number">5.2.</span> <span class="toc-nav-text">MVP矩阵及使用</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#The-Model-matrix"><span class="toc-nav-number">5.2.1.</span> <span class="toc-nav-text">The Model matrix</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#The-View-matrix"><span class="toc-nav-number">5.2.2.</span> <span class="toc-nav-text">The View matrix</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#The-Projection-matrix"><span class="toc-nav-number">5.2.3.</span> <span class="toc-nav-text">The Projection matrix</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Ref"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">Ref</span></a></li></ol>
             
           
           </div>
@@ -548,9 +568,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#CG" title="CG">CG</a>
-                        
                           <a class="tag" href="/tags/#Rendering" title="Rendering">Rendering</a>
+                        
+                          <a class="tag" href="/tags/#CG" title="CG">CG</a>
                         
                           <a class="tag" href="/tags/#math" title="math">math</a>
                         
