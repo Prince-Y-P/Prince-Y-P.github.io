@@ -232,7 +232,7 @@ bg_effects:
     count: 99
   mouse_click:
     enable: true
-    content: '"🌱","just do it","🍀"'
+    content: '"Keep calm","and","carry on"'
     color: '"rgb(121,93,179)"
           ,"rgb(76,180,231)"
           ,"rgb(184,90,154)"'
