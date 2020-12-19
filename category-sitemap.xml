@@ -2,34 +2,34 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>https://prince-y-p.com</loc>
+        <loc>https://www.prince-y-p.com</loc>
         <changefreq>daily</changefreq>
         <priority>1</priority>
     </url>
 
     <url>
-        <loc>https://prince-y-p.com/categories/CG-Rendering/</loc>
+        <loc>https://www.prince-y-p.com/categories/CG-Rendering/</loc>
         <lastmod>2020-11-17T15:39:32.479Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://prince-y-p.com/categories/Unity3D/</loc>
+        <loc>https://www.prince-y-p.com/categories/Unity3D/</loc>
         <lastmod>2020-11-10T12:25:35.643Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://prince-y-p.com/categories/%25E4%25BB%258E%25E7%25A1%25AC%25E4%25BB%25B6%25E5%2588%25B0OS/</loc>
+        <loc>https://www.prince-y-p.com/categories/%25E4%25BB%258E%25E7%25A1%25AC%25E4%25BB%25B6%25E5%2588%25B0OS/</loc>
         <lastmod>2020-10-27T07:35:28.043Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://prince-y-p.com/categories/Lua/</loc>
+        <loc>https://www.prince-y-p.com/categories/Lua/</loc>
         <lastmod>2020-10-27T07:34:49.238Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>

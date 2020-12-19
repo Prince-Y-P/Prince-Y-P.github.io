@@ -1,8 +1,8 @@
-https://prince-y-p.com/2020/11/17/CG-homogeneous-coordinates-and-transformation/
-https://prince-y-p.com/2020/11/06/Basic-About-Texture/
-https://prince-y-p.com/2020/10/28/CG-About-Texture-Filtering/
-https://prince-y-p.com/2020/10/25/Basic-Mesh-in-Unity3D/
-https://prince-y-p.com/2020/10/25/Basic-Render-pipeline/
-https://prince-y-p.com/2020/10/25/Load-AssetBundle/
-https://prince-y-p.com/2020/10/25/U3D-Draw-Call-Batching/
-https://prince-y-p.com/2020/10/25/OS-Shell-on-UNIX-like-systems/
+https://www.prince-y-p.com/2020/11/17/CG-homogeneous-coordinates-and-transformation/
+https://www.prince-y-p.com/2020/11/06/Basic-About-Texture/
+https://www.prince-y-p.com/2020/10/28/CG-About-Texture-Filtering/
+https://www.prince-y-p.com/2020/10/25/Basic-Mesh-in-Unity3D/
+https://www.prince-y-p.com/2020/10/25/Basic-Render-pipeline/
+https://www.prince-y-p.com/2020/10/25/Load-AssetBundle/
+https://www.prince-y-p.com/2020/10/25/U3D-Draw-Call-Batching/
+https://www.prince-y-p.com/2020/10/25/OS-Shell-on-UNIX-like-systems/

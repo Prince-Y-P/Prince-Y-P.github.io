@@ -21,7 +21,7 @@
         
     </title>
 
-    <link rel="canonical" href="https://prince-y-p.com/categories/">
+    <link rel="canonical" href="https://www.prince-y-p.com/categories/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -177,14 +177,14 @@
 
                         
                         <li>
-                            <a href="/photography/">Photography</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/photography/">Photography</a>
                         </li>
                         
                     
@@ -246,9 +246,9 @@
                 
                     <a href="#CG&amp;Rendering" title="CG&amp;Rendering" rel="4">CG&amp;Rendering</a>
                 
-                    <a href="#从硬件到OS" title="从硬件到OS" rel="1">从硬件到OS</a>
-                
                     <a href="#Lua" title="Lua" rel="1">Lua</a>
+                
+                    <a href="#从硬件到OS" title="从硬件到OS" rel="1">从硬件到OS</a>
                 
             </div>
 
@@ -332,9 +332,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/10/28/CG-About-Texture-Filtering/">
+                     <a href="/2020/10/25/Basic-Render-pipeline/">
                         <h2 class="post-title">
-                            【渲染】纹理滤波(Texture Filtering)相关知识整理
+                            【渲染】基础——渲染管线(Rendering Pipeline)
                         </h2>
                         
                     </a>
@@ -347,9 +347,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/10/25/Basic-Render-pipeline/">
+                     <a href="/2020/10/28/CG-About-Texture-Filtering/">
                         <h2 class="post-title">
-                            【渲染】基础——渲染管线(Rendering Pipeline)
+                            【渲染】纹理滤波(Texture Filtering)相关知识整理
                         </h2>
                         
                     </a>
@@ -390,28 +390,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="从硬件到OS">
-                    <span class="tag-text">从硬件到OS</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2020/10/25/OS-Shell-on-UNIX-like-systems/">
-                        <h2 class="post-title">
-                            【OS】Shell on UNIX-like systems
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="Lua">
                     <span class="tag-text">Lua</span>
                 </span>
@@ -424,6 +402,28 @@
                      <a href="/2020/10/03/Lua-installation-of-luacheck/">
                         <h2 class="post-title">
                             Win10系统下Lua及Luacheck环境配置
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="从硬件到OS">
+                    <span class="tag-text">从硬件到OS</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2020/10/25/OS-Shell-on-UNIX-like-systems/">
+                        <h2 class="post-title">
+                            【OS】Shell on UNIX-like systems
                         </h2>
                         
                     </a>
@@ -553,7 +553,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("https://prince-y-p.com/js/jquery.tagcloud.js",function(){
+        async("https://www.prince-y-p.com/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},
