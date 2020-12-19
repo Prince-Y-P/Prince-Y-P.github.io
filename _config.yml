@@ -244,7 +244,7 @@ bg_effects:
 ## If you set the value of the `color_theme` to `dark`, set the value of the `highlight_theme` to `night` in `/theme/snail/config.yml`
 ## `mouse_control` is only valid for star themes
 color_theme: light
-mouse_control: false
+mouse_control: true
 
 # Visitor statistics
 visitor:
@@ -253,16 +253,16 @@ visitor:
 
 # Chinese Blog
 chinese_blog:
-  enable: true
+  enable: false
   url: YOUR_CHINESE_BLOG_URL
 
 backup:
   type: git
-  theme: butterfly
+  theme: snail
   message: Back up my www.prince-y-p.com blog
   repository:
     github: git@github.com:Prince-Y-P/Prince-Y-P.github.io.git,backup 
-    coding: git@e.coding.net:prince-y-p/prince-y-p/prince-y-p.git,backup
+#    coding: git@e.coding.net:prince-y-p/prince-y-p/prince-y-p.git,backup
 
 
 baidu_url_submit:
