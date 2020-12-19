@@ -49,11 +49,11 @@
       
         <tags>
             
-            <tag> Asset </tag>
-            
             <tag> Rendering </tag>
             
             <tag> Texture </tag>
+            
+            <tag> Asset </tag>
             
         </tags>
       
@@ -107,9 +107,9 @@
       
         <tags>
             
-            <tag> rendering </tag>
-            
             <tag> Asset </tag>
+            
+            <tag> rendering </tag>
             
         </tags>
       
