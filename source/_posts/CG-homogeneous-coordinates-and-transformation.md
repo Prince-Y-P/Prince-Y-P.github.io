@@ -97,8 +97,6 @@ two parallel lines meet at (x, y, 0), which is the point at infinity.
 这也符合我们原先的认知：向量没有位置，只有大小和方向。
 
 
-
-
 ### 描述投影几何（ projective geometry）
 用眼睛观察世界有一个特点，就是越远的物体看起来就越小，而且我们还能通过“越远越小”这种视觉效果估算距离。 这种现象被称为透视现象，同样的存在这种现象的空间被称为**投影空间**。
 在笛卡尔空间中，两条平行线是永远不会相交的，但是在透视空间中，两条平行线会相交于一点，这是两种空间最大的区别。
@@ -227,6 +225,11 @@ T(p)=Ap+t
 ![Alt text](./1605620546915.png)
 需要找到矩阵Mpersp->ortho，使得上面的转换成立。
 
+Ax+By+Cz+D = nx，求出 A=n,B=C=D=0
+Ex+Fy+Gz+H = ny，求出F=n,E=G=H=0
+Mx+Ny+Oz+P = z，求出O=1,M=N=P=0。
+![Alt text](./1606293635777.png)
+
 由（1）近平面的所有点坐标不变
 ![Alt text](./1605621055364.png)
 对于第一二四行，我们写出等式
@@ -270,10 +273,32 @@ http://ogldev.atspace.co.uk/www/tutorial12/tutorial12.html
 
 **After multiplying the vertex position by the projection matrix the coordinates are said to be in Clip Space and after performing the perspective divide the coordinates are in NDC Space (Normalized Device Coordinates).**
 
+## Prin对齐次坐标、透视投影的理解
+如何理解四维坐标，如何理解w分量？
+本质问题是，将一个frustum(截头锥体)压缩成一个正方体，求frustum中的点的坐标到正方体空间中点的坐标的一个映射关系。并用矩阵、线性代数的语言描述这一变换，使得所有的点的变换可以用同一个矩阵乘法进行描述，从而可以让计算机对所有顶点批量处理这一变换。
+
+关键点：这个变换不是线性变换，无法用三维矩阵乘法描述。这个变换对所有点不是统一的，还与点到摄像机的距离有关系，不能对所有的点进行统一的变换，意味着对每个点增加一个属性，来描述点到摄像机的距离属性，从而使得这个变换与距离有关，这个属性就是点的w分量。
+
+引入w分量之后，点的坐标扩充到四维，变换矩阵是4x4的矩阵。使用四维矩阵进行投影变换本质上是使用四维空间下的线性变换描述三维空间下的非线性变换（将frustum“捏”成正方体的变换）。
+引入w分量后，实际上将一个点映射成了无数个点。我们定义了三维空间中点(x, y, z)对应的齐次坐标为(wx, wy, wz, w),(w!=0)。
+
+之前“捏”frustum的操作，用三维空间线性变换是无法描述的，用3x3矩阵乘法进行变换是无法达到要求的。我们发现，当扩充一个维度之后，看待这个问题，之前的一些"无理要求"是可以满足的。
+
+按照把frustum“捏”成正方体的条件，建立方程，在齐次空间下求这个映射函数，求出了满足要求的变换矩阵。变换之后，点的坐标是下图右边这个样子：
+![Alt text](./1606297457393.png)
+再映射到三维空间的点就是这个样子：
+![Alt text](./1606297509696.png)
+
+这样一来，我们对所有的点都可以进行这个变换过程:
+1. 映射到齐次坐标空间（增加一个w分量，变为四维坐标）
+2. 按照我们对视锥体进行形变的要求，求得4x4变换矩阵。
+3. 齐次空间下做统一的缩放、平移变换，这个变换过程中，点将到摄像机的距离体现在w分量上面。
+4. 变换后，再将点映射到三维空间，发现原视锥体经变换后成功映射为正方体，其他所有点也经过了相同的映射，结果是合理的。
 
 ## 渲染管线中坐标变换总结
 
 ### 坐标变换过程
+物体空间(object space)->世界空间(World Space)->观察空间(View Space)->裁剪空间(clip space)->屏幕空间(Screen Space)
 ![Alt text](./1605627042134.png)
 * Object Coordinate System: 也称作Local coordinate System，用来定义一个模型本身的坐标系。
 * World Coordinate System: 3d 虚拟世界中的绝对坐标系，定义好这个坐标系的原点就可以用来描述模型的实现的位置，Camera 的位置，光源的位置。
@@ -291,7 +316,12 @@ We went from Model Space (all vertices defined relatively to the center of the m
 ![Alt text](./1605625959705.png)
 
 #### The View matrix
+
 We went from World Space (all vertices defined relatively to the center of the world, as we made so in the previous section) to Camera Space (all vertices defined relatively to the camera).
+
+> Unity中
+> * 模型空间 & 世界空间: 左手坐标系.
+> * 观察空间: 右手坐标系 (+x轴指向右方, +y轴指向上方, +z轴指向相机的后方)
 
 ![Alt text](./1605626040517.png)
 
