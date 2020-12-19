@@ -6,3 +6,5 @@ https://www.prince-y-p.com/2020/10/25/Basic-Render-pipeline/
 https://www.prince-y-p.com/2020/10/25/Load-AssetBundle/
 https://www.prince-y-p.com/2020/10/25/U3D-Draw-Call-Batching/
 https://www.prince-y-p.com/2020/10/25/OS-Shell-on-UNIX-like-systems/
+https://www.prince-y-p.com/2020/10/03/Lua-installation-of-luacheck/
+https://www.prince-y-p.com/2020/09/14/CG-gamma-correction-in-unity/
